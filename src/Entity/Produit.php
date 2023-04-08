@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Entity;
-
+use App\Entity\Categorie;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProduitRepository;
+
+
 
 /**
  * Produit
@@ -12,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="produit", indexes={@ORM\Index(name="id_categorie", columns={"id_categorie"})})
  * @ORM\Entity
  */
+#[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
 {
     /**
@@ -21,7 +25,7 @@ class Produit
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $refProduit;
+    private $ref_produit;
 
     /**
      * @var string
@@ -49,7 +53,7 @@ class Produit
      *
      * @ORM\Column(name="prix_vente", type="float", precision=10, scale=0, nullable=false)
      */
-    private $prixVente;
+    private $prix_vente;
 
     /**
      * @var int
@@ -66,26 +70,35 @@ class Produit
      *   @ORM\JoinColumn(name="id_categorie", referencedColumnName="id_categorie")
      * })
      */
-    private $idCategorie;
+    private $categorie;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Panier", mappedBy="refProduit")
+     * @ORM\ManyToMany(targetEntity="Panier", mappedBy="ref_produit")
      */
     private $idPanier = array();
+
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'produit')]
+    private Collection $commentaires;
+
 
     /**
      * Constructor
      */
+    public function __construct2()
+{
+    $this->commentaires = new ArrayCollection();
+}
+
     public function __construct()
     {
-        $this->idPanier = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idPanier = new ArrayCollection();
     }
 
-    public function getRefProduit(): ?string
+    public function getref_produit(): ?string
     {
-        return $this->refProduit;
+        return $this->ref_produit;
     }
 
     public function getLibelle(): ?string
@@ -124,14 +137,14 @@ class Produit
         return $this;
     }
 
-    public function getPrixVente(): ?float
+    public function getprix_vente(): ?float
     {
-        return $this->prixVente;
+        return $this->prix_vente;
     }
 
-    public function setPrixVente(float $prixVente): self
+    public function setprix_vente(float $prix_vente): self
     {
-        $this->prixVente = $prixVente;
+        $this->prix_vente = $prix_vente;
 
         return $this;
     }
@@ -148,14 +161,14 @@ class Produit
         return $this;
     }
 
-    public function getIdCategorie(): ?Categorie
+    public function getCategorie(): ?Categorie
     {
-        return $this->idCategorie;
+        return $this->categorie;
     }
 
-    public function setIdCategorie(?Categorie $idCategorie): self
+    public function setCategorie(?Categorie $categorie): self
     {
-        $this->idCategorie = $idCategorie;
+        $this->categorie = $categorie;
 
         return $this;
     }
@@ -172,7 +185,7 @@ class Produit
     {
         if (!$this->idPanier->contains($idPanier)) {
             $this->idPanier->add($idPanier);
-            $idPanier->addRefProduit($this);
+            $idPanier->addrefproduit($this);
         }
 
         return $this;
@@ -181,10 +194,35 @@ class Produit
     public function removeIdPanier(Panier $idPanier): self
     {
         if ($this->idPanier->removeElement($idPanier)) {
-            $idPanier->removeRefProduit($this);
+            $idPanier->removerefproduit($this);
         }
 
         return $this;
     }
+            /**
+     * @return Collection<int, commentaire>
+     */
+    public function getCommentaire(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        $this->commentaires->removeElement($commentaire);
+
+        return $this;
+    }
+
+
 
 }

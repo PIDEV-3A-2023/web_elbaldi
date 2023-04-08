@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Entity;
-
+use App\Entity\Commande;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use APP\Repository\CommandeProduitRepository;
+use App\Repository\CommandeProduitRepository;
 
 /**
  * CommandProduit
@@ -12,6 +12,7 @@ use APP\Repository\CommandeProduitRepository;
  * @ORM\Table(name="command_produit", indexes={@ORM\Index(name="id_cmd", columns={"id_cmd"})})
  * @ORM\Entity
  */
+#[ORM\Entity(repositoryClass: CommandeProduitRepository::class)]
 class CommandProduit
 {
     /**
@@ -28,14 +29,14 @@ class CommandProduit
      *
      * @ORM\Column(name="ref_produit", type="string", length=30, nullable=false)
      */
-    private $refProduit;
+    private $ref_Produit;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_cmd", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $dateCmd = 'CURRENT_TIMESTAMP';
+    private $date_cmd = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \Commande
@@ -52,26 +53,26 @@ class CommandProduit
         return $this->id;
     }
 
-    public function getRefProduit(): ?string
+    public function getRef_Produit(): ?string
     {
-        return $this->refProduit;
+        return $this->ref_Produit;
     }
 
-    public function setRefProduit(string $refProduit): self
+    public function setRef_Produit(string $ref_Produit): self
     {
-        $this->refProduit = $refProduit;
+        $this->ref_Produit = $ref_Produit;
 
         return $this;
     }
 
     public function getDateCmd(): ?\DateTimeInterface
     {
-        return $this->dateCmd;
+        return $this->date_cmd;
     }
 
-    public function setDateCmd(\DateTimeInterface $dateCmd): self
+    public function setDateCmd(\DateTimeInterface $date_cmd): self
     {
-        $this->dateCmd = $dateCmd;
+        $this->date_cmd = $date_cmd;
 
         return $this;
     }

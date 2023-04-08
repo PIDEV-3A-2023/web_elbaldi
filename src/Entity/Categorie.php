@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use APP\Repository\CategorieRepository;
+use App\Repository\CategorieRepository;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Categorie
@@ -11,6 +12,7 @@ use APP\Repository\CategorieRepository;
  * @ORM\Table(name="categorie", uniqueConstraints={@ORM\UniqueConstraint(name="nom_categorie", columns={"nom_categorie"})})
  * @ORM\Entity
  */
+#[ORM\Entity(repositoryClass: CategorieRepository::class)]
 class Categorie
 {
     /**
@@ -20,14 +22,14 @@ class Categorie
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idCategorie;
+    private $id_categorie;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nom_categorie", type="string", length=255, nullable=false)
      */
-    private $nomCategorie;
+    private $nom_categorie;
 
     /**
      * @var string
@@ -36,19 +38,23 @@ class Categorie
      */
     private $description;
 
-    public function getIdCategorie(): ?int
+    #[ORM\OneToMany(mappedBy: 'id_categorie', targetEntity: Categorie::class, orphanRemoval: true)]
+    private Collection $produits;
+
+
+    public function getid_categorie(): ?int
     {
-        return $this->idCategorie;
+        return $this->id_categorie;
     }
 
-    public function getNomCategorie(): ?string
+    public function getnom_categorie(): ?string
     {
-        return $this->nomCategorie;
+        return $this->nom_categorie;
     }
 
-    public function setNomCategorie(string $nomCategorie): self
+    public function setnom_categorie(string $nom_categorie): self
     {
-        $this->nomCategorie = $nomCategorie;
+        $this->nom_categorie = $nom_categorie;
 
         return $this;
     }
@@ -64,6 +70,37 @@ class Categorie
 
         return $this;
     }
+         /**
+     * @return Collection<int, Produit>
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    public function addProduit(Produit $produit): self
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits->add($produit);
+            $produit->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Produit $produit): self
+    {
+        if ($this->produits->removeElement($produit)) {
+            // set the owning side to null (unless already changed)
+            if ($produit->getCategorie() === $this) {
+                $produit->setCategorie(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 
 }

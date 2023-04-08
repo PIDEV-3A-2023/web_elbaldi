@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * Utilisateur
@@ -91,6 +94,15 @@ class Utilisateur
      * @ORM\Column(name="nombrejouer", type="integer", nullable=true)
      */
     private $nombrejouer;
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'user')]
+    private Collection $commentaires;
+    
+    public function __construct()
+    {
+        $this->commentaires = new ArrayCollection();
+    }
+
+
 
     public function getIdUser(): ?int
     {

@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Entity;
-
+use App\Entity\Utilisateur;
+use App\Entity\Produit;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\CommenatireRepository;
+use App\Repository\ProduitRepository;
+use App\Repository\UtilisateurRepository;
+use App\Repository\CommentaireRepository;
 
 /**
  * Commentaire
@@ -12,7 +15,7 @@ use App\Repository\CommenatireRepository;
  * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="ref_produit", columns={"ref_produit"})})
  * @ORM\Entity
  */
-#[ORM\Entity(repositoryClass: CommenatireRepository::class)]
+#[ORM\Entity(repositoryClass: CommentaireRepository::class)]
 class Commentaire
 {
     /**
@@ -22,7 +25,7 @@ class Commentaire
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idCommentaire;
+    private $id_commentaire;
 
     /**
      * @var string
@@ -36,7 +39,7 @@ class Commentaire
      *
      * @ORM\Column(name="date_comm", type="date", nullable=false)
      */
-    private $dateComm;
+    private $date_comm;
 
     /**
      * @var \Utilisateur
@@ -46,7 +49,7 @@ class Commentaire
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user")
      * })
      */
-    private $idUser;
+    private $user;
 
     /**
      * @var \Produit
@@ -56,11 +59,11 @@ class Commentaire
      *   @ORM\JoinColumn(name="ref_produit", referencedColumnName="ref_produit")
      * })
      */
-    private $refProduit;
+    private $produit;
 
-    public function getIdCommentaire(): ?int
+    public function getId_commentaire(): ?int
     {
-        return $this->idCommentaire;
+        return $this->id_commentaire;
     }
 
     public function getContenu(): ?string
@@ -77,36 +80,36 @@ class Commentaire
 
     public function getDateComm(): ?\DateTimeInterface
     {
-        return $this->dateComm;
+        return $this->date_comm;
     }
 
-    public function setDateComm(\DateTimeInterface $dateComm): self
+    public function setDate_comm(\DateTimeInterface $date_comm): self
     {
-        $this->dateComm = $dateComm;
+        $this->date_comm = $date_comm;
 
         return $this;
     }
 
-    public function getIdUser(): ?Utilisateur
+    public function getUser(): ?Utilisateur
     {
-        return $this->idUser;
+        return $this->user;
     }
 
-    public function setIdUser(?Utilisateur $idUser): self
+    public function setIdUser(?Utilisateur $user): self
     {
-        $this->idUser = $idUser;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getRefProduit(): ?Produit
+    public function getProduit(): ?Produit
     {
-        return $this->refProduit;
+        return $this->produit;
     }
 
-    public function setRefProduit(?Produit $refProduit): self
+    public function setRefProduit(?Produit $produit): self
     {
-        $this->refProduit = $refProduit;
+        $this->produit = $produit;
 
         return $this;
     }

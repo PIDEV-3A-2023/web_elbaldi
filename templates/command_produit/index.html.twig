@@ -1,0 +1,38 @@
+{% extends 'baseBack.html.twig' %}
+<!DOCTYPE html>
+
+<title>CommandProduit index</title>
+
+{% block body %}
+    <h1>CommandProduit index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ref_Produit</th>
+                <th>Date_cmd</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for command_produit in command_produits %}
+            <tr>
+                <td>{{ command_produit.id }}</td>
+                <td>{{ command_produit.refProduit }}</td>
+                <td>{{ command_produit.dateCmd ? command_produit.dateCmd|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_command_produit_show', {'id': command_produit.id}) }}">show</a>
+                    <a href="{{ path('app_command_produit_edit', {'id': command_produit.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_command_produit_new') }}">Create new</a>
+{% endblock %}

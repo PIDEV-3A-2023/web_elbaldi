@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Commentaire;
+use App\Entity\CommandProduit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Commentaire>
+ * @extends ServiceEntityRepository<CommandProduit>
  *
- * @method Commentaire|null find($id, $lockMode = null, $lockVersion = null)
- * @method Commentaire|null findOneBy(array $criteria, array $orderBy = null)
- * @method Commentaire[]    findAll()
- * @method Commentaire[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CommandProduit|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CommandProduit|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CommandProduit[]    findAll()
+ * @method CommandProduit[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CommenatireRepository extends ServiceEntityRepository
+class CommandeProduitRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Commentaire::class);
+        parent::__construct($registry, CommandProduit::class);
     }
 
-    public function save(Commentaire $entity, bool $flush = false): void
+    public function save(CommandProduit $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CommenatireRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Commentaire $entity, bool $flush = false): void
+    public function remove(CommandProduit $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class CommenatireRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Commentaire[] Returns an array of Commentaire objects
+//     * @return CommandProduit[] Returns an array of CommandProduit objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class CommenatireRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Commentaire
+//    public function findOneBySomeField($value): ?CommandProduit
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')
