@@ -1,0 +1,42 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+	<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+	<div class="container">
+
+		<div class="row">
+			<div class="col-12 mb-4">
+				<a href="{{ path('app_quiz_new') }}" class="btn btn-success custom-btn float-right">Ajouter Quiz</a>
+			</div>
+			{% for quiz in quizzes %}
+				<div class="col-md-4 mb-4">
+					<div class="card h-100 card-large chosen-Quiz-card">
+
+						<div class="text-center">
+							<img src="{{ asset('Back/img/quiz.png') }}" class="card-img-top img-fluid mx-auto" style="margin-top: 20px; width: 40%;">
+
+						</div>
+
+						<div class="card-body">
+							<h5 class="card-title">
+								Nom :
+								{{ quiz.nom }}</h5>
+							<p class="card-title">Difficulté :
+								{{ quiz.difficulte }}</p>
+
+							<div class="d-flex justify-content-between">
+								<a href="{{ path('app_quiz_edit', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn">Modifier</a>
+								<a href="{{ path('DeleteQuiz', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn" id="delete-quiz">Supprimer</a>
+
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+
+{% endblock %}

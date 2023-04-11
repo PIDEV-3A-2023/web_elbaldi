@@ -1,0 +1,42 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+
+
+	{% for question in questions %}
+
+		<div class="card mb-3">
+			<div class="card-body">
+				<h5 class="card-title">{{ question.questionn }}</h5>
+				<p class="card-text">
+					<strong>Difficulte :</strong>
+					{{ question.difficulte }}<br>
+					<strong>Reponse 1 :</strong>
+					{{ question.reponse1 }}<br>
+					<strong>Reponse 2 :</strong>
+					{{ question.reponse2 }}<br>
+					<strong>Reponse 3 :</strong>
+					{{ question.reponse3 }}<br>
+					<strong>Solution :</strong>
+					{{ question.solution }}<br>
+					<strong>Id_Quiz :</strong>
+					{{ question.idQuiz.getIdQuiz() }}
+
+				</p>
+				<div class="d-flex justify-content-end">
+					<a href="{{ path('app_question_edit', {'idQuestion': question.idQuestion}) }}" class="btn btn-secondary">Modifier</a>
+
+					{{ include('question/_delete_form.html.twig') }}
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div class="alert alert-warning" role="alert">
+			No records found.
+		</div>
+	{% endfor %}
+
+	<div class="text-center">
+		<a href="{{ path('app_question_new') }}" class="btn btn-success">Create new</a>
+	</div>
+{% endblock %}

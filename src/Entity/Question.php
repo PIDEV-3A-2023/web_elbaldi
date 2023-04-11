@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\QuestionRepository;
 
 /**
  * Question
@@ -10,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="question", indexes={@ORM\Index(name="CLE_ETRANG", columns={"id_quiz"})})
  * @ORM\Entity
  */
+
+#[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
 {
     /**
@@ -161,6 +164,4 @@ class Question
 
         return $this;
     }
-
-
 }

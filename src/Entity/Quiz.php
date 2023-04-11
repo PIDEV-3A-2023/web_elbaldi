@@ -3,13 +3,19 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\QuizRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Quiz
  *
  * @ORM\Table(name="quiz")
  * @ORM\Entity
+ 
  */
+
+#[ORM\Entity(repositoryClass: QuizRepository::class)]
 class Quiz
 {
     /**
@@ -39,7 +45,12 @@ class Quiz
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=100, nullable=false)
+   
      */
+
+
+
+
     private $nom;
 
     /**
@@ -101,6 +112,4 @@ class Quiz
 
         return $this;
     }
-
-
 }

@@ -1,0 +1,9 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+	<div class="text-center">
+		<h1 style="font-weight: bold;">Modifier Quiz</h1>
+	</div>
+
+	{{ include('quiz/_form.html.twig', {'button_label': 'Modifier', 'button_class': 'btn btn-primary custom-btn d-inline-block'}) }}
+{% endblock %}
