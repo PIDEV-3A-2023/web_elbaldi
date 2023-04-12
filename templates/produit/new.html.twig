@@ -1,12 +1,10 @@
 {% extends 'baseBack.html.twig' %}
-<!DOCTYPE html>
-
-<title>New Produit</title>
 
 {% block body %}
-    <h1>Create new Produit</h1>
+    <div class="container">
+        <h1>Ajouter un nouveau produit</h1>
+        {{ include('produit/_form.html.twig', {'button_label': 'Ajouter'}) }}
 
-    {{ include('produit/_form.html.twig') }}
-
-    <a href="{{ path('app_produit_index') }}">back to list</a>
+        <a href="{{ path('app_produit_index') }}" class="btn btn-secondary">Retour à la liste des produits</a>
+    </div>
 {% endblock %}

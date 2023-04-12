@@ -1,4 +1,3 @@
-{% extends 'baseBack.html.twig' %}
 <!DOCTYPE html>
 
 <title>Commentaire index</title>
@@ -9,18 +8,18 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id_commentaire</th>
+                <th>id_commentaire</th>
                 <th>Contenu</th>
-                <th>Date_comm</th>
+                <th>date_comm</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for commentaire in commentaires %}
             <tr>
-                <td>{{ commentaire.idCommentaire }}</td>
+                <td>{{ commentaire.id_commentaire }}</td>
                 <td>{{ commentaire.contenu }}</td>
-                <td>{{ commentaire.dateComm ? commentaire.dateComm|date('Y-m-d') : '' }}</td>
+                <td>{{ commentaire.date_comm ? commentaire.date_comm|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('app_commentaire_show', {'id_commentaire': commentaire.id_commentaire}) }}">show</a>
                     <a href="{{ path('app_commentaire_edit', {'id_commentaire': commentaire.id_commentaire}) }}">edit</a>

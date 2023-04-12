@@ -1,4 +1,3 @@
-{% extends 'baseBack.html.twig' %}
 <!DOCTYPE html>
 
 <title>Commentaire</title>
@@ -9,8 +8,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id_commentaire</th>
-                <td>{{ commentaire.idCommentaire }}</td>
+                <th>id_commentaire</th>
+                <td>{{ commentaire.id_commentaire }}</td>
             </tr>
             <tr>
                 <th>Contenu</th>
@@ -18,7 +17,7 @@
             </tr>
             <tr>
                 <th>Date_comm</th>
-                <td>{{ commentaire.dateComm ? commentaire.dateComm|date('Y-m-d') : '' }}</td>
+                <td>{{ commentaire.date_comm ? commentaire.date_comm|date('Y-m-d') : '' }}</td>
             </tr>
         </tbody>
     </table>

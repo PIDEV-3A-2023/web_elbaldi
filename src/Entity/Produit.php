@@ -23,7 +23,6 @@ class Produit
      *
      * @ORM\Column(name="ref_produit", type="string", length=30, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $ref_produit;
 
@@ -53,7 +52,7 @@ class Produit
      *
      * @ORM\Column(name="prix_vente", type="float", precision=10, scale=0, nullable=false)
      */
-    private $prix_vente;
+    private $prixVente;
 
     /**
      * @var int
@@ -62,10 +61,10 @@ class Produit
      */
     private $quantite = '0';
 
-    /**
+ /**
      * @var \Categorie
      *
-     * @ORM\ManyToOne(targetEntity="Categorie")
+     * @ORM\ManyToOne(targetEntity="Categorie" , inversedBy="produits")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_categorie", referencedColumnName="id_categorie")
      * })
@@ -96,10 +95,21 @@ class Produit
         $this->idPanier = new ArrayCollection();
     }
 
-    public function getref_produit(): ?string
+    public function getRef_produit(): ?string
     {
         return $this->ref_produit;
     }
+    public function getRefProduit(): ?string
+{
+    return $this->ref_produit;
+} 
+public function setRefProduit($ref_produit) {
+    $this->ref_produit = $ref_produit;
+}
+
+public function setRef_produit($ref_produit) {
+    $this->ref_produit = $ref_produit;
+}
 
     public function getLibelle(): ?string
     {
@@ -136,15 +146,22 @@ class Produit
 
         return $this;
     }
-
-    public function getprix_vente(): ?float
+       /**
+     * Get the full path of the product image
+     */
+    public function getImagePath(): ?string
     {
-        return $this->prix_vente;
+        return $this->image ? '/images' . $this->image : null;
     }
 
-    public function setprix_vente(float $prix_vente): self
+    public function getPrixVente(): ?float
     {
-        $this->prix_vente = $prix_vente;
+        return $this->prixVente;
+    }
+
+    public function setPrixVente(float $prixVente): self
+    {
+        $this->prixVente = $prixVente;
 
         return $this;
     }
@@ -202,7 +219,7 @@ class Produit
             /**
      * @return Collection<int, commentaire>
      */
-    public function getCommentaire(): Collection
+    public function getCommentaires(): Collection
     {
         return $this->commentaires;
     }
@@ -222,7 +239,5 @@ class Produit
 
         return $this;
     }
-
-
 
 }

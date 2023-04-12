@@ -1,44 +1,44 @@
-{% extends 'baseBack.html.twig' %}
-<!DOCTYPE html>
 
-<title>Produit index</title>
+{% extends 'baseBack.html.twig' %}
 
 {% block body %}
-    <h1>Produit index</h1>
+    <div class="container">
+        <h1>Liste des produits</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Ref_produit</th>
-                <th>Libelle</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Prix_vente</th>
-                <th>Quantite</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+         <div class="row">
         {% for produit in produits %}
-            <tr>
-                <td>{{ produit.refProduit }}</td>
-                <td>{{ produit.libelle }}</td>
-                <td>{{ produit.description }}</td>
-                <td>{{ produit.image }}</td>
-                <td>{{ produit.prixVente }}</td>
-                <td>{{ produit.quantite }}</td>
-                <td>
-                    <a href="{{ path('app_produit_show', {'ref_produit': produit.ref_produit}) }}">show</a>
-                    <a href="{{ path('app_produit_edit', {'ref_produit': produit.ref_produit}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 card-large rounded">
 
-    <a href="{{ path('app_produit_new') }}">Create new</a>
+                    <div class="text-center">
+                        {% if produit.image is not null %}
+                            <img src="{{ asset('images/' ~ produit.image) }}" class="card-img-top img-fluid mx-auto" style="margin-top: 20px; width: 40%;">
+                        {% else %}
+                            <img src="{{ asset('images/placeholder.png') }}" class="card-img-top img-fluid mx-auto" style="margin-top: 20px; width: 40%;">
+                        {% endif %}
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ produit.libelle }}</h5>
+                        <p class="card-text">{{ produit.ref_produit }}</p>
+                        <p class="card-text">{{ produit.description }}</p>
+                        <p class="card-text">Prix de vente: {{ produit.prixVente }}</p>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ path('app_produit_edit', {'ref_produit': produit.ref_produit}) }}" class="btn btn-primary">Modifier</a>
+ <a href="{{ path('app_produit_delete', {'ref_produit': produit.ref_produit}) }}" class="btn btn-success custom-btn" id="delete-produit">
+                                        Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-md-12 mb-4">
+                <p>Aucun produit trouvé.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ path('app_produit_new') }}" class="btn btn-primary">Ajouter un produit</a>
+</div>
 {% endblock %}

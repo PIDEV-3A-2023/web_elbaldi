@@ -1,4 +1,3 @@
-{% extends 'baseBack.html.twig' %}
 <!DOCTYPE html>
 
 <title>CommandProduit index</title>
@@ -19,8 +18,8 @@
         {% for command_produit in command_produits %}
             <tr>
                 <td>{{ command_produit.id }}</td>
-                <td>{{ command_produit.refProduit }}</td>
-                <td>{{ command_produit.dateCmd ? command_produit.dateCmd|date('Y-m-d') : '' }}</td>
+                <td>{{ command_produit.ref_produit }}</td>
+                <td>{{ command_produit.date_cmd ? command_produit.date_cmd|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('app_command_produit_show', {'id': command_produit.id}) }}">show</a>
                     <a href="{{ path('app_command_produit_edit', {'id': command_produit.id}) }}">edit</a>

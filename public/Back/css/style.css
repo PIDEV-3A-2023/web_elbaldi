@@ -1232,3 +1232,6 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+.custom-btn.btn-success {
+  background-color: #9a000a;
+}

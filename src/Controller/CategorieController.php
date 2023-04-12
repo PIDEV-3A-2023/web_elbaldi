@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/categorie')]
 class CategorieController extends AbstractController
@@ -71,14 +72,16 @@ class CategorieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id_categorie}', name: 'app_categorie_delete', methods: ['POST'])]
-    public function delete(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$categorie->getId_categorie(), $request->request->get('_token'))) {
-            $entityManager->remove($categorie);
-            $entityManager->flush();
-        }
+    #[Route('/deleteCategorie/{id_categorie}', name: 'app_categorie_delete')]
+public function delete($id_categorie,ManagerRegistry $doctrine): Response
+{ //trouver la bonne categorie 
+$repoC=$doctrine->getRepository(Categorie::class);
+$categorie=$repoC->find($id_categorie);
+//utiliser manager pour supprimer la categorie trouve
+$em=$doctrine->getManager();
+$em->remove($categorie);
+$em->flush();
+return $this->redirectToRoute('app_categorie_index');
+}
 
-        return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
-    }
 }

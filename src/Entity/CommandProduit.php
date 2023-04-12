@@ -29,7 +29,7 @@ class CommandProduit
      *
      * @ORM\Column(name="ref_produit", type="string", length=30, nullable=false)
      */
-    private $ref_Produit;
+    private $ref_produit;
 
     /**
      * @var \DateTime
@@ -53,24 +53,24 @@ class CommandProduit
         return $this->id;
     }
 
-    public function getRef_Produit(): ?string
+    public function getRef_produit(): ?string
     {
-        return $this->ref_Produit;
+        return $this->ref_produit;
     }
 
-    public function setRef_Produit(string $ref_Produit): self
+    public function setRef_produit(string $ref_produit): self
     {
-        $this->ref_Produit = $ref_Produit;
+        $this->ref_produit = $ref_produit;
 
         return $this;
     }
 
-    public function getDateCmd(): ?\DateTimeInterface
+    public function getDate_cmd(): ?\DateTimeInterface
     {
         return $this->date_cmd;
     }
 
-    public function setDateCmd(\DateTimeInterface $date_cmd): self
+    public function setDate_cmd(\DateTimeInterface $date_cmd): self
     {
         $this->date_cmd = $date_cmd;
 
@@ -89,5 +89,6 @@ class CommandProduit
         return $this;
     }
 
+   
 
 }

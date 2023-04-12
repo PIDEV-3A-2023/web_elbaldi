@@ -29,7 +29,7 @@ class Categorie
      *
      * @ORM\Column(name="nom_categorie", type="string", length=255, nullable=false)
      */
-    private $nom_categorie;
+    private $nomCategorie;
 
     /**
      * @var string
@@ -38,7 +38,7 @@ class Categorie
      */
     private $description;
 
-    #[ORM\OneToMany(mappedBy: 'id_categorie', targetEntity: Categorie::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'id_categorie', targetEntity: Categorie::class, orphanRemoval: true,cascade: ['remove'])]
     private Collection $produits;
 
 
@@ -47,14 +47,14 @@ class Categorie
         return $this->id_categorie;
     }
 
-    public function getnom_categorie(): ?string
+    public function getnomCategorie(): ?string
     {
-        return $this->nom_categorie;
+        return $this->nomCategorie;
     }
 
-    public function setnom_categorie(string $nom_categorie): self
+    public function setnomCategorie(string $nomCategorie): self
     {
-        $this->nom_categorie = $nom_categorie;
+        $this->nomCategorie = $nomCategorie;
 
         return $this;
     }
@@ -98,6 +98,11 @@ class Categorie
         }
 
         return $this;
+    }
+
+    public function getIdCategorie(): ?int
+    {
+        return $this->id_categorie;
     }
 
 

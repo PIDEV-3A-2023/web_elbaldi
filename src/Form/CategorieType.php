@@ -12,8 +12,16 @@ class CategorieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom_categorie')
-            ->add('description')
+        ->add('nom_categorie', null, [
+            'attr' => ['class' => 'form-control'],
+            'label' => 'Nom de categorie :'
+        ])
+        ->add('description', null, [
+            'attr' => ['class' => 'form-control'],
+            'label' => 'Description :'
+        ])
+        
+          
         ;
     }
 

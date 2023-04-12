@@ -78,7 +78,7 @@ class Commentaire
         return $this;
     }
 
-    public function getDateComm(): ?\DateTimeInterface
+    public function getDate_comm(): ?\DateTimeInterface
     {
         return $this->date_comm;
     }
@@ -107,9 +107,33 @@ class Commentaire
         return $this->produit;
     }
 
-    public function setRefProduit(?Produit $produit): self
+    public function setProduit(?Produit $produit): self
     {
         $this->produit = $produit;
+
+        return $this;
+    }
+
+    public function getIdCommentaire(): ?int
+    {
+        return $this->id_commentaire;
+    }
+
+    public function getDateComm(): ?\DateTimeInterface
+    {
+        return $this->date_comm;
+    }
+
+    public function setDateComm(\DateTimeInterface $date_comm): self
+    {
+        $this->date_comm = $date_comm;
+
+        return $this;
+    }
+
+    public function setUser(?Utilisateur $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

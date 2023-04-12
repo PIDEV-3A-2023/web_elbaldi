@@ -1,14 +1,43 @@
 {% extends 'baseBack.html.twig' %}
-<!DOCTYPE html>
-
-<title>Edit Produit</title>
 
 {% block body %}
-    <h1>Edit Produit</h1>
-
-    {{ include('produit/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_produit_index') }}">back to list</a>
-
-    {{ include('produit/_delete_form.html.twig') }}
+    <div class="container">
+        <h1>Modifier le produit "{{ produit.libelle }}"</h1>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_start(form) }}
+                 <div class="form-group">
+                    {{ form_label(form.ref_produit) }}
+                    {{ form_widget(form.ref_produit, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.libelle) }}
+                    {{ form_widget(form.libelle, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.prixVente) }}
+                    {{ form_widget(form.prixVente, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.categorie) }}
+                    {{ form_widget(form.categorie, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.image) }}
+                    {{ form_widget(form.image, {'attr': {'class': 'form-control-file'}}) }}
+                </div>
+                <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+                
+                <a href="{{ path('app_produit_index') }}" class="btn btn-secondary">Retour à la liste des produits</a>
+                {{ form_end(form) }}
+            </div>
+            <div class="col-md-6">
+                <img src="{{ asset('images/' ~ produit.image)}}" class="card-img-top img-fluid" alt="Product image">
+            </div>
+        </div>
+    </div>
 {% endblock %}

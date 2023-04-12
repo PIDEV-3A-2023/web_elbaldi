@@ -1,12 +1,10 @@
 {% extends 'baseBack.html.twig' %}
-<!DOCTYPE html>
-
-<title>New Categorie</title>
 
 {% block body %}
-    <h1>Create new Categorie</h1>
+    <div class="text-center">
+        <h1>Ajouter Categorie</h1>
+    </div>
+    {{ include('categorie/add.html.twig') }}
 
-    {{ include('categorie/_form.html.twig') }}
 
-    <a href="{{ path('app_categorie_index') }}">back to list</a>
 {% endblock %}

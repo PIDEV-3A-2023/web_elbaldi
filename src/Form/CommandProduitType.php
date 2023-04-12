@@ -12,9 +12,9 @@ class CommandProduitType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('ref_Produit')
+            ->add('ref_produit')
             ->add('date_cmd')
-            ->add('idCmd')
+          
         ;
     }
 

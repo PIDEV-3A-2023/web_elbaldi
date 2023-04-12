@@ -4,48 +4,60 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Form\ProduitType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use App\Service\FileUploader;
 
-#[Route('/produit')]
 class ProduitController extends AbstractController
 {
-    #[Route('/', name: 'app_produit_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    /**
+     * @Route("/admin/produit", name="app_produit_index", methods={"GET"})
+     */
+    public function index(ProduitRepository $produitRepository): Response
     {
-        $produits = $entityManager
-            ->getRepository(Produit::class)
-            ->findAll();
+        $produits = $produitRepository->findAll();
 
         return $this->render('produit/index.html.twig', [
             'produits' => $produits,
         ]);
     }
 
-    #[Route('/new', name: 'app_produit_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    /**
+     * @Route("/admin/produit/new", name="app_produit_new", methods={"GET","POST"})
+     */
+    public function new(Request $request,FileUploader $fileUploader): Response
     {
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($produit);
+            // Upload new image if provided
+        $imageFile = $form->get('image')->getData();
+        if ($imageFile) {
+            $newFilename = $fileUploader->upload($imageFile);
+            $produit->setImage($newFilename);}
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_produit_index');
         }
 
-        return $this->renderForm('produit/new.html.twig', [
+        return $this->render('produit/new.html.twig', [
             'produit' => $produit,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/{ref_produit}', name: 'app_produit_show', methods: ['GET'])]
+    /**
+     * @Route("/admin/produit/show{ref_produit}", name="app_produit_show", methods={"GET"})
+     */
     public function show(Produit $produit): Response
     {
         return $this->render('produit/show.html.twig', [
@@ -53,32 +65,43 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    #[Route('/{ref_produit}/edit', name: 'app_produit_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(ProduitType::class, $produit);
-        $form->handleRequest($request);
+   /**
+ * @Route("/{ref_produit}/edit", name="app_produit_edit", methods={"GET","POST"})
+ */
+public function edit(Request $request, Produit $produit, FileUploader $fileUploader): Response
+{
+    $form = $this->createForm(ProduitType::class, $produit);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Upload new image if provided
+        $imageFile = $form->get('image')->getData();
+        if ($imageFile) {
+            $newFilename = $fileUploader->upload($imageFile);
+            $produit->setImage($newFilename);
         }
 
-        return $this->renderForm('produit/edit.html.twig', [
-            'produit' => $produit,
-            'form' => $form,
-        ]);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('app_produit_index');
     }
 
-    #[Route('/{ref_produit}', name: 'app_produit_delete', methods: ['POST'])]
-    public function delete(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$produit->getRef_produit(), $request->request->get('_token'))) {
-            $entityManager->remove($produit);
-            $entityManager->flush();
-        }
+    return $this->render('produit/edit.html.twig', [
+        'produit' => $produit,
+        'form' => $form->createView(),
+    ]);
+}
 
-        return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
-    }
+#[Route('/deleteProduit/{ref_produit}', name: 'app_produit_delete')]
+public function delete($ref_produit,ManagerRegistry $doctrine): Response
+{ //trouver le bon produit 
+$repoC=$doctrine->getRepository(Produit::class);
+$produit=$repoC->find($ref_produit);
+//utiliser manager pour supprimer le produit trouve
+$em=$doctrine->getManager();
+$em->remove($produit);
+$em->flush();
+return $this->redirectToRoute('app_produit_index');
+}
+
 }
