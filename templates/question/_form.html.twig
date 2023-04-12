@@ -1,4 +1,12 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_widget(form) }}
+
+
+<div class="form-group row text-center">
+	<div class="col-sm-2"></div>
+	<div class="col-sm-10 buttons-group">
+		<button class="btn btn-success custom-btn d-inline-block ml-2">{{ button_label|default('Ajouter') }}</button>
+		<a href="{{ path('app_question_index') }}" class="btn btn-success custom-btn d-inline-block ml-2">Retour</a>
+	</div>
+</div>
 {{ form_end(form) }}

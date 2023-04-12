@@ -5,7 +5,8 @@
 	<div class="container">
 
 		<div class="row">
-			<div class="col-12 mb-4">
+			<div class="col-12 mb-4 d-flex align-items-center">
+				<i class="bi bi-file-plus" style="font-size: 30px; margin-right: 5px; "></i>
 				<a href="{{ path('app_quiz_new') }}" class="btn btn-success custom-btn float-right">Ajouter Quiz</a>
 			</div>
 			{% for quiz in quizzes %}
@@ -13,21 +14,30 @@
 					<div class="card h-100 card-large chosen-Quiz-card">
 
 						<div class="text-center">
-							<img src="{{ asset('Back/img/quiz.png') }}" class="card-img-top img-fluid mx-auto" style="margin-top: 20px; width: 40%;">
+							<img src="{{ asset('/Back/img/quiz1.png') }}" class="card-img-top img-fluid mx-auto" style="margin-top: 15px; width: 80%;">
 
 						</div>
 
 						<div class="card-body">
 							<h5 class="card-title">
+
 								Nom :
 								{{ quiz.nom }}</h5>
 							<p class="card-title">Difficulté :
 								{{ quiz.difficulte }}</p>
+							<div class="col-md-4 d-flex align-items-center justify-content-center">
+								<a href="{{ path('app_question_index', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn">Questions</a>
+							</div>
 
 							<div class="d-flex justify-content-between">
-								<a href="{{ path('app_quiz_edit', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn">Modifier</a>
-								<a href="{{ path('DeleteQuiz', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn" id="delete-quiz">Supprimer</a>
+								<div class="col-12 mb-4 d-flex align-items-center">
+									<i class="bi bi-pencil-square" style="font-size: 25px; margin-right: 9px;"></i>
+									<a href="{{ path('app_quiz_edit', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn">Modifier</a>
+									<i class="bi bi-trash" style="font-size: 25px; margin-right: 7px;"></i>
 
+									<a href="{{ path('DeleteQuiz', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn" id="delete-quiz">
+										Supprimer</a>
+								</div>
 							</div>
 
 
