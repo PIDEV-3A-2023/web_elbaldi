@@ -4,6 +4,10 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\LivraisonRepository;
+
+
+
 
 /**
  * Livraison
@@ -11,6 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="livraison", indexes={@ORM\Index(name="id_cmd", columns={"id_cmd"})})
  * @ORM\Entity
  */
+
+ #[ORM\Entity(repositoryClass: LivraisonRepository::class)]
+
 class Livraison
 {
     /**

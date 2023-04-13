@@ -4,7 +4,8 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use APP\Repository\CommandeRepository;
+use App\Repository\CommandeRepository;
+
 
 /**
  * Commande
@@ -12,6 +13,7 @@ use APP\Repository\CommandeRepository;
  * @ORM\Table(name="commande", uniqueConstraints={@ORM\UniqueConstraint(name="id_cmdunique", columns={"id_cmd", "id_panier"})}, indexes={@ORM\Index(name="fk_idpaniera", columns={"id_panier"})})
  * @ORM\Entity
  */
+#[ORM\Entity(repositoryClass: CommandeRepository::class)]
 class Commande
 {
     /**
@@ -35,7 +37,11 @@ class Commande
      *
      * @ORM\Column(name="date_cmd", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $dateCmd = 'CURRENT_TIMESTAMP';
+    private ?\DateTimeInterface $dateCmd ;
+    public function __construct()
+{
+    $this->dateCmd = new \DateTime();
+}
 
     /**
      * @var float
@@ -126,5 +132,9 @@ class Commande
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return $this->idCmd . " " ;
+    }
 
 }

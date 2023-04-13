@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PanierRepository;
+
 
 /**
  * Panier
@@ -12,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="panier", uniqueConstraints={@ORM\UniqueConstraint(name="id_user", columns={"id_user"})})
  * @ORM\Entity
  */
+#[ORM\Entity(repositoryClass: PanierRepository::class)]
+
 class Panier
 {
     /**
@@ -134,5 +138,8 @@ class Panier
 
         return $this;
     }
-
+    public function __toString(): string
+    {
+        return $this->idPanier . " " ;
+    }
 }
