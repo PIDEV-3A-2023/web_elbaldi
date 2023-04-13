@@ -14,7 +14,7 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
+{% block css%}
   <!-- Vendor CSS Files -->
   <link href="{{asset('Front/vendor/animate.css/animate.min.css ')}}" rel="stylesheet">
   <link href="{{asset('Front/vendor/bootstrap/css/bootstrap.min.css ')}}" rel="stylesheet">
@@ -34,6 +34,7 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+{% endblock %}
 </head>
 
 <body>
@@ -50,7 +51,7 @@
         <ul>
           <li><a href="index.html" class="active">Profil</a></li>
 
-           <li><a href="services.html">Produits</a></li>
+           <li><a href="{{path('app_produit_indexFront')}}">Produits</a></li>
           <li><a href="services.html">Bons plans</a></li>
           <li><a href="portfolio.html">Evènements</a></li>
           <li><a href="pricing.html">Quiz</a></li>
@@ -238,6 +239,7 @@
 
     <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="portfolio">
+    	{% block body %}
       <div class="container">
 
         <div class="row">
@@ -382,6 +384,7 @@
         </div>
 
       </div>
+      {% endblock %}
     </section><!-- End Portfolio Section -->
 
   </main><!-- End #main -->
@@ -462,18 +465,19 @@
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
+{% block js%}
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="{{asset('Front/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{asset('Front/vendor/glightbox/js/glightbox.min.js')}}"></script>
+  <script src="{{asset('Front/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
+  <script src="{{asset('Front/vendor/swiper/swiper-bundle.min.js')}}"></script>
+  <script src="{{asset('Front/vendor/waypoints/noframework.waypoints.js')}}"></script>
+  <script src="{{asset('Front/vendor/php-email-form/validate.js')}}"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
+  <script src="{{asset('Front/js/main.js')}}"></script>
+{% endblock %}
 </body>
+
 
 </html>

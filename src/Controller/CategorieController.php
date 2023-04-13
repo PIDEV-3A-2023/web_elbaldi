@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\CategorieRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/categorie')]
@@ -25,6 +26,17 @@ class CategorieController extends AbstractController
             'categories' => $categories,
         ]);
     }
+    #[Route('/Front', name: 'app_categorie_indexFront', methods: ['GET'])]
+    public function indexFront(CategorieRepository $categorieRepository): Response
+    {
+        $categories = $categorieRepository->findAll();
+
+        return $this->render('produitFront/indexFront.html.twig', [
+            'categories' => $categories,
+        ]);
+    }
+
+    
 
     #[Route('/new', name: 'app_categorie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

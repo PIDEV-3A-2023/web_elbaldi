@@ -2115,3 +2115,7 @@ section {
 #footer .credits a:hover {
   color: white;
 }
+.image-size {
+  height: 250px;
+  width: auto;
+}
