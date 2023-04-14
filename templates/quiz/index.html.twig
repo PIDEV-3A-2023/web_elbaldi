@@ -80,11 +80,18 @@
 								{{ quiz.nom }}</h5>
 							<p class="card-title">Difficulté :
 								{{ quiz.difficulte }}</p>
-							<div class="col-md-4 d-flex align-items-center justify-content-center">
-
-								<a href="{{ path('app_questions', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn">Voir les questions</a>
-
+							{# <div class="col-md-4 d-flex align-items-center justify-content-center">
+																																																																																				
+																																																																																												<a href="{{ path('app_question_index', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn">Questions</a>
+																																																																																				
+																																																																																											</div> #}
+							<div class="d-flex justify-content-between">
+								<div class="col-12 mb-4 d-flex align-items-center ml-auto">
+									<i class="bi bi-question-circle" style="font-size: 25px; margin-right: 7px;"></i>
+									<a href="{{ path('app_question_index', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn">Questions</a>
+								</div>
 							</div>
+
 
 							<div class="d-flex justify-content-between">
 								<div class="col-12 mb-4 d-flex align-items-center">
@@ -96,7 +103,6 @@
 										Supprimer</a>
 								</div>
 							</div>
-
 
 						</div>
 					</div>

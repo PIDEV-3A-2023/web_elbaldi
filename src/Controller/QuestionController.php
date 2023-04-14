@@ -15,20 +15,20 @@ use App\Entity\QuestionsRepository;
 #[Route('/question')]
 class QuestionController extends AbstractController
 {
-    //     #[Route('/', name: 'app_question_index', methods: ['GET'])]
-    //     public function index(EntityManagerInterface $entityManager): Response
-    //     {
-    //         $questions = $entityManager
-    //             ->getRepository(Question::class)
-    //             ->findAll();
+    #[Route('/', name: 'app_question_index', methods: ['GET'])]
+    public function index(EntityManagerInterface $entityManager): Response
+    {
+        $questions = $entityManager
+            ->getRepository(Question::class)
+            ->findAll();
 
-    //         return $this->render('question/index.html.twig', [
-    //             'questions' => $questions,
-    //         ]);
-    //     }
+        return $this->render('question/index.html.twig', [
+            'questions' => $questions,
+        ]);
+    }
 
 
-    #[Route('/front/', name: 'app_question_index', methods: ['GET'])]
+    #[Route('/front/', name: 'app_question_indecx', methods: ['GET'])]
     public function indexfront(EntityManagerInterface $entityManager): Response
     {
         $questions = $entityManager

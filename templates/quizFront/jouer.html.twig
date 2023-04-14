@@ -3,39 +3,42 @@
 {% block body %}
 	<link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
 	<div class="container mt-5">
+
+		<div class="col-12 mb-4 d-flex align-items-center">
+			<i class="bi bi-box-arrow-left" style="font-size: 30px; margin-right: 5px; "></i>
+			<a href="{{ path('app_quiz_indexc') }}" class="btn btn-success custom-btn float-right">Retour</a>
+		</div>
 		<div class="card">
 			<div class="card-header">
-				<h1>Les Questions
+				<h1>Les Questions<h1></div>
+					<div class="card-body">
+						<form method="post">
+							{% for q in questions %}
+								<div class="form-group">
+									<h3>{{ q.getQuestionn() }}</h3>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="reponse" id="reponse1" value="{{ q.getReponse1() }}">
+										<label class="form-check-label" for="reponse1">
+											{{ q.getReponse1() }}
+										</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="reponse" id="reponse2" value="{{ q.getReponse2() }}">
+										<label class="form-check-label" for="reponse2">
+											{{ q.getReponse2() }}
+										</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="reponse" id="reponse3" value="{{ q.getReponse3() }}">
+										<label class="form-check-label" for="reponse3">
+											{{ q.getReponse3() }}
+										</label>
+									</div>
+								</div>
+							{% endfor %}
 
-				</div>
-				<div class="card-body">
-					<form method="post">
-						{% for q in questions %}
-							<div class="form-group">
-								<h3>{{ q.getQuestionn() }}</h3>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" name="reponse" id="reponse1" value="{{ q.getReponse1() }}">
-									<label class="form-check-label" for="reponse1">
-										{{ q.getReponse1() }}
-									</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" name="reponse" id="reponse2" value="{{ q.getReponse2() }}">
-									<label class="form-check-label" for="reponse2">
-										{{ q.getReponse2() }}
-									</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" name="reponse" id="reponse3" value="{{ q.getReponse3() }}">
-									<label class="form-check-label" for="reponse3">
-										{{ q.getReponse3() }}
-									</label>
-								</div>
-							</div>
-						{% endfor %}
-
-					</form>
+						</form>
+					</div>
 				</div>
 			</div>
-		</div>
-	{% endblock %}
+		{% endblock %}

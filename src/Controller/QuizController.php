@@ -22,20 +22,20 @@ use App\Repository\QuizQuestionsRepository;
 #[Route('/quiz')]
 class QuizController extends AbstractController
 {
-    // #[Route('/', name: 'app_quiz_index', methods: ['GET'])]
-    // public function index(EntityManagerInterface $entityManager): Response
-    // {
-    //     $quizzes = $entityManager
-    //         ->getRepository(Quiz::class)
-    //         ->findAll();
+    #[Route('/', name: 'app_quiz_index', methods: ['GET'])]
+    public function index(EntityManagerInterface $entityManager): Response
+    {
+        $quizzes = $entityManager
+            ->getRepository(Quiz::class)
+            ->findAll();
 
-    //     return $this->render('quiz/index.html.twig', [
-    //         'quizzes' => $quizzes,
-    //     ]);
-    // }
+        return $this->render('quiz/index.html.twig', [
+            'quizzes' => $quizzes,
+        ]);
+    }
 
 
-    #[Route('/front/', name: 'app_quiz_index', methods: ['GET'])]
+    #[Route('/front/', name: 'app_quiz_indexc', methods: ['GET'])]
     public function indexfront(EntityManagerInterface $entityManager): Response
     {
         $quizzes = $entityManager
