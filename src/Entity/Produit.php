@@ -33,7 +33,7 @@ class Produit
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=200, nullable=false)
+     * @ORM\Column(name="description", type="string", length=50, nullable=false)
      */
     private $description;
 
@@ -56,7 +56,7 @@ class Produit
      *
      * @ORM\Column(name="quantite", type="integer", nullable=false)
      */
-    private $quantite = '0';
+    private $quantite;
 
     /**
      * @var \Categorie

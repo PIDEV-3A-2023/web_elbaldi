@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Participation
  *
- * @ORM\Table(name="participation", indexes={@ORM\Index(name="fk_event", columns={"id_event"}), @ORM\Index(name="id_client", columns={"id_client"})})
+ * @ORM\Table(name="participation", indexes={@ORM\Index(name="id_client", columns={"id_client"}), @ORM\Index(name="fk_event", columns={"id_event"})})
  * @ORM\Entity
  */
 class Participation
@@ -22,9 +23,9 @@ class Participation
     private $idParticipation;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="date", type="string", length=50, nullable=false)
+     * @ORM\Column(name="date", type="date", nullable=false)
      */
     private $date;
 
@@ -53,12 +54,12 @@ class Participation
         return $this->idParticipation;
     }
 
-    public function getDate(): ?string
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(string $date): self
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
 

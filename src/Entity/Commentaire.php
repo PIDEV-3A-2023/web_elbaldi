@@ -4,15 +4,13 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\CommenatireRepository;
 
 /**
  * Commentaire
  *
- * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="ref_produit", columns={"ref_produit"})})
+ * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="ref_produit", columns={"ref_produit"}), @ORM\Index(name="id_user", columns={"id_user"})})
  * @ORM\Entity
  */
-#[ORM\Entity(repositoryClass: CommenatireRepository::class)]
 class Commentaire
 {
     /**

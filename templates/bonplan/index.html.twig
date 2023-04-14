@@ -1,0 +1,35 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>Bonplan index</h1>
+        <a href="{{ path('app_bonplan_new') }}" class="btn btn-primary">Ajouter un bon plan</a>
+
+        <hr>
+
+        <div class="row">
+            {% for bonplan in bonplans %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img class="card-img-top" src="{{ asset('uploads/'~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}"  >
+                        <div class="card-body">
+                            <h5 class="card-title">{{ bonplan.titreBonplan }}</h5>
+                            <p class="card-text">{{ bonplan.descriptionBonplan }}</p>
+                            <p class="card-text">{{ bonplan.typeBonplan }}</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ path('app_bonplan_show', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-primary">Voir</a>
+                                <a href="{{ path('app_bonplan_edit', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-primary">Modifier</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <div class="alert alert-info" role="alert">
+                        Aucun bon plan disponible.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

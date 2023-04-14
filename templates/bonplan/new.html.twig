@@ -1,0 +1,10 @@
+{% extends 'baseBack.html.twig' %}
+
+
+{% block body %}
+    <h1>Create new Bonplan</h1>
+
+    {{ include('bonplan/_form.html.twig') }}
+
+    <a href="{{ path('app_bonplan_index') }}">back to list</a>
+{% endblock %}

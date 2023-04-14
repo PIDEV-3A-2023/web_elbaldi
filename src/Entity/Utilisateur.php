@@ -71,26 +71,11 @@ class Utilisateur
      */
     private $mdp;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="role", type="json", nullable=false)
-     */
-    private $role;
+    #[ORM\Column(name: "role", type: "json")]
+    private array $role;
 
-    /**
-     * @var array|null
-     *
-     * @ORM\Column(name="etat", type="json", nullable=true)
-     */
-    private $etat;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="nombrejouer", type="integer", nullable=true)
-     */
-    private $nombrejouer;
+    #[ORM\Column(name: "etat", type: "json")]
+    private ?array $etat;
 
     public function getIdUser(): ?int
     {
@@ -201,18 +186,6 @@ class Utilisateur
     public function setEtat(?array $etat): self
     {
         $this->etat = $etat;
-
-        return $this;
-    }
-
-    public function getNombrejouer(): ?int
-    {
-        return $this->nombrejouer;
-    }
-
-    public function setNombrejouer(?int $nombrejouer): self
-    {
-        $this->nombrejouer = $nombrejouer;
 
         return $this;
     }

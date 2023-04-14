@@ -1232,3 +1232,9 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+.btn-success {
+  color: #fff;
+  background-color: #d22124;
+  border-color: #d22124;
+}

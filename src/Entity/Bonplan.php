@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use APP\Repository\BonplanRepository;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Bonplan
  *
@@ -26,6 +25,8 @@ class Bonplan
      * @var string
      *
      * @ORM\Column(name="titre_bonplan", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
+     * @Assert\Regex(pattern="/^[a-zA-Z]+$/",message="Le titre ne doit contenir que des lettres.")
      */
     private $titreBonplan;
 
@@ -33,6 +34,7 @@ class Bonplan
      * @var string|null
      *
      * @ORM\Column(name="description_bonplan", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $descriptionBonplan;
 
@@ -40,6 +42,7 @@ class Bonplan
      * @var string|null
      *
      * @ORM\Column(name="type_bonplan", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $typeBonplan;
 
@@ -47,6 +50,7 @@ class Bonplan
      * @var string|null
      *
      * @ORM\Column(name="image_bonplan", type="string", length=255, nullable=true)
+    
      */
     private $imageBonplan;
 

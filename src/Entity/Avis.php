@@ -4,14 +4,13 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\AvisRepository;
+
 /**
  * Avis
  *
- * @ORM\Table(name="avis", indexes={@ORM\Index(name="FK1", columns={"id_user"}), @ORM\Index(name="FK2", columns={"id_bonplan"})})
+ * @ORM\Table(name="avis", indexes={@ORM\Index(name="FK2", columns={"id_bonplan"}), @ORM\Index(name="FK1", columns={"id_user"})})
  * @ORM\Entity
  */
-#[ORM\Entity(repositoryClass: AvisRepository::class)]
 class Avis
 {
     /**

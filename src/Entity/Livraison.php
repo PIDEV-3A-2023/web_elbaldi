@@ -25,9 +25,9 @@ class Livraison
     /**
      * @var string
      *
-     * @ORM\Column(name="status_livraison", type="string", length=30, nullable=false, options={"default"="En attente"})
+     * @ORM\Column(name="status_livraison", type="string", length=30, nullable=false, options={"default"="Pending"})
      */
-    private $statusLivraison = 'En attente';
+    private $statusLivraison = 'Pending';
 
     /**
      * @var string

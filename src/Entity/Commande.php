@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use APP\Repository\CommandeRepository;
 
 /**
  * Commande
@@ -26,9 +25,9 @@ class Commande
     /**
      * @var string
      *
-     * @ORM\Column(name="etat", type="string", length=30, nullable=false, options={"default"="En attente"})
+     * @ORM\Column(name="etat", type="string", length=30, nullable=false, options={"default"="Pending"})
      */
-    private $etat = 'En attente';
+    private $etat = 'Pending';
 
     /**
      * @var \DateTime

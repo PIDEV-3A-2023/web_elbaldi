@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Reservation
  *
@@ -26,6 +26,8 @@ class Reservation
      * @var int
      *
      * @ORM\Column(name="nombre_personnes", type="integer", nullable=false)
+     *  @Assert\NotBlank(message="Ce champ est obligatoire!")
+     *  @Assert\Regex(pattern="/^[0-9]+$/",message="Le nombre de personnes ne doit contenir que des chiffres.")
      */
     private $nombrePersonnes;
 
@@ -33,6 +35,7 @@ class Reservation
      * @var \DateTime
      *
      * @ORM\Column(name="date_reservation", type="date", nullable=false)
+     *  @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $dateReservation;
 
@@ -40,18 +43,9 @@ class Reservation
      * @var string
      *
      * @ORM\Column(name="statut_reservation", type="string", length=255, nullable=false)
+     *  @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $statutReservation;
-
-    /**
-     * @var \Bonplan
-     *
-     * @ORM\ManyToOne(targetEntity="Bonplan")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_bonplan", referencedColumnName="id_bonplan")
-     * })
-     */
-    private $idBonplan;
 
     /**
      * @var \Utilisateur
@@ -62,6 +56,16 @@ class Reservation
      * })
      */
     private $idUser;
+
+    /**
+     * @var \Bonplan
+     *
+     * @ORM\ManyToOne(targetEntity="Bonplan")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_bonplan", referencedColumnName="id_bonplan")
+     * })
+     */
+    private $idBonplan;
 
     public function getIdReservation(): ?int
     {
@@ -104,18 +108,6 @@ class Reservation
         return $this;
     }
 
-    public function getIdBonplan(): ?Bonplan
-    {
-        return $this->idBonplan;
-    }
-
-    public function setIdBonplan(?Bonplan $idBonplan): self
-    {
-        $this->idBonplan = $idBonplan;
-
-        return $this;
-    }
-
     public function getIdUser(): ?Utilisateur
     {
         return $this->idUser;
@@ -124,6 +116,18 @@ class Reservation
     public function setIdUser(?Utilisateur $idUser): self
     {
         $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    public function getIdBonplan(): ?Bonplan
+    {
+        return $this->idBonplan;
+    }
+
+    public function setIdBonplan(?Bonplan $idBonplan): self
+    {
+        $this->idBonplan = $idBonplan;
 
         return $this;
     }
