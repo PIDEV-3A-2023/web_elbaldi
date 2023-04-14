@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommandeRepository;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Commande
@@ -37,11 +37,11 @@ class Commande
      *
      * @ORM\Column(name="date_cmd", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private ?\DateTimeInterface $dateCmd ;
+    private ?\DateTimeInterface $dateCmd;
     public function __construct()
-{
-    $this->dateCmd = new \DateTime();
-}
+    {
+        $this->dateCmd = new \DateTime();
+    }
 
     /**
      * @var float
@@ -50,12 +50,22 @@ class Commande
      */
     private $total;
 
+
     /**
      * @var string|null
      *
      * @ORM\Column(name="adresse", type="string", length=50, nullable=true)
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 60,
+     *      minMessage = "L'adresse doit contenir au moins {{ limit }} caractères.",
+     *      maxMessage = "L'adresse ne peut pas contenir plus de {{ limit }} caractères."
+     * )
      */
+    #[Assert\NotBlank(message:"this field should not be empty")]
+
     private $adresse;
+    
 
     /**
      * @var \Panier
@@ -66,6 +76,43 @@ class Commande
      * })
      */
     private $idPanier;
+
+    private $email;
+
+    private $numtel;
+
+    private $nom;
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+    public function getNumtel(): ?int
+    {
+        return $this->numtel;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+    public function setNumtel(int $numtel): self
+    {
+        $this->numtel = $numtel;
+
+        return $this;
+    }
 
     public function getIdCmd(): ?int
     {
@@ -134,7 +181,7 @@ class Commande
 
     public function __toString(): string
     {
-        return $this->idCmd . " " ;
+        return $this->idCmd . " ";
     }
 
 }

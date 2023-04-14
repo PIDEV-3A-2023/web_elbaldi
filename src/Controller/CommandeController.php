@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\Panier;
 use App\Form\CommandeType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,10 +26,18 @@ class CommandeController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_commande_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{idPanier}', name: 'app_commande_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, int $idPanier): Response
     {
+        $panier = $entityManager->getRepository(Panier::class)->find($idPanier);
+
+        if (!$panier) {
+            throw $this->createNotFoundException('The Panier does not exist');
+        }
+
         $commande = new Commande();
+        $commande->setIdPanier($panier);
+        $commande->setTotal($panier->getTotalPanier());
         $form = $this->createForm(CommandeType::class, $commande);
         $form->handleRequest($request);
 
@@ -36,14 +45,22 @@ class CommandeController extends AbstractController
             $entityManager->persist($commande);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_commande_thankyou', [], Response::HTTP_SEE_OTHER);
         }
+
 
         return $this->renderForm('commande/new.html.twig', [
             'commande' => $commande,
             'form' => $form,
         ]);
     }
+    
+    #[Route('/thankyou', name: 'app_commande_thankyou')]
+    public function thankyou(): Response
+    {
+        return $this->render('commande/thankyou.html.twig');
+    }
+
 
     #[Route('/{idCmd}', name: 'app_commande_show', methods: ['GET'])]
     public function show(Commande $commande): Response
@@ -74,17 +91,14 @@ class CommandeController extends AbstractController
     #[Route('/{idCmd}', name: 'app_commande_delete', methods: ['POST'])]
     public function delete(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$commande->getIdCmd(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $commande->getIdCmd(), $request->request->get('_token'))) {
             $entityManager->remove($commande);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/newfront', name: 'app_commande_newfront', methods: ['GET', 'POST'])]
-    public function frontnew(Commande $commande): Response
-    {
-        return $this->render('commande/frontnew.html.twig');
-    }
+
+
 
 }

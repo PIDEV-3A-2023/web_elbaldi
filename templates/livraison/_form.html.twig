@@ -1,4 +1,30 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{form_start(form,{'attr':{'novalidate':'novalidate'}})}}
+
+<div class="form-livraison">
+
+	{{ form_label(form.idCmd) }}
+	{{ form_widget(form.idCmd) }}
+</div>
+
+
+<div class="form-livraison">
+	{{ form_label(form.adresseLivraison) }}
+	{{form_errors(form.adresseLivraison)}}
+	{{ form_widget(form.adresseLivraison, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+<div class="form-livraison">
+	{{ form_label(form.dateLivraison) }}
+	{{form_errors(form.dateLivraison)}}
+	{{ form_widget(form.dateLivraison) }}
+</div>
+<div class="form-livraison">
+	{{ form_label(form.statusLivraison) }}
+	{{ form_widget(form.statusLivraison, {'attr': {'class': 'form-control'}, 'value': livraison.statusLivraison}) }}
+</div>
+
+
+<div class="form-livraison">
+	<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+</div>
 {{ form_end(form) }}

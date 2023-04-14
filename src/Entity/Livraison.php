@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\LivraisonRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 
@@ -40,15 +41,27 @@ class Livraison
      * @var string
      *
      * @ORM\Column(name="adresse_livraison", type="string", length=50, nullable=false)
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 60,
+     *      minMessage = "L'adresse doit contenir au moins {{ limit }} caractères.",
+     *      maxMessage = "L'adresse ne peut pas contenir plus de {{ limit }} caractères."
+     * )
      */
+    #[Assert\NotBlank(message:"this field should not be empty")]
     private $adresseLivraison;
+
+
 
     /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="date_livraison", type="date", nullable=true)
+     * @Assert\NotBlank(message="This field should not be blank.")
+     * @Assert\GreaterThanOrEqual("today", message="The date cannot be in the past.")
      */
     private $dateLivraison;
+    
 
     /**
      * @var \Commande

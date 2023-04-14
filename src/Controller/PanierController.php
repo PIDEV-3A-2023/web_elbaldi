@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Produit;
 
 #[Route('/panier')]
 class PanierController extends AbstractController
@@ -74,19 +75,97 @@ class PanierController extends AbstractController
     #[Route('/{idPanier}', name: 'app_panier_delete', methods: ['POST'])]
     public function delete(Request $request, Panier $panier, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$panier->getIdPanier(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $panier->getIdPanier(), $request->request->get('_token'))) {
             $entityManager->remove($panier);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_panier_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/front/{idPanier}', name: 'app_panier_show', methods: ['GET'])]
-    public function front(Panier $panier): Response
+    #[Route('/front/{idPanier}', name: 'app_panier_show_front', methods: ['GET'])]
+    public function front(Panier $panier, EntityManagerInterface $entityManager): Response
     {
+        $total = 5;
+        foreach ($panier->getRefProduit() as $produit) {
+            $total += $produit->getPrixVente();
+        }
+        $panier->setTotalPanier($total);
+        $panier->setNombreArticle($panier->getRefProduit()->count());
+
+        $entityManager->persist($panier);
+        $entityManager->flush();
+
         return $this->render('panier/front.html.twig', [
             'panier' => $panier,
         ]);
     }
 
+    #[Route('/remove-product-from-basket/{idPanier}/{refProduit}', name: 'remove_product_from_basket', methods: ['GET', 'POST'])]
+    public function removeProductFromBasket(EntityManagerInterface $entityManager, Request $request, string $refProduit, int $idPanier): Response
+    {
+        // Get the basket
+        $panier = $this->getDoctrine()
+            ->getRepository(Panier::class)
+            ->find($idPanier);
+    
+        // Get the product to remove from the basket
+        $produit = $this->getDoctrine()
+            ->getRepository(Produit::class)
+            ->find($refProduit);
+    
+        // Remove the product from the basket
+        if ($panier->getRefProduit()->contains($produit)) {
+            $panier->removeRefProduit($produit);
+    
+            $entityManager->persist($panier);
+            $entityManager->flush();
+    
+            $this->addFlash('success', 'The product has been removed from your basket.');
+        } else {
+            $this->addFlash('error', 'The product was not found in your basket.');
+        }
+    
+        // Redirect to the basket page
+        return $this->redirectToRoute('app_panier_show_front', ['idPanier' => $idPanier]);
+    }
+    #[Route('/add-product-from-basket/{idPanier}/{refProduit}', name: 'add_product_from_basket', methods: ['GET', 'POST'])]
+    public function addProductFromBasket(EntityManagerInterface $entityManager, Request $request, string $refProduit, int $idPanier): Response
+    {
+      
+    
+        // Get the product to remove from the basket
+        $produit = $this->getDoctrine()
+            ->getRepository(Produit::class)
+            ->find($refProduit);
+            $produit->setQuantite($produit->getQuantite()+1);
+            
+            $entityManager->persist($produit);
+            $entityManager->flush();
+    
+            $this->addFlash('success', 'The product has been updated from your basket.');
+     
+    
+        // Redirect to the basket page
+        return $this->redirectToRoute('app_panier_show_front', ['idPanier' => $idPanier]);
+    }
+    #[Route('/decrease-product-from-basket/{idPanier}/{refProduit}', name: 'decrease_product_from_basket', methods: ['GET', 'POST'])]
+    public function decreaseProductFromBasket(EntityManagerInterface $entityManager, Request $request, string $refProduit, int $idPanier): Response
+    {
+      
+    
+        // Get the product to remove from the basket
+        $produit = $this->getDoctrine()
+            ->getRepository(Produit::class)
+            ->find($refProduit);
+            $produit->setQuantite($produit->getQuantite()-1);
+            
+            $entityManager->persist($produit);
+            $entityManager->flush();
+    
+            $this->addFlash('success', 'The product has been updated from your basket.');
+     
+    
+        // Redirect to the basket page
+        return $this->redirectToRoute('app_panier_show_front', ['idPanier' => $idPanier]);
+    }
 }

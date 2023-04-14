@@ -22,23 +22,24 @@
 				{% for Produit in panier.refProduit %}
 					<div class="row border-top border-bottom">
 						<div class="row main align-items-center">
-							<div class="col-2"><img class="img-fluid" src="{{asset('Back/img/elbaldi.jpg')}}"></div>
+							<div class="col-2"><img class="img-fluid" src="{{ 'http://localhost/images/' ~ Produit.image }}">
+							</div>
 							<div class="col">
 								<div class="row text-muted">{{ Produit.libelle }}</div>
 								<div class="row">{{ Produit.description }}</div>
 							</div>
 							<div class="col">
-								<a href="#">-</a>
-								<a href="#" class="border">1</a>
-								<a href="#">+</a>
+								<a href="{{ path('decrease_product_from_basket', { 'refProduit': Produit.refProduit, 'idPanier': panier.idPanier }) }}">-</a>
+								<a href="#" class="border">{{ Produit.quantite }}</a>
+								<a href="{{ path('add_product_from_basket', { 'refProduit': Produit.refProduit, 'idPanier': panier.idPanier }) }}">+</a>
 							</div>
-							<div class="col">{{ Produit.prixVente }}
+							<div class="col">{{ Produit.prixVente * Produit.quantite }}
 								TND
-								<span class="close">&#10005;</span>
+								<a href="{{ path('remove_product_from_basket', { 'refProduit': Produit.refProduit, 'idPanier': panier.idPanier }) }}">Remove</a>
 							</div>
 						</div>
 					</div>
-					{% set total = total + Produit.prixVente %}
+					{% set total = total + Produit.prixVente * Produit.quantite %}
 				{% else %}
 					<tr></tr>
 
@@ -75,12 +76,13 @@
 			<div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
 				<div class="col">TOTAL PRICE</div>
 				<div class="col text-right">{{ total+5 }}
-					TND</div>
+					TND
+				</div>
 
 			</div>
 
 			<button class="btn">
-				<a href="{{ path('app_commande_newfront', {'idPanier': panier.idPanier}) }}">CHECKOUT</a>
+				<a href="{{ path('app_commande_new', {'idPanier': panier.idPanier}) }}">CHECKOUT</a>
 			</button>
 
 		</div>

@@ -1,34 +1,48 @@
 {% extends 'baseBack.html.twig' %}
 {% block title %}
-Livraison index
+	Livraison index
 {% endblock %}
 {% block body %}
-    <h1>Livraison</h1>
+	<h1>Livraison</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>IdLivraison</th>
-                <td>{{ livraison.idLivraison }}</td>
-            </tr>
-            <tr>
-                <th>StatusLivraison</th>
-                <td>{{ livraison.statusLivraison }}</td>
-            </tr>
-            <tr>
-                <th>AdresseLivraison</th>
-                <td>{{ livraison.adresseLivraison }}</td>
-            </tr>
-            <tr>
-                <th>DateLivraison</th>
-                <td>{{ livraison.dateLivraison ? livraison.dateLivraison|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>IdLivraison</th>
+				<td>{{ livraison.idLivraison }}</td>
+			</tr>
+			<tr>
+				<th>StatusLivraison</th>
+				<td>{{ livraison.statusLivraison }}</td>
+			</tr>
 
-    <a href="{{ path('app_livraison_index') }}">back to list</a>
+			<tr>
+				<th>DateLivraison</th>
+				<td>{{ livraison.dateLivraison ? livraison.dateLivraison|date('Y-m-d') : '' }}</td>
+			</tr>
+			<tr>
+				<th>nom de client</th>
+				<td>{{ livraison.idCmd.idPanier.idUser.nom ~ ' ' ~ livraison.idCmd.idPanier.idUser.prenom }}</td>
+			</tr>
+			<tr>
+				<th>AdresseLivraison</th>
+				<td>{{ livraison.adresseLivraison }}</td>
+			</tr>
 
-    <a href="{{ path('app_livraison_edit', {'idLivraison': livraison.idLivraison}) }}">edit</a>
+			<tr>
+				<th>numero telephone</th>
+				<td>{{ livraison.idCmd.idPanier.idUser.numtel }}</td>
+			</tr>
+			<tr>
+				<th>Adresse</th>
+				<td>{{ livraison.idCmd.idPanier.idUser.email }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-    {{ include('livraison/_delete_form.html.twig') }}
+	<a href="{{ path('app_livraison_index') }}">back to list</a>
+
+	<a href="{{ path('app_livraison_edit', {'idLivraison': livraison.idLivraison}) }}">edit</a>
+
+	{{ include('livraison/_delete_form.html.twig') }}
 {% endblock %}

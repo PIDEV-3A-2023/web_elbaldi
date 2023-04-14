@@ -1,12 +1,6 @@
 {{form_start(form,{'attr':{'novalidate':'novalidate'}})}}
 
 <div class="form-commande">
-	<br>
-	<br>
-	<br>
-	<br>
-
-
 	{{ form_label(form.nom) }}
 	{{ form_widget(form.nom, {'attr': {'class': 'form-control', 'readonly': 'readonly'}, 'value': commande.idPanier.idUser.nom ~ ' ' ~ commande.idPanier.idUser.prenom}) }}
 </div>
@@ -32,10 +26,10 @@
 	{{ form_widget(form.total, {'attr': {'class': 'form-control', 'readonly': 'readonly'}, 'value': commande.idPanier.totalPanier}) }}
 </div>
 <div class="form-commande">
-	{{ form_label(form.etat, null, {'label_attr': {'hidden': true}}) }}
-	{{ form_widget(form.etat, {'attr': {'class': 'form-control', 'hidden': true}, 'value': commande.etat}) }}
+	{{ form_label(form.etat) }}
+	{{ form_widget(form.etat, {'attr': {'class': 'form-control'}, 'value': commande.etat}) }}
 </div>
-
+<br>
 
 <div class="form-commande">
 	<button class="btn btn-primary">{{ button_label|default('Save') }}</button>

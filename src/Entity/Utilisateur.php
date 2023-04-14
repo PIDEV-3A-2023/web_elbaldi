@@ -72,7 +72,7 @@ class Utilisateur
     private $mdp;
 
     #[ORM\Column(name: "role", type: "json")]
-    private array $role;
+    private ?array $role;
 
     #[ORM\Column(name: "etat", type: "json")]
     private ?array $etat;
