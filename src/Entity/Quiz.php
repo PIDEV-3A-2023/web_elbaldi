@@ -4,15 +4,17 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\QuizRepository;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
 
 /**
  * Quiz
  *
  * @ORM\Table(name="quiz")
  * @ORM\Entity
- 
+ *  @UniqueEntity(fields={"nom"}, message="Ce nom est déjà utilisé")
  */
 
 #[ORM\Entity(repositoryClass: QuizRepository::class)]
@@ -45,10 +47,9 @@ class Quiz
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=100, nullable=false)
-   
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
+     * @Assert\Regex(pattern="/^[a-zA-Z]+$/", message="Le nom ne doit contenir que des lettres")
      */
-
-
 
 
     private $nom;

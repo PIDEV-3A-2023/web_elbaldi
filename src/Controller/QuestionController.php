@@ -3,24 +3,39 @@
 namespace App\Controller;
 
 use App\Entity\Question;
+use App\Entity\Quiz;
 use App\Form\QuestionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\QuestionsRepository;
 
 #[Route('/question')]
 class QuestionController extends AbstractController
 {
-    #[Route('/', name: 'app_question_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    //     #[Route('/', name: 'app_question_index', methods: ['GET'])]
+    //     public function index(EntityManagerInterface $entityManager): Response
+    //     {
+    //         $questions = $entityManager
+    //             ->getRepository(Question::class)
+    //             ->findAll();
+
+    //         return $this->render('question/index.html.twig', [
+    //             'questions' => $questions,
+    //         ]);
+    //     }
+
+
+    #[Route('/front/', name: 'app_question_index', methods: ['GET'])]
+    public function indexfront(EntityManagerInterface $entityManager): Response
     {
         $questions = $entityManager
             ->getRepository(Question::class)
             ->findAll();
 
-        return $this->render('question/index.html.twig', [
+        return $this->render('quizFront/jouer.html.twig', [
             'questions' => $questions,
         ]);
     }
@@ -80,5 +95,20 @@ class QuestionController extends AbstractController
         }
 
         return $this->redirectToRoute('app_question_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{idQuiz}', name: 'app_questions', methods: ['GET'])]
+
+    public function index1(QuestionsRepository $questionRepository, Quiz $cat): Response
+    {
+
+
+        $questions = $questionRepository->findByQuiz($cat);
+
+        //dd($services);
+        return $this->render('quiz/index.html.twig', [
+            //'services' => 'ServiceFrontController',
+            'questions' => $questions
+        ]);
     }
 }

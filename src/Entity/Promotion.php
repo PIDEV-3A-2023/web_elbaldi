@@ -4,12 +4,15 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Promotion
  *
  * @ORM\Table(name="promotion", indexes={@ORM\Index(name="id_user", columns={"id_user"})})
  * @ORM\Entity
  */
+
+
 class Promotion
 {
     /**
@@ -85,6 +88,4 @@ class Promotion
 
         return $this;
     }
-
-
 }

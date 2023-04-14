@@ -38,12 +38,12 @@
 			href="{{asset('Back/css/style.css')}}" rel="stylesheet">
 
 		<!-- =======================================================
-																																																																																																																																																																																																																																																																																																																																																																																																				  * Template Name: NiceAdmin
-																																																																																																																																																																																																																																																																																																																																																																																																				  * Updated: Mar 09 2023 with Bootstrap v5.2.3
-																																																																																																																																																																																																																																																																																																																																																																																																				  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-																																																																																																																																																																																																																																																																																																																																																																																																				  * Author: BootstrapMade.com
-																																																																																																																																																																																																																																																																																																																																																																																																				  * License: https://bootstrapmade.com/license/
-																																																																																																																																																																																																																																																																																																																																																																																																				  ======================================================== -->
+																																																																																																																																																																																																																																																																																																																																																																																																														  * Template Name: NiceAdmin
+																																																																																																																																																																																																																																																																																																																																																																																																														  * Updated: Mar 09 2023 with Bootstrap v5.2.3
+																																																																																																																																																																																																																																																																																																																																																																																																														  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+																																																																																																																																																																																																																																																																																																																																																																																																														  * Author: BootstrapMade.com
+																																																																																																																																																																																																																																																																																																																																																																																																														  * License: https://bootstrapmade.com/license/
+																																																																																																																																																																																																																																																																																																																																																																																																														  ======================================================== -->
 		{% endblock %}
 	</head>
 
@@ -96,7 +96,7 @@
 
 						<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 							<li class="dropdown-header">
-								<h6 >Admin</h6>
+								<h6>Admin</h6>
 
 							</li>
 							<li>
@@ -151,7 +151,7 @@
 			<ul class="sidebar-nav" id="sidebar-nav">
 
 				<li class="nav-item">
-					<a style="background-color:  #9a000a;" class="nav-link collapsed " data-bs-toggle="acceuil-nav" href="quiz.html.twig" ">
+					<a style="background-color:  #9a000a;" class="nav-link collapsed " data-bs-toggle="acceuil-nav" href="{{path('app_produit')}}" ">
 						<i style="color: #000000;" class="bi bi-house-door-fill"></i>
 						<span>Acceuil</span>
 					</a>
@@ -206,7 +206,7 @@
 				</li>
 
 				<li class="nav-item">
-					<a style="background-color:  #9a000a;" class="nav-link collapsed" data-bs-target="#quiz-nav" data-bs-toggle="collapse" href="#quiz.html">
+					<a style="background-color:  #9a000a;" class="nav-link collapsed" data-bs-target="#quiz-nav" data-bs-toggle="collapse" href="{{path('app_quiz_index')}}">
 						<i style="color: #000000;" class="bi bi-question-octagon"></i>
 						<span>Quiz</span>
 

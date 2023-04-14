@@ -39,6 +39,32 @@ class QuestionsRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByQuiz($cat)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT s
+            FROM App\Entity\Question s
+            JOIN s.quiz c
+            WHERE c.id = :cat
+          '
+        )->setParameter('cat', $cat);
+
+        return $query->getResult();
+    }
+
+    /*     public function listQuestionsByQuiz($id)
+    {
+        return $this->createQueryBuilder(alias: 'q')
+            ->join(join: 'q.quiz', alias: 'qu')
+            ->addSelect(select: 'qu')
+            ->where(predicates: 'qu.id = :id')
+            ->setParameter(key: 'id', value: $id)
+            ->getQuery()
+            ->getResult();
+    } */
+
+
     //    /**
     //     * @return Question[] Returns an array of Question objects
     //     */

@@ -20,6 +20,7 @@ class QuizType extends AbstractType
             ])
             ->add('difficulte', ChoiceType::class, [
                 'choices'  => [
+                    '' => '',
                     'Facile' => 'Facile',
                     'Moyenne' => 'Moyenne',
                     'Difficile' => 'Difficile',

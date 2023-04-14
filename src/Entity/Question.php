@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\QuestionRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Question
@@ -28,6 +30,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="difficulte", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $difficulte;
 
@@ -35,6 +38,8 @@ class Question
      * @var string
      *
      * @ORM\Column(name="questionn", type="string", length=255, nullable=false)
+     * @Assert\Length(min=6, minMessage="La question doit contenir au moins 6 lettres")
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $questionn;
 
@@ -42,6 +47,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="reponse1", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $reponse1;
 
@@ -49,6 +55,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="reponse2", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $reponse2;
 
@@ -56,6 +63,7 @@ class Question
      * @var string
      *
      * @ORM\Column(name="reponse3", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $reponse3;
 
@@ -63,6 +71,8 @@ class Question
      * @var string
      *
      * @ORM\Column(name="solution", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
+     
      */
     private $solution;
 
@@ -73,6 +83,7 @@ class Question
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_quiz", referencedColumnName="id_quiz")
      * })
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $idQuiz;
 

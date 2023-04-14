@@ -12,22 +12,37 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Repository\QuestionsRepository;
+
 use App\Repository\QuizRepository;
+use App\Repository\QuestionsRepository;
+use App\Repository\QuizQuestionsRepository;
 
 
 
 #[Route('/quiz')]
 class QuizController extends AbstractController
 {
-    #[Route('/', name: 'app_quiz_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $entityManager): Response
+    // #[Route('/', name: 'app_quiz_index', methods: ['GET'])]
+    // public function index(EntityManagerInterface $entityManager): Response
+    // {
+    //     $quizzes = $entityManager
+    //         ->getRepository(Quiz::class)
+    //         ->findAll();
+
+    //     return $this->render('quiz/index.html.twig', [
+    //         'quizzes' => $quizzes,
+    //     ]);
+    // }
+
+
+    #[Route('/front/', name: 'app_quiz_index', methods: ['GET'])]
+    public function indexfront(EntityManagerInterface $entityManager): Response
     {
         $quizzes = $entityManager
             ->getRepository(Quiz::class)
             ->findAll();
 
-        return $this->render('quiz/index.html.twig', [
+        return $this->render('quizFront/index.html.twig', [
             'quizzes' => $quizzes,
         ]);
     }
