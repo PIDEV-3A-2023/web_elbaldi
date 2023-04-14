@@ -16,7 +16,8 @@ class QuizType extends AbstractType
         $builder
             ->add('nom', null, [
                 'attr' => ['class' => 'form-control'],
-                'label' => 'Nom :'
+                'label' => 'Nom :',
+                'empty_data' => ''
             ])
             ->add('difficulte', ChoiceType::class, [
                 'choices'  => [
@@ -26,7 +27,8 @@ class QuizType extends AbstractType
                     'Difficile' => 'Difficile',
                 ],
                 'attr' => ['class' => 'form-control'],
-                'label' => 'Difficulté :'
+                'label' => 'Difficulté :',
+                'empty_data' => ''
             ]);
     }
 }

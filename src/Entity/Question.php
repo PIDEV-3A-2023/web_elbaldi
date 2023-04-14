@@ -62,7 +62,7 @@ class Question
     /**
      * @var string
      *
-     * @ORM\Column(name="reponse3", type="string", length=255, nullable=false)
+     * @ORM\Column(name="reponse3", type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $reponse3;
@@ -70,7 +70,7 @@ class Question
     /**
      * @var string
      *
-     * @ORM\Column(name="solution", type="string", length=255, nullable=false)
+     * @ORM\Column(name="solution", type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Ce champ est obligatoire!")
      
      */

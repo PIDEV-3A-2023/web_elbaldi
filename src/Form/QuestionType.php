@@ -25,7 +25,8 @@ class QuestionType extends AbstractType
             ->add('questionn', null, [
                 'label' => 'Question : ',
                 'label_attr' => ['class' => 'col-sm-3 col-form-label'],
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
+                'empty_data' => ''
             ])
             ->add('difficulte', ChoiceType::class, [
                 'choices'  => [
@@ -35,30 +36,35 @@ class QuestionType extends AbstractType
                     'Difficile' => 'Difficile',
                 ],
                 'attr' => ['class' => 'form-control'],
-                'label' => 'Difficulté :'
+                'label' => 'Difficulté :',
+                'empty_data' => ''
             ])
             ->add('reponse1', null, [
                 'label' => 'Réponse 1 : ',
                 'label_attr' => ['class' => 'col-sm-3 col-form-label'],
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
+                'empty_data' => ''
 
             ])
             ->add('reponse2', null, [
                 'label' => 'Réponse 2 : ',
                 'label_attr' => ['class' => 'col-sm-3 col-form-label'],
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
+                'empty_data' => ''
 
             ])
             ->add('reponse3', null, [
                 'label' => 'Réponse 3 : ',
                 'label_attr' => ['class' => 'col-sm-3 col-form-label'],
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
+                'empty_data' => ''
 
             ])
             ->add('solution', null, [
                 'label' => 'Solution : ',
                 'label_attr' => ['class' => 'col-sm-3 col-form-label'],
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control'],
+                'empty_data' => ''
             ])
 
 
