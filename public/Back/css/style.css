@@ -1235,3 +1235,22 @@ h6 {
 .custom-btn.btn-success {
   background-color: #9a000a;
 }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.form-group label {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.buttons-group {
+  margin-top: 20px;
+}

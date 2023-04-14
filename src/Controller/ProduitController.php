@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Produit;
+use App\Entity\Commentaire;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
+use App\Repository\CategorieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,14 +31,24 @@ class ProduitController extends AbstractController
      /**
      * @Route("/client/produit", name="app_produit_indexFront", methods={"GET"})
      */
-    public function indexFront(ProduitRepository $produitRepository): Response
+    public function indexFront(ProduitRepository $produitRepository ,CategorieRepository $categorieRepository): Response
     {
         $produits = $produitRepository->findAll();
-
+        $categories = $categorieRepository->findAll();
         return $this->render('produitFront/indexFront.html.twig', [
+            'categories' => $categories,
             'produits' => $produits,
         ]);
     }
+    /**
+ * @Route("/produit/{ref_produit}", name="produit_details", methods={"GET"})
+ */
+public function produitDetails(Produit $produit): Response
+{
+    return $this->render('produitFront/produitDetails.html.twig', [
+        'produit' => $produit,
+    ]);
+}
 
     /**
      * @Route("/admin/produit/new", name="app_produit_new", methods={"GET","POST"})
@@ -103,16 +115,56 @@ public function edit(Request $request, Produit $produit, FileUploader $fileUploa
     ]);
 }
 
-#[Route('/deleteProduit/{ref_produit}', name: 'app_produit_delete')]
+ #[Route('/deleteProduit/{ref_produit}', name: 'app_produit_delete')]
 public function delete($ref_produit,ManagerRegistry $doctrine): Response
 { //trouver le bon produit 
-$repoC=$doctrine->getRepository(Produit::class);
-$produit=$repoC->find($ref_produit);
-//utiliser manager pour supprimer le produit trouve
-$em=$doctrine->getManager();
+// trouver le bon produit 
+$repoC = $doctrine->getRepository(Produit::class);
+$produit = $repoC->find($ref_produit);
+
+// utiliser manager pour supprimer le produit trouvé
+$em = $doctrine->getManager();
 $em->remove($produit);
 $em->flush();
+
 return $this->redirectToRoute('app_produit_index');
 }
+/**
+ * @Route("/produit/{ref_Produit}/add_commentaire", name="app_produit_add_commentaire")
+ */
+public function addCommentaire(Request $request, EntityManagerInterface $entityManager, ProduitRepository $produitRepository, $ref_Produit): Response
+{
+    $produit = $produitRepository->findOneBy(['ref_Produit' => $ref_Produit]);
+
+    $commentaire = new Commentaire();
+    $commentaire->setProduit($produit);
+
+    $form = $this->createFormBuilder($commentaire)
+        ->add('commentaire', TextareaType::class, [
+            'label' => 'Commentaire'
+        ])
+        ->add('save', SubmitType::class, [
+            'label' => 'Ajouter'
+        ])
+        ->getForm();
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $commentaire = $form->getData();
+        $commentaire->setUser($this->getUser());
+        $commentaire->setDateComm(new \DateTime());
+        
+        $entityManager->persist($commentaire);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('app_produit_details', ['ref_Produit' => $ref_Produit]);
+    }
+
+    return $this->render('produitFront/produitDetails.html.twig', [
+        'produit' => $produit,
+        'form' => $form->createView()
+    ]);
+} 
 
 }

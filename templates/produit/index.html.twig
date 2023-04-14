@@ -3,9 +3,13 @@
 
 {% block body %}
     <div class="container">
-        <h1>Liste des produits</h1>
 
-         <div class="row">
+        <div class="row">
+            <div class="col-12 mb-4 d-flex align-items-center">
+                <i class="bi bi-file-plus" style="font-size: 30px; margin-right: 5px; "></i>
+                
+                <a href="{{ path('app_produit_new') }}" class="btn btn-success custom-btn">Ajouter un produit</a>
+            </div>
         {% for produit in produits %}
             <div class="col-md-4 mb-4">
                 <div class="card h-100 card-large rounded">
@@ -25,9 +29,11 @@
                         <p class="card-text">Prix de vente: {{ produit.prixVente }}</p>
 
                         <div class="d-flex justify-content-between">
-                            <a href="{{ path('app_produit_edit', {'ref_produit': produit.ref_produit}) }}" class="btn btn-primary">Modifier</a>
+                            <a href="{{ path('app_produit_edit', {'ref_produit': produit.ref_produit}) }}"  class="btn btn-success custom-btn">Modifier</a>
  <a href="{{ path('app_produit_delete', {'ref_produit': produit.ref_produit}) }}" class="btn btn-success custom-btn" id="delete-produit">
                                         Supprimer</a>
+
+                               
                         </div>
                     </div>
                 </div>
@@ -39,6 +45,6 @@
         {% endfor %}
     </div>
 
-    <a href="{{ path('app_produit_new') }}" class="btn btn-primary">Ajouter un produit</a>
+    
 </div>
 {% endblock %}

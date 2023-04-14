@@ -1,23 +1,28 @@
-{{ form_start(form) }}
+{{ form_start(form,{'attr':{'novalidate':'novalidate'}})}}
 <div class="form-group">
     {{ form_label(form.ref_produit) }}
     {{ form_widget(form.ref_produit, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.ref_produit) }}
 </div>
 <div class="form-group">
     {{ form_label(form.libelle) }}
     {{ form_widget(form.libelle, {'attr': {'class': 'form-control'}}) }}
+     {{ form_errors(form.libelle) }}
 </div>
 <div class="form-group">
     {{ form_label(form.description) }}
     {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+     {{ form_errors(form.description) }}
 </div>
 <div class="form-group">
     {{ form_label(form.image, 'Image du produit') }}
     {{ form_widget(form.image, {'attr': {'class': 'form-control-file'}}) }}
+     {{ form_errors(form.image) }}
 </div>
 <div class="form-group">
     {{ form_label(form.prixVente) }}
     {{ form_widget(form.prixVente, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.prixVente) }}
 </div>
 <div class="form-group">
     {{ form_label(form.categorie) }}

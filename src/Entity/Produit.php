@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProduitRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 
@@ -24,6 +26,8 @@ class Produit
      * @ORM\Column(name="ref_produit", type="string", length=30, nullable=false)
      * @ORM\Id
      */
+    #[Assert\NotBlank(message: "Ce champ est obligatoire.")]
+    #[Assert\Regex(pattern: '/^TUN619.*/',message: "La référence produit doit commencer par 'TUN619'.")]
     private $ref_produit;
 
     /**
@@ -31,6 +35,8 @@ class Produit
      *
      * @ORM\Column(name="libelle", type="string", length=50, nullable=false)
      */
+    #[Assert\Length(min:6, minMessage:"La déscription doit contenir '{{ limit }}' lettres", max:100,maxMessage:"La déscription doit contenir '{{ limit }}' lettres")]
+    #[Assert\NotBlank(message:"ce champs est obligatoire !")]
     private $libelle;
 
     /**
@@ -38,6 +44,8 @@ class Produit
      *
      * @ORM\Column(name="description", type="string", length=200, nullable=false)
      */
+    #[Assert\Length(min:10, minMessage:"La déscription doit contenir '{{ limit }}' lettres", max:100,maxMessage:"La déscription doit contenir '{{ limit }}' lettres")]
+    #[Assert\NotBlank(message:"ce champs est obligatoire !")]
     private $description;
 
     /**
@@ -52,6 +60,7 @@ class Produit
      *
      * @ORM\Column(name="prix_vente", type="float", precision=10, scale=0, nullable=false)
      */
+    #[Assert\PositiveOrZero(message: 'Le prix doit être un nombre positif ou zéro.')]
     private $prixVente;
 
     /**
@@ -79,21 +88,19 @@ class Produit
     private $idPanier = array();
 
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'produit')]
-    private Collection $commentaires;
+    private $commentaires = [];
 
 
     /**
      * Constructor
      */
-    public function __construct2()
-{
-    $this->commentaires = new ArrayCollection();
-}
-
     public function __construct()
     {
+        $this->commentaires = new ArrayCollection();
         $this->idPanier = new ArrayCollection();
+       
     }
+    
 
     public function getRef_produit(): ?string
     {
@@ -216,12 +223,12 @@ public function setRef_produit($ref_produit) {
 
         return $this;
     }
-            /**
-     * @return Collection<int, commentaire>
+ /**
+     * @return Collection|Commentaire[]
      */
     public function getCommentaires(): Collection
     {
-        return $this->commentaires;
+        return new ArrayCollection($this->commentaires);
     }
 
     public function addCommentaire(Commentaire $commentaire): self

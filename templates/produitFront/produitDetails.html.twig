@@ -1,0 +1,71 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block body %}
+    <section id="portfolio-details" class="portfolio-details">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="portfolio-details-slider swiper-container">
+                        <div class="swiper-wrapper align-items-center">
+                           <div class="swiper-wrapper">
+    <div class="swiper-slide">
+        <img src="{{ asset('images/' ~ produit.image) }}" alt="{{ produit.libelle }}" />
+    </div>
+</div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="portfolio-info">
+                        <h3>{{ produit.libelle }}</h3>
+                        <ul>
+                            <li><strong>Réference</strong>: {{ produit.ref_produit }}</li>
+                            <li><strong>Catégorie</strong>: {{ produit.categorie.nomCategorie }}</li>
+                            <li><strong>Prix</strong>: {{ produit.prixVente }}</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">Ajouter au panier</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portfolio-description">
+                        <h2>Description</h2>
+                        <p>{{ produit.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portfolio-comments">
+                        <h2>Commentaires</h2>
+                        {% if produit.commentaires is not empty %}
+                            {% for commentaire in produit.commentaires %}
+                                <div class="comment">
+                                    <div class="comment-info">
+                                        <strong>{{ commentaire.user.nom }}</strong> - {{ commentaire.date_comm|date('d/m/Y H:i') }}
+                                    </div>
+                                    <div class="comment-text">
+                                        {{ commentaire.commentaire }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>Aucun commentaire pour le moment.</p>
+                        {% endif %}
+                        <hr>
+                        <h3>Ajouter un commentaire</h3>
+                        <form action="{{ path('app_commentaire_new', {'ref_produit': produit.ref_produit}) }}" method="POST">
+                            <div class="form-group">
+                                <label for="commentaire">Commentaire</label>
+                                <textarea name="commentaire" id="commentaire" rows="3" class="form-control"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Ajouter</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
