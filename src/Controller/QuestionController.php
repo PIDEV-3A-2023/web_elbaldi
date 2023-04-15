@@ -99,14 +99,14 @@ class QuestionController extends AbstractController
 
     #[Route('/{idQuiz}', name: 'app_questions', methods: ['GET'])]
 
-    public function index1(QuestionsRepository $questionRepository, Quiz $cat): Response
+    public function index1(QuestionsRepository $questionRepository, Quiz $quiz): Response
     {
 
 
-        $questions = $questionRepository->findByQuiz($cat);
+        $questions = $questionRepository->findByQuiz($quiz);
 
         //dd($services);
-        return $this->render('quiz/index.html.twig', [
+        return $this->render('affichage.html.twig', [
             //'services' => 'ServiceFrontController',
             'questions' => $questions
         ]);

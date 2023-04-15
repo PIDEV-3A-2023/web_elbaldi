@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Quiz;
+use App\Entity\Question;
 use App\Form\QuizType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Doctrine\Persistence\ManagerRegistry;
 
 use App\Repository\QuizRepository;
-use App\Repository\QuestionsRepository;
+use App\Entity\QuestionsRepository;
 use App\Repository\QuizQuestionsRepository;
 
 
@@ -107,5 +108,19 @@ class QuizController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('app_quiz_index');
+    }
+
+
+    #[Route('/quiz/{idQuiz}', name: 'quiz_show')]
+    public function showQuiz(Quiz $quiz, ManagerRegistry $managerRegistry): Response
+    {
+        $questions = $managerRegistry
+            ->getRepository(Question::class)
+            ->findBy(['idQuiz' => $quiz->getIdQuiz()]);
+
+        return $this->render('question/index.html.twig', [
+            'quiz' => $quiz,
+            'questions' => $questions,
+        ]);
     }
 }
