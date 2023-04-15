@@ -31,7 +31,7 @@
                                     <a href="{{ path('app_categorie_edit', {'id_categorie': categorie.id_categorie}) }}" class="btn btn-success custom-btn">Modifier</a>
                                     <i class="bi bi-trash" style="font-size: 25px; margin-right: 7px;"></i>
 
-                                    <a href="{{ path('app_categorie_delete', {'id_categorie': categorie.id_categorie}) }}" class="btn btn-success custom-btn" id="delete-categorie">
+                                    <a href="{{ path('app_categorie_delete', {'id_categorie': categorie.id_categorie}) }}" class="btn btn-success custom-btn d-inline-block" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette categorie ?')" id="delete-categorie">
                                         Supprimer</a>
                                 </div>
                             </div>

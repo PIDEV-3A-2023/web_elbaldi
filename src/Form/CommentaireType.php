@@ -22,6 +22,7 @@ class CommentaireType extends AbstractType
                 'choice_label'=>'ref_produit',
                 'multiple'=>false,
                 'expanded'=>false,
+                'empty_data'=>''
                 ])
           
         
@@ -30,6 +31,7 @@ class CommentaireType extends AbstractType
             'choice_label'=>'nom',
             'multiple'=>false,
             'expanded'=>false,
+            'empty_data'=>''
             ])
     
         ;

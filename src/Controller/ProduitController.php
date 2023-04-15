@@ -67,6 +67,7 @@ public function produitDetails(Produit $produit): Response
         if ($imageFile) {
             $newFilename = $fileUploader->upload($imageFile);
             $produit->setImage($newFilename);}
+            else {  $produit->setImage('images/image_par_defaut.png');}
             $entityManager->flush();
 
             return $this->redirectToRoute('app_produit_index');

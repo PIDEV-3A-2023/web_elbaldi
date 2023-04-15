@@ -35,7 +35,7 @@
                     {{ form_widget(form.image, {'attr': {'class': 'form-control-file'}}) }}
                       {{ form_errors(form.image) }}
                 </div>
-                <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+                <button class="btn btn-success custom-btn" onclick="return confirm('Êtes-vous sûr de vouloir modifier ce produit  ?')">{{ button_label|default('Enregistrer') }}</button>
                 
                 <a href="{{ path('app_produit_index') }}" class="btn btn-secondary">Retour à la liste des produits</a>
                 {{ form_end(form) }}

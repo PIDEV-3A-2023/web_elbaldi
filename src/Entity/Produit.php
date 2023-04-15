@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProduitRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 
@@ -16,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="produit", indexes={@ORM\Index(name="id_categorie", columns={"id_categorie"})})
  * @ORM\Entity
+ * @UniqueEntity(fields={"ref_produit"}, message="Cette reference est déjà utilisé")
  */
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -35,7 +37,7 @@ class Produit
      *
      * @ORM\Column(name="libelle", type="string", length=50, nullable=false)
      */
-    #[Assert\Length(min:6, minMessage:"La déscription doit contenir '{{ limit }}' lettres", max:100,maxMessage:"La déscription doit contenir '{{ limit }}' lettres")]
+    #[Assert\Length(min:6, minMessage:"La déscription doit contenir au minimum '{{ limit }}' lettres", max:100,maxMessage:"La déscription doit contenir au maximum'{{ limit }}' lettres")]
     #[Assert\NotBlank(message:"ce champs est obligatoire !")]
     private $libelle;
 
@@ -44,7 +46,7 @@ class Produit
      *
      * @ORM\Column(name="description", type="string", length=200, nullable=false)
      */
-    #[Assert\Length(min:10, minMessage:"La déscription doit contenir '{{ limit }}' lettres", max:100,maxMessage:"La déscription doit contenir '{{ limit }}' lettres")]
+    #[Assert\Length(min:8, minMessage:"La déscription doit contenir au minimum '{{ limit }}' lettres", max:100,maxMessage:"La déscription doit contenir au maximum '{{ limit }}' lettres")]
     #[Assert\NotBlank(message:"ce champs est obligatoire !")]
     private $description;
 
@@ -79,13 +81,13 @@ class Produit
      * })
      */
     private $categorie;
-
-    /**
+     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Panier", mappedBy="ref_produit")
+     * @ORM\ManyToMany(targetEntity="Panier", mappedBy="refProduit")
      */
     private $idPanier = array();
+ 
 
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'produit')]
     private $commentaires = [];

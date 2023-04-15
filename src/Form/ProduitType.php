@@ -7,9 +7,13 @@ use App\Entity\Produit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\FormInterface;
+
 
 
 class ProduitType extends AbstractType
@@ -18,13 +22,29 @@ class ProduitType extends AbstractType
     {
         $builder
            ->add('ref_produit', TextType::class, [
-            'label' => 'Référence du produit'
+            'label' => 'Référence du produit', 
+            'empty_data'=>''
         ])
-            ->add('libelle')
-            ->add('description')
+            ->add('libelle', TextType::class, [
+                'empty_data' => '',])
+            ->add('description', TextType::class, [
+                'empty_data' => '',])
             ->add('image',FileType::class,[
                 'mapped'=>false,
                 'required'=>false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier image valide (JPEG ou PNG)',
+                    ]),
+                    
+                ],
+               
             ])
             ->add('prixVente')
             ->add('categorie',EntityType::class,[
@@ -33,6 +53,11 @@ class ProduitType extends AbstractType
                 'placeholder'=>'choisir une categorie',
                 'multiple'=>false,
                 'expanded'=>false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez sélectionner une catégorie',
+                    ]),
+                ],
                 
                 ])
           
@@ -43,6 +68,7 @@ class ProduitType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Produit::class,
+           
         ]);
     }
 }

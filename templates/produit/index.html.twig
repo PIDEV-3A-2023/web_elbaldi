@@ -29,9 +29,10 @@
                         <p class="card-text">Prix de vente: {{ produit.prixVente }}</p>
 
                         <div class="d-flex justify-content-between">
-                            <a href="{{ path('app_produit_edit', {'ref_produit': produit.ref_produit}) }}"  class="btn btn-success custom-btn">Modifier</a>
- <a href="{{ path('app_produit_delete', {'ref_produit': produit.ref_produit}) }}" class="btn btn-success custom-btn" id="delete-produit">
+                        <a href="{{ path('app_produit_edit', {'ref_produit': produit.ref_produit}) }}"  class="btn btn-success custom-btn">Modifier</a>
+                        <a href="{{ path('app_produit_delete', {'ref_produit': produit.ref_produit}) }}"  class="btn btn-success custom-btn d-inline-block" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')" id="delete-produit">
                                         Supprimer</a>
+ 
 
                                
                         </div>
