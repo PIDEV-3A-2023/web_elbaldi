@@ -5,10 +5,9 @@
 		<h1 style="font-weight: bold;">Modifier Quiz</h1>
 	</div>
 
-	{{ include('question/_form.html.twig', {'button_label': 'Modifier'}) }}
+	{# {{ include('question/_form.html.twig', {'button_label': 'Modifier'}) }} #}
+	{{ include('question/_form.html.twig', {'button_label': 'Modifier', 'quiz': quiz}) }}
 
-
-{# <a href="{{ path('app_question_index') }}">Retour</a> #}
 
 	{# {{ include('question/_delete_form.html.twig') }} #}
 {% endblock %}
