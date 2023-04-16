@@ -44,7 +44,7 @@ class Commentaire
     /**
      * @var \Utilisateur
      *
-     * @ORM\ManyToOne(targetEntity="Utilisateur")
+     * @ORM\ManyToOne(targetEntity="Utilisateur",inversedBy="commentaires",cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user")
      * })
@@ -54,7 +54,7 @@ class Commentaire
     /**
      * @var \Produit
      *
-     * @ORM\ManyToOne(targetEntity="Produit")
+     * @ORM\ManyToOne(targetEntity="Produit", inversedBy="commentaires")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ref_produit", referencedColumnName="ref_produit")
      * })
@@ -95,7 +95,7 @@ class Commentaire
         return $this->user;
     }
 
-    public function setIdUser(?Utilisateur $user): self
+    public function setUser(?Utilisateur $user): self
     {
         $this->user = $user;
 
@@ -131,12 +131,6 @@ class Commentaire
         return $this;
     }
 
-    public function setUser(?Utilisateur $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
+    
 
 }

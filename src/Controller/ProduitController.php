@@ -7,6 +7,7 @@ use App\Entity\Commentaire;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use App\Repository\CategorieRepository;
+use App\Repository\CommentaireRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Service\FileUploader;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 
 class ProduitController extends AbstractController
 {
@@ -38,17 +40,21 @@ class ProduitController extends AbstractController
         return $this->render('produitFront/indexFront.html.twig', [
             'categories' => $categories,
             'produits' => $produits,
+            
         ]);
     }
     /**
  * @Route("/produit/{ref_produit}", name="produit_details", methods={"GET"})
  */
-public function produitDetails(Produit $produit): Response
+public function produitDetails(Produit $produit,CommentaireRepository $commentaireRepository): Response
 {
+    $commentaires = $commentaireRepository->findByProduit2($produit);
     return $this->render('produitFront/produitDetails.html.twig', [
         'produit' => $produit,
+        'commentaires' => $commentaires,
     ]);
 }
+
 
     /**
      * @Route("/admin/produit/new", name="app_produit_new", methods={"GET","POST"})
@@ -130,6 +136,52 @@ $em->flush();
 
 return $this->redirectToRoute('app_produit_index');
 }
+
+#[Route('/stat', name: 'app_produit_stats2')]
+public function stats2(Request $request, ProduitRepository $produitRepository, CategorieRepository $categorie): Response
+{
+    $produit = new Produit();
+    $topProducts = $produitRepository->top5prod();
+    $totalProducts = $produitRepository->countProducts();
+    $produit = [];
+
+    $produit = $produitRepository->getStat();
+    $prods = array(array("categorie", "Nombre de demandes "));
+    $i = 1;
+    foreach ($produit as $prod) {
+        $prods[$i] = array($prod["nomCategorie"], $prod["nbre"]);
+        $i = $i + 1;
+    }
+
+  
+    $pieChart = new Piechart();
+
+
+
+    $pieChart->getData()->setArrayToDataTable($prods);
+    $pieChart->getOptions()->setTitle('Produits par catégories');
+    $pieChart->getOptions()->setHeight(600);
+    $pieChart->getOptions()->setWidth(600);
+    $pieChart->getOptions()->getTitleTextStyle()->setColor('#07600');
+    $pieChart->getOptions()->getTitleTextStyle()->setFontSize(25);
+
+
+    return $this->render('statistique.html.twig', [
+     
+        'pieChart' => $pieChart,
+        'totalProducts' => $totalProducts,
+        'topProducts' => $topProducts,
+
+    ]);
+}
+
+
+
+/// commentaires
+
+
+
+
 /**
  * @Route("/produit/{ref_Produit}/add_commentaire", name="app_produit_add_commentaire")
  */

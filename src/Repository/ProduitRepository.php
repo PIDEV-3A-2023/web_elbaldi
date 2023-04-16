@@ -38,6 +38,177 @@ class ProduitRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findByCategorie($cat)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT s
+            FROM App\Entity\Produit s
+            JOIN s.categorie c
+            WHERE c.id_categorie = :cat
+            ORDER BY s.libelle ASC'
+        )->setParameter('cat', $cat);
+
+        return $query->getResult();
+    }
+
+    public function countByCategory(): array
+{
+    $qb = $this->createQueryBuilder('p')
+        ->select('c.nom_categorie', 'COUNT(p.ref_produit) as product_count')
+        ->join('p.categoriee', 'c')
+        ->groupBy('c.nom_categorie');
+        
+    return $qb->getQuery()->getResult();
+}
+
+
+    public function getStat(): array
+    {
+            return $this->createQueryBuilder('produit')
+            ->select('count(produit.ref_produit) as nbre,categorie.nomCategorie')
+            ->leftJoin('produit.categorie', 'categorie')
+            ->groupBy("produit.categorie")
+            ->getQuery()
+            ->execute();
+
+    }
+
+    public function filterByPrixVente(float $min, float $max): array
+{
+    $qb = $this->createQueryBuilder('p')
+        ->where('p.prixVente BETWEEN :min AND :max')
+        ->setParameter('min', $min)
+        ->setParameter('max', $max)
+        ->getQuery();
+
+    return $qb->execute();
+}
+
+public function rechercherParLibelle(string $libelle): array
+{
+    $qb = $this->createQueryBuilder('p');
+    $qb->where($qb->expr()->like('p.libelle', ':libelle'))
+       ->setParameter('libelle', '%' . $libelle . '%');
+    return $qb->getQuery()->getResult();
+}
+
+public function trierParPrixVenteCroissant()
+{
+    $entityManager = $this->getEntityManager();
+    $query = $entityManager->createQuery(
+        'SELECT p FROM App\Entity\Produit p ORDER BY p.prixVente ASC'
+    );
+    return $query->getResult();
+}
+public function trierParPrixVentedecroissant()
+{
+    $entityManager = $this->getEntityManager();
+    $query = $entityManager->createQuery(
+        'SELECT p FROM App\Entity\Produit p ORDER BY p.prixVente desc'
+    );
+    return $query->getResult();
+}
+public function countProducts(): int
+{
+    $entityManager = $this->getEntityManager();
+    $query = $entityManager->createQuery('SELECT COUNT(p.ref_produit) FROM App\Entity\Produit p');
+    return $query->getSingleScalarResult();
+}
+
+public function getPhoneNumbersByCategoryId($categoryId)
+{
+    $qb = $this->createQueryBuilder('produit');
+    $qb->select('DISTINCT utilisateur.numTel')
+       ->join('produit.commandProduits', 'command_produit')
+       ->join('command_produit.commande', 'commande')
+       ->join('commande.panier', 'panier')
+       ->join('panier.utilisateur', 'utilisateur')
+       ->where('produit.categorie = :categoryId')
+       ->andWhere('utilisateur.numTel IS NOT NULL')
+       ->setParameter('categoryId', $categoryId);
+
+    $query = $qb->getQuery();
+    $result = $query->getResult();
+
+    // Process result set to extract phone numbers as strings
+    $phoneNumbers = array_map(function($row) {
+        return strval($row['numTel']);
+    }, $result);
+
+    return $phoneNumbers;
+}
+
+public function getEmailsByCategoryId($categoryId) {
+    $query = $this->getEntityManager()->createQuery(
+        'SELECT DISTINCT u.email
+         FROM App\Entity\Utilisateur u
+         JOIN u.paniers p
+         JOIN p.commandes c
+         JOIN c.commandProduits cp
+         JOIN cp.produit pr
+         WHERE pr.categorie = :categoryId AND u.email IS NOT NULL'
+    )->setParameter('categoryId', $categoryId);
+
+    $results = $query->getResult();
+    $emails = [];
+
+    foreach ($results as $result) {
+        $email = $result['email'];
+        $emails[] = $email;
+    }
+
+    return $emails;
+}
+
+
+public function findFiveLeastSoldProducts(): array
+{
+    $now = new \DateTimeImmutable();
+    $currentMonth = $now->format('Y-m');
+
+    $qb = $this->createQueryBuilder('p');
+    $qb->select('p.refProduit, COUNT(cp.idCmd) as count')
+        ->leftJoin('p.commandesProduit', 'cp')
+        ->where('cp.dateCmd LIKE :currentMonth')
+        ->setParameter('currentMonth', '%' . $currentMonth . '%')
+        ->groupBy('p.refProduit')
+        ->orderBy('count', 'ASC')
+        ->setMaxResults(5);
+
+    $results = $qb->getQuery()->getResult();
+
+    $products = [];
+    foreach ($results as $result) {
+        $product = $this->findOneBy(['refProduit' => $result['refProduit']]);
+        $product->setQuantite($result['count']);
+        $products[] = $product;
+    }
+
+    return $products;
+}
+
+public function top5prod(): array
+{
+    $currentMonth = new \DateTime();
+
+    $qb = $this->createQueryBuilder('p')
+        ->select('p.ref_produit', 'COUNT(cp.id) as count')
+        ->leftJoin('p.commandProduits', 'cp')
+        ->where('MONTH(cp.dateCmd) = :month')
+        ->andWhere('YEAR(cp.dateCmd) = :year')
+        ->setParameter('month', $currentMonth->format('m'))
+        ->setParameter('year', $currentMonth->format('Y'))
+        ->groupBy('p.ref_produit')
+        ->orderBy('count', 'DESC')
+        ->setMaxResults(5);
+
+    $query = $qb->getQuery();
+
+    return $query->getResult();
+}
+
+
 
 //    /**
 //     * @return Produit[] Returns an array of Produit objects

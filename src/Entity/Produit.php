@@ -82,7 +82,6 @@ class Produit
      */
     private $categorie;
      /**
-     * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Panier", mappedBy="refProduit")
      */
@@ -90,8 +89,7 @@ class Produit
  
 
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'produit')]
-    private $commentaires = [];
-
+    private $commentaires=[];
 
     /**
      * Constructor
@@ -225,7 +223,7 @@ public function setRef_produit($ref_produit) {
 
         return $this;
     }
- /**
+     /**
      * @return Collection|Commentaire[]
      */
     public function getCommentaires(): Collection
@@ -233,20 +231,26 @@ public function setRef_produit($ref_produit) {
         return new ArrayCollection($this->commentaires);
     }
 
-    public function addCommentaire(Commentaire $commentaire): self
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires->add($commentaire);
+public function addCommentaire(Commentaire $commentaire): self
+{
+    if (!$this->commentaires->contains($commentaire)) {
+        $this->commentaires[] = $commentaire;
+        $commentaire->setProduit($this);
+    }
+
+    return $this;
+}
+
+public function removeCommentaire(Commentaire $commentaire): self
+{
+    if ($this->commentaires->removeElement($commentaire)) {
+        // set the owning side to null (unless already changed)
+        if ($commentaire->getProduit() === $this) {
+            $commentaire->setProduit(null);
         }
-
-        return $this;
     }
 
-    public function removeCommentaire(Commentaire $commentaire): self
-    {
-        $this->commentaires->removeElement($commentaire);
-
-        return $this;
-    }
+    return $this;
+}
 
 }

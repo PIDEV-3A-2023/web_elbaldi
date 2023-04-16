@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Commentaire;
+use App\Entity\Produit;
+use App\Entity\Utilisateur;
 use App\Form\CommentaireType;
+use App\Repository\CommentaireRepository;
+use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,4 +85,44 @@ class CommentaireController extends AbstractController
 
         return $this->redirectToRoute('app_commentaire_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/produit/{ref_produit}/add-comment', name:'add_comment', methods: ['Get','POST'])]
+    public function addComment(Request $request, EntityManagerInterface $entityManager, Produit $produit,CommentaireRepository $commentaireRepository,UtilisateurRepository $utilisateurRepository): Response
+    {
+        $commentaires = $commentaireRepository->findByProduit2($produit);
+        $user = $utilisateurRepository->find(2510);
+        $commentaire = new Commentaire();
+        //$commentaire->setUser($this->getUser());
+  
+        $commentaire->setUser($user);
+        $commentaire->setProduit($produit);
+        //$commentaire->setContenu($request->request->get('contenu'));
+        $contenu = $request->request->get('contenu');
+        if ($contenu === null) {
+            throw new \InvalidArgumentException('Contenu cannot be null.');
+        }
+        $commentaire->setContenu($contenu);
+        $commentaire->setDateComm(new \DateTime());
+
+        $entityManager->persist($commentaire);
+        $entityManager->flush();
+        return $this->redirectToRoute('produit_details', ['ref_produit' => $produit->getRef_produit()]);
+
+    }
+
+    /**
+ * @Route("/produit/{ref_produit}/commentaires", name="produit_commentaires")
+ */
+public function commentaires(Produit $produit)
+{
+    $commentaires = $produit->getCommentaires();
+
+    return $this->render('produitFront/produitDetails.html.twig', [
+        'produit' => $produit,
+        'commentaires' => $commentaires,
+    ]);
+}
+
+
 }
