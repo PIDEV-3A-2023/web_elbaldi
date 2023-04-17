@@ -116,16 +116,15 @@ nextButton.parentNode.replaceChild(viewScoreButton, nextButton);
 		{% endif %}
 	</div>
 	<script>
+
 		const questions = document.querySelectorAll('.question');
 const lastQuestionIndex = questions.length - 1;
 let currentQuestion = 0;
-
-// Store user answers in an array
 let userAnswers = [];
 
 questions[currentQuestion].style.display = 'block';
 
-if (questions.length === 1) { // If there's only one question, display "View score" button instead of "Next" button
+if (questions.length === 1) {
 const nextButton = document.getElementById('next-button');
 const viewScoreButton = document.createElement('button');
 viewScoreButton.setAttribute('type', 'button');
@@ -146,12 +145,13 @@ if (userAnswers[i] === correctAnswer) {
 score++;
 }
 }
+alert (`Votre score est de ${score}`);
 
-const scoreElement = document.createElement('p');
-scoreElement.textContent = `Votre score est de ${score}`;
-document.getElementById('quiz').appendChild(scoreElement);
+// const scoreElement = document.createElement('p');
+// scoreElement.textContent = `Votre score est de ${score}`;
+// document.getElementById('quiz').appendChild(scoreElement);
 
-viewScoreButton.style.display = 'none';
+// viewScoreButton.style.display = 'none';
 });
 } else {
 const nextButton = document.getElementById('next-button');
@@ -166,7 +166,7 @@ userAnswers.push(selectedAnswer.value);
 questions[currentQuestion].style.display = 'none';
 currentQuestion++;
 
-if (currentQuestion === questions.length) { // Display score after last question
+if (currentQuestion === questions.length) {
 let score = 0;
 for (let i = 0; i < questions.length; i++) {
 const correctAnswer = questions[i].getAttribute('data-correct-answer');
@@ -175,16 +175,15 @@ score++;
 }
 }
 
-// const scoreElement = document.createElement('p');
-// scoreElement.textContent = `Votre score est de ${score}`;
-// document.getElementById('quiz').appendChild(scoreElement);
-alert (`Votre score est de ${score}`);
+const scoreElement = document.createElement('p');
+scoreElement.textContent = `Votre score est de ${score}`;
+document.getElementById('quiz').appendChild(scoreElement);
 
-/* nextButton.style.display = 'none'; */
+nextButton.style.display = 'none';
 } else {
 questions[currentQuestion].style.display = 'block';
 
-if (currentQuestion === lastQuestionIndex) { // Replace "Next" button with "View score" button on last question
+if (currentQuestion === lastQuestionIndex) {
 const nextButton = document.getElementById('next-button');
 const viewScoreButton = document.createElement('button');
 viewScoreButton.setAttribute('type', 'button');
@@ -192,49 +191,30 @@ viewScoreButton.setAttribute('class', 'btn btn-primary');
 viewScoreButton.textContent = 'Voir le score';
 
 nextButton.parentNode.replaceChild(viewScoreButton, nextButton);
+
+viewScoreButton.addEventListener('click', function () {
+const selectedAnswer = document.querySelector('input[name="reponse"]:checked');
+if (selectedAnswer) {
+userAnswers.push(selectedAnswer.value);
+}
+
+let score = 0;
+for (let i = 0; i < questions.length; i++) {
+const correctAnswer = questions[i].getAttribute('data-correct-answer');
+if (userAnswers[i] === correctAnswer) {
+score++;
+}
+}
+alert (`Votre score est de ${score}`);
+// const scoreElement = document.createElement('p');
+// scoreElement.textContent = `Votre score est de ${score}`;
+// document.getElementById('quiz').appendChild(scoreElement);
+
+// viewScoreButton.style.display = 'none';
+});
 }
 }
 });
 }
-// const questions = document.querySelectorAll('.question');
-// const lastQuestionIndex = questions.length - 1;
-// let currentQuestion = 0;
-
-// // Store user answers in an array
-// let userAnswers = [];
-
-// questions[currentQuestion].style.display = 'block';
-
-// document.getElementById('next-button').addEventListener('click', function () { // Save user answer for current question
-// const selectedAnswer = document.querySelector('input[name="reponse"]:checked');
-// if (selectedAnswer) {
-// userAnswers.push(selectedAnswer.value);
-// }
-
-// questions[currentQuestion].style.display = 'none';
-// currentQuestion++;
-
-// if (currentQuestion > lastQuestionIndex) { // All questions answered, calculate and display score
-// let score = 0;
-// for (let i = 0; i < questions.length; i++) {
-// const correctAnswer = questions[i].getAttribute('data-correct-answer');
-// if (userAnswers[i] === correctAnswer) {
-// score++;
-// }
-// }
-// alert (`Votre score est de ${score}`);
-
-// } else {
-// questions[currentQuestion].style.display = 'block';
-// if (currentQuestion === lastQuestionIndex) { // Replace "Next" button with "View score" button
-// const nextButton = document.getElementById('next-button');
-// const viewScoreButton = document.createElement('button');
-// viewScoreButton.setAttribute('type', 'button');
-// viewScoreButton.setAttribute('class', 'btn btn-primary');
-// viewScoreButton.textContent = 'Voir le score';
-// nextButton.parentNode.replaceChild(viewScoreButton, nextButton);
-// }
-// }
-// });
 	</script>
 {% endblock %}
