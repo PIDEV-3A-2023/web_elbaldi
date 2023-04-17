@@ -1,4 +1,4 @@
-{% extends 'baseFront.html.twig' %}
+{# {% extends 'baseFront.html.twig' %}
 
 {% block body %}
 	<link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
@@ -12,9 +12,9 @@
 			<div class="card-header">
 				<h1>Les Questions<h1></div>
 					<div class="card-body">
-						<form method="post">
+						<form method="post" id="question-form">
 							{% for q in questions %}
-								<div class="form-group">
+								<div class="form-group question{% if loop.first %} active{% endif %}" data-question="{{ q.idQuestion }}" {% if not loop.first %} style="display:none" {% endif %}>
 									<h3>{{ q.getQuestionn() }}</h3>
 									<div class="form-check">
 										<input class="form-check-input" type="radio" name="reponse" id="reponse1" value="{{ q.getReponse1() }}">
@@ -36,9 +36,205 @@
 									</div>
 								</div>
 							{% endfor %}
-
+							<button type="button" class="btn btn-primary" id="next-button">Suivant</button>
 						</form>
 					</div>
 				</div>
 			</div>
+			<script>
+				const questions = document.querySelectorAll('.question');
+const lastQuestionIndex = questions.length - 1;
+let currentQuestion = 0;
+questions[currentQuestion].style.display = 'block';
+
+document.getElementById('next-button').addEventListener('click', function () {
+questions[currentQuestion].style.display = 'none';
+currentQuestion++;
+if (currentQuestion > lastQuestionIndex) { // Submit the form or do any other required action when all questions are answered
+} else {
+questions[currentQuestion].style.display = 'block';
+if (currentQuestion === lastQuestionIndex) { // Replace "Next" button with "View score" button
+const nextButton = document.getElementById('next-button');
+const viewScoreButton = document.createElement('button');
+viewScoreButton.setAttribute('type', 'button');
+viewScoreButton.setAttribute('class', 'btn btn-primary');
+viewScoreButton.textContent = 'Voir le score';
+nextButton.parentNode.replaceChild(viewScoreButton, nextButton);
+}
+}
+});
+			</script>
 		{% endblock %}
+ #}
+
+{% extends 'baseFront.html.twig' %}
+
+{% block body %}
+	<link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
+	<div class="container mt-5">
+		<div class="col-12 mb-4 d-flex align-items-center">
+			<i class="bi bi-box-arrow-left" style="font-size: 30px; margin-right: 5px; "></i>
+			<a href="{{ path('app_quiz_indexc') }}" class="btn btn-success custom-btn float-right">Retour</a>
+		</div>
+		{% if questions is not empty %}
+			<div class="card">
+				<div class="card-header">
+					<h1>Les Questions</h1>
+				</div>
+				<div class="card-body">
+					<form method="post" id="question-form">
+						{% for q in questions %}
+							<div class="form-group question{% if loop.first %} active{% endif %}" data-question="{{ q.idQuestion }}" data-correct-answer="{{ q.getSolution() }}" {% if not loop.first %} style="display:none" {% endif %}>
+
+								<h3>{{ q.getQuestionn() }}</h3>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="reponse" id="reponse1" value="{{ q.getReponse1() }}">
+									<label class="form-check-label" for="reponse1">
+										{{ q.getReponse1() }}
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="reponse" id="reponse2" value="{{ q.getReponse2() }}">
+									<label class="form-check-label" for="reponse2">
+										{{ q.getReponse2() }}
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="reponse" id="reponse3" value="{{ q.getReponse3() }}">
+									<label class="form-check-label" for="reponse3">
+										{{ q.getReponse3() }}
+									</label>
+								</div>
+							</div>
+						{% endfor %}
+						<button type="button" class="btn btn-primary" id="next-button">Suivant</button>
+					</form>
+				</div>
+			</div>
+		{% else %}
+			<p>Aucune question disponible pour le moment.</p>
+		{% endif %}
+	</div>
+	<script>
+		const questions = document.querySelectorAll('.question');
+const lastQuestionIndex = questions.length - 1;
+let currentQuestion = 0;
+
+// Store user answers in an array
+let userAnswers = [];
+
+questions[currentQuestion].style.display = 'block';
+
+if (questions.length === 1) { // If there's only one question, display "View score" button instead of "Next" button
+const nextButton = document.getElementById('next-button');
+const viewScoreButton = document.createElement('button');
+viewScoreButton.setAttribute('type', 'button');
+viewScoreButton.setAttribute('class', 'btn btn-primary');
+viewScoreButton.textContent = 'Voir le score';
+nextButton.parentNode.replaceChild(viewScoreButton, nextButton);
+
+viewScoreButton.addEventListener('click', function () {
+const selectedAnswer = document.querySelector('input[name="reponse"]:checked');
+if (selectedAnswer) {
+userAnswers.push(selectedAnswer.value);
+}
+
+let score = 0;
+for (let i = 0; i < questions.length; i++) {
+const correctAnswer = questions[i].getAttribute('data-correct-answer');
+if (userAnswers[i] === correctAnswer) {
+score++;
+}
+}
+
+const scoreElement = document.createElement('p');
+scoreElement.textContent = `Votre score est de ${score}`;
+document.getElementById('quiz').appendChild(scoreElement);
+
+viewScoreButton.style.display = 'none';
+});
+} else {
+const nextButton = document.getElementById('next-button');
+nextButton.textContent = 'Suivant';
+
+nextButton.addEventListener('click', function () {
+const selectedAnswer = document.querySelector('input[name="reponse"]:checked');
+if (selectedAnswer) {
+userAnswers.push(selectedAnswer.value);
+}
+
+questions[currentQuestion].style.display = 'none';
+currentQuestion++;
+
+if (currentQuestion === questions.length) { // Display score after last question
+let score = 0;
+for (let i = 0; i < questions.length; i++) {
+const correctAnswer = questions[i].getAttribute('data-correct-answer');
+if (userAnswers[i] === correctAnswer) {
+score++;
+}
+}
+
+// const scoreElement = document.createElement('p');
+// scoreElement.textContent = `Votre score est de ${score}`;
+// document.getElementById('quiz').appendChild(scoreElement);
+alert (`Votre score est de ${score}`);
+
+/* nextButton.style.display = 'none'; */
+} else {
+questions[currentQuestion].style.display = 'block';
+
+if (currentQuestion === lastQuestionIndex) { // Replace "Next" button with "View score" button on last question
+const nextButton = document.getElementById('next-button');
+const viewScoreButton = document.createElement('button');
+viewScoreButton.setAttribute('type', 'button');
+viewScoreButton.setAttribute('class', 'btn btn-primary');
+viewScoreButton.textContent = 'Voir le score';
+
+nextButton.parentNode.replaceChild(viewScoreButton, nextButton);
+}
+}
+});
+}
+// const questions = document.querySelectorAll('.question');
+// const lastQuestionIndex = questions.length - 1;
+// let currentQuestion = 0;
+
+// // Store user answers in an array
+// let userAnswers = [];
+
+// questions[currentQuestion].style.display = 'block';
+
+// document.getElementById('next-button').addEventListener('click', function () { // Save user answer for current question
+// const selectedAnswer = document.querySelector('input[name="reponse"]:checked');
+// if (selectedAnswer) {
+// userAnswers.push(selectedAnswer.value);
+// }
+
+// questions[currentQuestion].style.display = 'none';
+// currentQuestion++;
+
+// if (currentQuestion > lastQuestionIndex) { // All questions answered, calculate and display score
+// let score = 0;
+// for (let i = 0; i < questions.length; i++) {
+// const correctAnswer = questions[i].getAttribute('data-correct-answer');
+// if (userAnswers[i] === correctAnswer) {
+// score++;
+// }
+// }
+// alert (`Votre score est de ${score}`);
+
+// } else {
+// questions[currentQuestion].style.display = 'block';
+// if (currentQuestion === lastQuestionIndex) { // Replace "Next" button with "View score" button
+// const nextButton = document.getElementById('next-button');
+// const viewScoreButton = document.createElement('button');
+// viewScoreButton.setAttribute('type', 'button');
+// viewScoreButton.setAttribute('class', 'btn btn-primary');
+// viewScoreButton.textContent = 'Voir le score';
+// nextButton.parentNode.replaceChild(viewScoreButton, nextButton);
+// }
+// }
+// });
+	</script>
+{% endblock %}

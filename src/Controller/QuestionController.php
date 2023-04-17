@@ -15,30 +15,6 @@ use App\Entity\QuestionsRepository;
 #[Route('/question')]
 class QuestionController extends AbstractController
 {
-    // #[Route('/', name: 'app_question_index', methods: ['GET'])]
-    // public function index(EntityManagerInterface $entityManager): Response
-    // {
-    //     $questions = $entityManager
-    //         ->getRepository(Question::class)
-    //         ->findAll();
-
-    //     return $this->render('question/index.html.twig', [
-    //         'questions' => $questions,
-    //     ]);
-    // }
-
-
-    // #[Route('/quiz/{idQuiz}/questions', name: 'app_question_index', methods: ['GET'])]
-    // public function index(EntityManagerInterface $entityManager, $idQuiz): Response
-    // {
-    //     $questions = $entityManager
-    //         ->getRepository(Question::class)
-    //         ->findBy(['idQuiz' => $idQuiz]);
-
-    //     return $this->render('question/index.html.twig', [
-    //         'questions' => $questions,
-    //     ]);
-    // }
     #[Route('/quiz/{idQuiz}/questions', name: 'app_question_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager, $idQuiz): Response
     {
@@ -59,39 +35,24 @@ class QuestionController extends AbstractController
 
 
 
-
-
-    #[Route('/front/', name: 'app_question_indecx', methods: ['GET'])]
-    public function indexfront(EntityManagerInterface $entityManager): Response
+    #[Route('/quiz/{idQuiz}/questionsfront', name: 'app_question_indecx', methods: ['GET'])]
+    public function indexfront(EntityManagerInterface $entityManager, $idQuiz): Response
     {
         $questions = $entityManager
             ->getRepository(Question::class)
-            ->findAll();
+            ->findBy(['idQuiz' => $idQuiz]);
+
+        $quiz = $entityManager
+            ->getRepository(Quiz::class)
+            ->findOneBy(['idQuiz' => $idQuiz]);
 
         return $this->render('quizFront/jouer.html.twig', [
             'questions' => $questions,
+            'quiz' => $quiz,
         ]);
     }
 
-    // #[Route('/new', name: 'app_question_new', methods: ['GET', 'POST'])]
-    // public function new(Request $request, EntityManagerInterface $entityManager): Response
-    // {
-    //     $question = new Question();
-    //     $form = $this->createForm(QuestionType::class, $question);
-    //     $form->handleRequest($request);
 
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager->persist($question);
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('app_question_index', [], Response::HTTP_SEE_OTHER);
-    //     }
-
-    //     return $this->renderForm('question/new.html.twig', [
-    //         'question' => $question,
-    //         'form' => $form,
-    //     ]);
-    // }
 
     #[Route('/quiz/{idQuiz}/questions/new', name: 'app_question_new', methods: ['GET', 'POST'])]
     public function new(Request $request, Quiz $quiz, EntityManagerInterface $entityManager): Response
@@ -144,16 +105,6 @@ class QuestionController extends AbstractController
         ]);
     }
 
-    // #[Route('/{idQuestion}', name: 'app_question_delete', methods: ['POST'])]
-    // public function delete(Request $request, $idQuiz, Question $question, EntityManagerInterface $entityManager): Response
-    // {
-    //     $quiz = $entityManager->getRepository(Quiz::class)->find($idQuiz);
-    //     if ($this->isCsrfTokenValid('delete' . $question->getIdQuestion(), $request->request->get('_token'))) {
-    //         $entityManager->remove($question);
-    //         $entityManager->flush();
-    //     }
-    //     return $this->redirectToRoute('app_question_index', ['idQuiz' => $quiz->getIdQuiz()]);
-    // }
 
     #[Route('/quiz/{idQuiz}/question/{idQuestion}', name: 'app_question_delete', methods: ['POST'])]
     public function delete(Request $request, $idQuiz, Question $question, EntityManagerInterface $entityManager): Response
@@ -182,6 +133,7 @@ class QuestionController extends AbstractController
             'questions' => $questions
         ]);
     }
+
     #[Route('/{idQuiz}/{idQuestion}/edit', name: 'app_question_edit1', methods: ['GET', 'POST'])]
     public function edit1(Request $request, $idQuiz, $idQuestion, EntityManagerInterface $entityManager): Response
     {
