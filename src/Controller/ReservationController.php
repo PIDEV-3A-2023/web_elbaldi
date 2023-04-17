@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormError;
 
 #[Route('/reservation')]
 class ReservationController extends AbstractController
@@ -31,19 +32,31 @@ class ReservationController extends AbstractController
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            // Vérification de la date de réservation
+            $date = $reservation->getDateReservation();
+            $now = new \DateTime();
+            if ($date < $now) {
+                // Si la date est antérieure à la date actuelle, renvoyer une erreur
+                $form->addError(new FormError("Message d'erreur :La date de réservation ne peut pas être antérieure à la date actuelle."));
+                return $this->renderForm('reservation/new.html.twig', [
+                    'reservation' => $reservation,
+                    'form' => $form,
+                ]);
+            }
             $entityManager->persist($reservation);
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
         }
-
+    
         return $this->renderForm('reservation/new.html.twig', [
             'reservation' => $reservation,
             'form' => $form,
         ]);
     }
+    
 
     #[Route('/{idReservation}', name: 'app_reservation_show', methods: ['GET'])]
     public function show(Reservation $reservation): Response
@@ -58,12 +71,24 @@ class ReservationController extends AbstractController
     {
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
+            // Vérification de la date de réservation
+            $date = $reservation->getDateReservation();
+            $now = new \DateTime();
+            if ($date < $now) {
+                // Si la date est antérieure à la date actuelle, renvoyer une erreur
+                $form->addError(new FormError("Message d'erreur :La date de réservation ne peut pas être inférieure à la date actuelle."));
+                return $this->renderForm('reservation/edit.html.twig', [
+                    'reservation' => $reservation,
+                    'form' => $form,
+                ]);
+            }
             $entityManager->flush();
-
+    
             return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
         }
+    
 
         return $this->renderForm('reservation/edit.html.twig', [
             'reservation' => $reservation,

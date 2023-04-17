@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="container">
-        <h1>Bonplan index</h1>
+        <h1>La liste des bons plans</h1>
         <a href="{{ path('app_bonplan_new') }}" class="btn btn-primary">Ajouter un bon plan</a>
 
         <hr>
@@ -17,7 +17,7 @@
                             <p class="card-text">{{ bonplan.descriptionBonplan }}</p>
                             <p class="card-text">{{ bonplan.typeBonplan }}</p>
                             <div class="d-flex justify-content-between">
-                                <a href="{{ path('app_bonplan_show', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-primary">Voir</a>
+                                <a href="{{ path('app_bonplan_show', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-primary">Détails</a>
                                 <a href="{{ path('app_bonplan_edit', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-primary">Modifier</a>
                             </div>
                         </div>

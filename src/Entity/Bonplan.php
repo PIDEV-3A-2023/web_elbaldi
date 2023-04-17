@@ -26,7 +26,7 @@ class Bonplan
      *
      * @ORM\Column(name="titre_bonplan", type="string", length=255, nullable=false)
      * @Assert\NotBlank(message="Ce champ est obligatoire!")
-     * @Assert\Regex(pattern="/^[a-zA-Z]+$/",message="Le titre ne doit contenir que des lettres.")
+     * @Assert\Regex(pattern="/^[a-zA-Z\s]+$/",message="Le titre ne doit contenir que des lettres.")
      */
     private $titreBonplan;
 

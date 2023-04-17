@@ -46,11 +46,9 @@ class BonplanController extends AbstractController
 
        /* if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('imageBonplan')->getData();
-
         if ($file) {
             $fileName = uniqid().'.'.$file->guessExtension();
           
-
            // $fileData = file_get_contents($file);
             $file->move(
                 'C:\xampp\htdocs\images',
@@ -61,7 +59,6 @@ class BonplanController extends AbstractController
         }
             $entityManager->persist($bonplan);
             $entityManager->flush();
-
             return $this->redirectToRoute('app_bonplan_index', [], Response::HTTP_SEE_OTHER);
         }*/
         if ($form->isSubmitted() && $form->isValid()) {
@@ -112,11 +109,9 @@ class BonplanController extends AbstractController
 
        /* if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('imageBonplan')->getData();
-
         if ($file) {
             $fileName = uniqid().'.'.$file->guessExtension();
           
-
            // $fileData = file_get_contents($file);
             $file->move(
                 'C:\xampp\htdocs\images',
@@ -127,7 +122,6 @@ class BonplanController extends AbstractController
         }
             $entityManager->persist($bonplan);
             $entityManager->flush();
-
             return $this->redirectToRoute('app_bonplan_index', [], Response::HTTP_SEE_OTHER);
         }*/
         if ($form->isSubmitted() && $form->isValid()) {
@@ -176,6 +170,15 @@ class BonplanController extends AbstractController
             'bonplan' => $bonplan,
         ]);
     }
+    
+    #[Route('/showFront/{idBonplan}', name: 'app_bonplanFront_show', methods: ['GET'])]
+    public function showFront(Bonplan $bonplan): Response
+    {
+        return $this->render('bonplan/showFront.html.twig', [
+            'bonplan' => $bonplan,
+        ]);
+    }
+
 
     #[Route('/{idBonplan}/edit', name: 'app_bonplan_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Bonplan $bonplan, SluggerInterface $slugger,EntityManagerInterface $entityManager): Response

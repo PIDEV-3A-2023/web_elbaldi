@@ -2,9 +2,10 @@
 
 
 {% block body %}
-    <h1>Create new Bonplan</h1>
+    <h1>Ajouter un bon plan</h1>
+       <a href="{{ path('app_bonplan_index') }}" class="btn btn-success mb-3">Retour</a>
 
     {{ include('bonplan/_form.html.twig') }}
 
-    <a href="{{ path('app_bonplan_index') }}">back to list</a>
+    
 {% endblock %}
