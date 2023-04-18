@@ -39,6 +39,57 @@ class CommandeProduitRepository extends ServiceEntityRepository
         }
     }
 
+public function top5prod() :array
+{
+    $qb = $this->createQueryBuilder('cp')
+        ->select('cp.ref_produit, COUNT(cp.id) AS total')
+        ->where('cp.date_cmd >= :startOfMonth')
+        ->setParameter('startOfMonth', new \DateTime('first day of this month'))
+        ->groupBy('cp.ref_produit')
+        ->orderBy('total', 'DESC')
+        ->setMaxResults(5);
+
+    return $qb->getQuery()->getResult();
+}
+public function findFiveLeastSoldProducts():array
+{
+    $qb = $this->createQueryBuilder('cp')
+        ->select('cp.ref_produit, COUNT(cp.id) AS total')
+        ->where('cp.date_cmd >= :startOfMonth')
+        ->setParameter('startOfMonth', new \DateTime('first day of this month'))
+        ->groupBy('cp.ref_produit')
+        ->orderBy('total', 'ASC')
+        ->setMaxResults(10);
+
+    return $qb->getQuery()->getResult();
+}
+/*
+public function findFiveLeastSoldProducts(): array
+{
+    $now = new \DateTimeImmutable();
+    $currentMonth = $now->format('Y-m');
+
+    $qb = $this->createQueryBuilder('p');
+    $qb->select('p.refProduit, COUNT(cp.idCmd) as count')
+        ->leftJoin('p.commandesProduit', 'cp')
+        ->where('cp.dateCmd LIKE :currentMonth')
+        ->setParameter('currentMonth', '%' . $currentMonth . '%')
+        ->groupBy('p.refProduit')
+        ->orderBy('count', 'ASC')
+        ->setMaxResults(5);
+
+    $results = $qb->getQuery()->getResult();
+
+    $products = [];
+    foreach ($results as $result) {
+        $product = $this->findOneBy(['refProduit' => $result['refProduit']]);
+        $product->setQuantite($result['count']);
+        $products[] = $product;
+    }
+
+    return $products;
+}*/
+
 //    /**
 //     * @return CommandProduit[] Returns an array of CommandProduit objects
 //     */

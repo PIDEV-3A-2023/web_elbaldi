@@ -6,6 +6,7 @@ use App\Entity\Produit;
 use App\Entity\Commentaire;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
+use App\Repository\CommandeProduitRepository;
 use App\Repository\CategorieRepository;
 use App\Repository\CommentaireRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -138,13 +139,21 @@ return $this->redirectToRoute('app_produit_index');
 }
 
 #[Route('/stat', name: 'app_produit_stats2')]
-public function stats2(Request $request, ProduitRepository $produitRepository, CategorieRepository $categorie): Response
+public function stats2(Request $request, ProduitRepository $produitRepository, CategorieRepository $categorie,CommandeProduitRepository $commandProduitRepository ): Response
 {
+    $currentMonthName = (new \DateTime())->format('F');
     $produit = new Produit();
-    $topProducts = $produitRepository->top5prod();
+    $topProducts = $commandProduitRepository->top5prod();
     $totalProducts = $produitRepository->countProducts();
     $produit = [];
-
+    $minProducts = $commandProduitRepository->findFiveLeastSoldProducts();
+    $produitsMin = [];
+foreach ($minProducts as $minProduct) {
+    $produit = $produitRepository->findOneBy(['ref_produit' => $minProduct['ref_produit']]);
+    if ($produit) {
+        $produitsMin[] = $produit;
+    }
+}
     $produit = $produitRepository->getStat();
     $prods = array(array("categorie", "Nombre de demandes "));
     $i = 1;
@@ -171,6 +180,8 @@ public function stats2(Request $request, ProduitRepository $produitRepository, C
         'pieChart' => $pieChart,
         'totalProducts' => $totalProducts,
         'topProducts' => $topProducts,
+        'produitsMin' => $produitsMin,
+        'currentMonthName' => $currentMonthName, // Passer le nom du mois à la vue
 
     ]);
 }

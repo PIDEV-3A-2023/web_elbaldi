@@ -324,40 +324,72 @@ id="main" class="main">
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">Nombre total de produits</h5>
-    <p class="card-text">{{ totalProducts }}</p>
+    <p class="card-text text-center display-4">{{ totalProducts }}</p>
   </div>
 </div>
 
-<div id="div_chart"></div>
-<script type="text/javascript">
-  {{ gc_draw(pieChart, 'div_chart') }}
-</script>
-
-<div id="histo_chart"></div>
+<h1>Top 5 des produits les plus demandés en {{ currentMonthName }} :</h1>
+<div id="chart_div"></div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
   google.charts.load('current', {'packages':['corechart']});
   google.charts.setOnLoadCallback(drawChart);
 
   function drawChart() {
     var data = google.visualization.arrayToDataTable([
-      ['Produit', 'Nombre vendu'],
-      {% for prod in topProducts %}
-        ['{{ prod[0] }}', {{ prod[1] }}],
+      ['Ref_produit', 'Quantité'],
+      {% for topProduct in topProducts %}
+        ['{{ topProduct.ref_produit }}', {{ topProduct.total }}],
       {% endfor %}
     ]);
 
     var options = {
-      title: 'Top 5 des produits vendus',
-      height: 600,
-      width: 600,
-      titleTextStyle: {color: '#07600', fontSize: 25}
+      title: 'Top 5 des produits les plus demandés en {{ currentMonthName }}',
+      legend: { position: 'none' },
+      width: 800,
+      height: 400,
+      hAxis: {
+        title: 'Ref_produit',
+      },
+      vAxis: {
+        title: 'Quantité',
+        minValue: 0,
+      }
     };
 
-    var chart = new google.visualization.ColumnChart(document.getElementById('histo_chart'));
-
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
     chart.draw(data, options);
   }
 </script>
+<h1>Les produits les moins vendus en {{ currentMonthName }} </h1>
+
+<div id="chart_div"></div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Libellé</th>
+      <th>Description</th>
+      <th>Prix</th>
+      <th>Taux de promotion (%)</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for produit in produitsMin %}
+      <tr>
+        <td><img src="{{ asset('images/' ~ produit.image) }}" alt="{{ produit.libelle }}"  width="100" /></td>
+        <td>{{ produit.libelle }}</td>
+        <td>{{ produit.description }}</td>
+<td><span class="prix" id="prix-{{ produit.ref_produit }}" data-prix="{{ produit.prixVente }}">{{ produit.prixVente }} €</span></td>
+        <td><input type="number" class="form-control" id="taux-{{ produit.ref_produit }}" value="0"></td>
+        <td><button class="btn btn-primary" onclick="appliquerPromotion({{ produit.ref_produit }})">Valider</button></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 
 
 	{% endblock %}
@@ -386,4 +418,33 @@ id="main" class="main">
 <script src="{{asset('Back/vendor/php-email-form/validate.js')}}"></script>
 
 <!-- Template Main JS File -->
-<script src="{{asset('Back/js/main.js')}}"></script>{% endblock %}</body></html>
+<script src="{{asset('Back/js/main.js')}}"></script>{% endblock %}
+
+function appliquerPromotion(ref_produit) {
+  var taux = document.getElementById("taux-" + ref_produit).value;
+  var prixVente = document.getElementById('prix-' + ref_produit).getAttribute('data-prix');
+  var nouveauPrix = parseFloat(prixVente) * (1 - parseFloat(taux) / 100);
+  document.getElementById('prix-' + ref_produit).textContent = nouveauPrix.toFixed(2) + ' €';
+
+  // Envoyer la nouvelle valeur de prix au serveur avec AJAX
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var response = JSON.parse(this.responseText);
+      if (response.success) {
+        console.log('Prix mis à jour avec succès.');
+      } else {
+        console.error(response.error);
+      }
+    }
+  };
+xhttp.open('POST', '/Elbaldi/src/Controller/LiquidationAjax.php', true);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.send('ref_produit=' + ref_produit + '&prix=' + nouveauPrix);
+}
+
+
+
+
+
+</body></html>
