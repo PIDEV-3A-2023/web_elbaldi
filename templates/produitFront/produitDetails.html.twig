@@ -110,7 +110,7 @@
             {% endif %}
             <hr>
             <h3>Ajouter un commentaire</h3>
-            <form method="POST" action="{{ path('add_comment', {'ref_produit': produit.ref_produit}) }}">
+            <form method="POST" action="{{ path('add_comment', {'ref_produit': produit.ref_produit}) }}" id="comment-form" onsubmit="return detecterMotsInappropries();">
     <label for="contenu">Contenu</label>
     <input type="text" id="contenu" name="contenu">
     <button type="submit">Envoyer</button>
@@ -121,4 +121,21 @@
 
         </div>
     </section>
+
+    <script>
+function detecterMotsInappropries() {
+  var commentForm = document.getElementById("comment-form");
+  var commentContent = commentForm.contenu.value.toLowerCase();
+  var badWords = ["mot1", "mot2", "mot3"]; // Ajoutez les mots inappropriés ici
+
+  for (var i = 0; i < badWords.length; i++) {
+    if (commentContent.includes(badWords[i])) {
+      alert("Votre commentaire contient des mots inappropriés. Veuillez modifier votre commentaire avant de l'envoyer.");
+      return false;
+    }
+  }
+  return true;
+}
+</script>
+
 {% endblock %}

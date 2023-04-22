@@ -116,38 +116,54 @@ public function countProducts(): int
     return $query->getSingleScalarResult();
 }
 
-public function getPhoneNumbersByCategoryId($categoryId)
-{
-    $qb = $this->createQueryBuilder('produit');
-    $qb->select('DISTINCT utilisateur.numTel')
-       ->join('produit.commandProduits', 'command_produit')
-       ->join('command_produit.commande', 'commande')
-       ->join('commande.panier', 'panier')
-       ->join('panier.utilisateur', 'utilisateur')
-       ->where('produit.categorie = :categoryId')
-       ->andWhere('utilisateur.numTel IS NOT NULL')
-       ->setParameter('categoryId', $categoryId);
+public function findByTelByCategoryId($categoryId) {
+    $query = $this->getEntityManager()->createQuery(
+        'SELECT DISTINCT u.numtel, u.nom, u.prenom 
+        FROM App\Entity\Utilisateur u
+        JOIN App\Entity\Panier p WITH u.idUser = p.idUser 
+        JOIN App\Entity\Commande c WITH p.idPanier = c.idPanier 
+        JOIN App\Entity\CommandProduit cp WITH c.idCmd = cp.idCmd 
+        WHERE cp.ref_produit IN (
+            SELECT pr.ref_produit
+            FROM App\Entity\Produit pr
+            JOIN pr.categorie cat
+            WHERE cat.id_categorie = :categoryId
+        ) AND u.numtel IS NOT NULL'
+    )->setParameter('categoryId', $categoryId);
 
-    $query = $qb->getQuery();
-    $result = $query->getResult();
+    $results = $query->getResult();
+     // Process result set to extract phone numbers as strings
+     $phoneNumbers = array_map(function($row) {
+        return strval($row['numtel']);
+    }, $results);
 
-    // Process result set to extract phone numbers as strings
-    $phoneNumbers = array_map(function($row) {
-        return strval($row['numTel']);
-    }, $result);
+    foreach ($results as $result) {
+        $numtel = $result['numtel'];
+        $nom = $result['nom'];
+        $prenom = $result['prenom'];
+        $numtels[] = [
+            'numtel' => $numtel,
+            'nom' => $nom,
+            'prenom' => $prenom
+        ];
 
+    }
     return $phoneNumbers;
 }
 
-public function getEmailsByCategoryId($categoryId) {
+public function findByEmailsByCategoryId($categoryId) {
     $query = $this->getEntityManager()->createQuery(
-        'SELECT DISTINCT u.email
-         FROM App\Entity\Utilisateur u
-         JOIN u.paniers p
-         JOIN p.commandes c
-         JOIN c.commandProduits cp
-         JOIN cp.produit pr
-         WHERE pr.categorie = :categoryId AND u.email IS NOT NULL'
+        'SELECT DISTINCT u.email, u.nom, u.prenom 
+        FROM App\Entity\Utilisateur u
+        JOIN App\Entity\Panier p WITH u.idUser = p.idUser 
+        JOIN App\Entity\Commande c WITH p.idPanier = c.idPanier 
+        JOIN App\Entity\CommandProduit cp WITH c.idCmd = cp.idCmd 
+        WHERE cp.ref_produit IN (
+            SELECT pr.ref_produit
+            FROM App\Entity\Produit pr
+            JOIN pr.categorie cat
+            WHERE cat.id_categorie = :categoryId
+        ) AND u.email IS NOT NULL'
     )->setParameter('categoryId', $categoryId);
 
     $results = $query->getResult();
@@ -155,7 +171,13 @@ public function getEmailsByCategoryId($categoryId) {
 
     foreach ($results as $result) {
         $email = $result['email'];
-        $emails[] = $email;
+        $nom = $result['nom'];
+        $prenom = $result['prenom'];
+        $emails[] = [
+            'email' => $email,
+            'nom' => $nom,
+            'prenom' => $prenom
+        ];
     }
 
     return $emails;

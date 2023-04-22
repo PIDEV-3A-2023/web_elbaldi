@@ -90,6 +90,9 @@ class CommentaireController extends AbstractController
     #[Route('/produit/{ref_produit}/add-comment', name:'add_comment', methods: ['Get','POST'])]
     public function addComment(Request $request, EntityManagerInterface $entityManager, Produit $produit,CommentaireRepository $commentaireRepository,UtilisateurRepository $utilisateurRepository): Response
     {
+        // Liste de mots inappropriés
+    $badWords = array("mot1", "mot2", "mot3");
+
         $commentaires = $commentaireRepository->findByProduit2($produit);
         $user = $utilisateurRepository->find(2510);
         $commentaire = new Commentaire();
@@ -102,6 +105,16 @@ class CommentaireController extends AbstractController
         if ($contenu === null) {
             throw new \InvalidArgumentException('Contenu cannot be null.');
         }
+
+          // Vérifier si le contenu contient un mot inapproprié
+    foreach ($badWords as $word) {
+        if (stripos($contenu, $word) !== false) {
+            // Afficher une alerte si un mot inapproprié est détecté
+            echo "<script>alert('Votre commentaire contient des mots inappropriés. Veuillez modifier votre commentaire avant de l\'envoyer.');</script>";
+            return $this->redirectToRoute('produit_details', ['ref_produit' => $produit->getRef_produit()]);
+        }
+    }
+
         $commentaire->setContenu($contenu);
         $commentaire->setDateComm(new \DateTime());
 
