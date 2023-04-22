@@ -2156,3 +2156,11 @@ section {
 .popup-content button {
   margin-top: 10px;
 }
+
+.question {
+  display: none;
+}
+
+.question.active {
+  display: block;
+}

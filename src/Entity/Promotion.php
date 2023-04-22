@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use App\Repository\PromotionRepository;
 
 /**
  * Promotion
@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  */
 
-
+#[ORM\Entity(repositoryClass: PromotionRepository::class)]
 class Promotion
 {
     /**

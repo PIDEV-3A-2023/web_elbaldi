@@ -35,6 +35,9 @@ class QuestionController extends AbstractController
 
 
 
+
+
+
     #[Route('/quiz/{idQuiz}/questionsfront', name: 'app_question_indecx', methods: ['GET'])]
     public function indexfront(EntityManagerInterface $entityManager, $idQuiz): Response
     {
@@ -158,6 +161,14 @@ class QuestionController extends AbstractController
             'quiz' => $quiz,
             'question' => $question,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/codeQR', name: 'app_code', methods: ['GET'])]
+    public function code(Question $question): Response
+    {
+        return $this->render('quizFront/codeQR.html.twig', [
+            'question' => $question,
         ]);
     }
 }

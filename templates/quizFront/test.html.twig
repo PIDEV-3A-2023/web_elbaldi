@@ -1,0 +1,170 @@
+
+{% extends 'baseFront.html.twig' %}
+
+{% block body %}
+	<link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
+	<div class="container mt-5">
+		<div class="col-12 mb-4 d-flex align-items-center">
+			<i class="bi bi-box-arrow-left" style="font-size: 30px; margin-right: 5px; "></i>
+			<a href="{{ path('app_quiz_indexc') }}" class="btn btn-success custom-btn float-right">Retour</a>
+		</div>
+
+		{% if questions is not empty %}
+			<div class="card">
+
+				<div class="card-body">
+					<form method="post" id="question-form">
+						{% for q in questions %}
+							<div class="form-group question{% if loop.first %} active{% endif %}" data-question="{{ q.idQuestion }}" data-correct-answer="{{ q.getSolution() }}" {% if not loop.first %} style="display:none" {% endif %}>
+
+								<h3>{{ q.getQuestionn() }}</h3>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="reponse" id="reponse1" value="{{ q.getReponse1() }}">
+									<label class="form-check-label" for="reponse1">
+										{{ q.getReponse1() }}
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="reponse" id="reponse2" value="{{ q.getReponse2() }}">
+									<label class="form-check-label" for="reponse2">
+										{{ q.getReponse2() }}
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="reponse" id="reponse3" value="{{ q.getReponse3() }}">
+									<label class="form-check-label" for="reponse3">
+										{{ q.getReponse3() }}
+									</label>
+								</div>
+							</div>
+						{% endfor %}
+						<button type="button" class="btn btn-success custom-btn float-right" id="next-button">Suivant</button>
+						
+					</form>
+				</div>
+			</div>
+		{% else %}
+			<p>Aucune question disponible pour le moment.</p>
+		{% endif %}
+<form id="myForm" action="ajouter_codepromo.php" method="post">
+  <input type="hidden" name="promoCode" value="">
+</form>
+
+
+	</div>
+
+	<script>
+	
+
+
+		const questions = document.querySelectorAll('.question'); // sélectionner tous les éléments HTML qui ont la classe "question" et les stocke dans la variable questions
+const lastQuestionIndex = questions.length - 1; // déterminer l'index de la dernière question en soustrayant 1 de la longueur de l'ensemble de questions.
+let currentQuestion = 0; // l'index de la question actuelle que l'utilisateur voit
+let userAnswers = []; // un tableau vide dans lequel les réponses de l'utilisateur seront stockées.
+
+questions[currentQuestion].style.display = 'block';
+
+if (questions.length === 1) { // si questions ne contient qu'une seule question, le bouton "Suivant" est remplacé par un bouton "Voir le score"
+const nextButton = document.getElementById('next-button');
+
+const viewScoreButton = document.createElement('button');
+viewScoreButton.setAttribute('type', 'button');
+viewScoreButton.setAttribute('class', 'btn btn-success custom-btn float-right');
+viewScoreButton.textContent = 'Voir le score';
+nextButton.parentNode.replaceChild(viewScoreButton, nextButton);
+// Un écouteur d'événements est ajouté à ce
+// dernier bouton qui, lorsqu'il est cliqué, vérifie si une réponse a été sélectionnée pour la question actuelle et l'ajoute à userAnswers
+viewScoreButton.addEventListener('click', function () {
+const selectedAnswer = document.querySelector('input[name="reponse"]:checked');
+
+if (selectedAnswer) {
+userAnswers.push(selectedAnswer.value);
+}
+// calcule le score en comparant les réponses de l'utilisateur aux réponses correctes
+// de toutes les questions et affiche le score dans une boîte d'alerte.
+let score = 0;
+for (let i = 0; i < questions.length; i++) {
+const correctAnswer = questions[i].getAttribute('data-correct-answer');
+if (userAnswers[i] === correctAnswer) {
+score++;
+}
+}
+
+const scorePercentage = Math.floor((score / questions.length) * 100);
+// Génération du code promo en fonction du score
+let promoCode = '';
+const characters = '0123456789';
+
+if (score >= 1) {
+promoCode += 'Elbaldi';
+} else if (score >= 5) {
+promoCode += 'Elbaldi';
+} else if (score >= 3) {
+promoCode += 'Elbaldi';
+}
+
+for (let i = 0; i < 4; i++) {
+promoCode += characters.charAt(Math.floor(Math.random() * characters.length));
+}
+
+
+// Affichage du code promo
+if (promoCode.length > 4) {
+	
+const scoreElement = document.createElement('p');
+let reductionMessage = '';
+if (scorePercentage >= 100) {
+reductionMessage = '15%';
+} else if (scorePercentage >= 75 && scorePercentage <= 99.99) {
+reductionMessage = '10%';
+} else if (scorePercentage > 0.45 && scorePercentage <= 74.99) {
+reductionMessage = '8%';
+}
+
+scoreElement.textContent = `Votre score est de ${promoCode} %. Obtenez  votre code promo en scannant le code QR et bénéficiez d'une réduction de ${reductionMessage} lors de votre prochain achat !`;
+const parentElement = document.getElementById('question-form');
+
+document.getElementById('question-form').appendChild(scoreElement);
+viewScoreButton.style.display = 'none';
+
+// Créer un nouveau bouton
+const redirectButton = document.createElement('button');
+redirectButton.setAttribute('type', 'button');
+redirectButton.setAttribute('class', 'btn btn-success custom-btn float-right');
+redirectButton.textContent = 'Obtenir votre code QR';
+
+// Ajouter un écouteur d'événements pour afficher l'image du code QR
+redirectButton.addEventListener('click', () => { // Ajouter l'image du code QR
+const qrImage = document.createElement('img');
+qrImage.src = "{{ asset('Back/img/elbaldi.jpg ') }}";
+parentElement.appendChild(qrImage);
+
+// Masquer le bouton "Obtenir votre code QR"
+redirectButton.style.display = 'none';
+});
+
+// Ajouter le bouton à la page
+parentElement.appendChild(redirectButton);
+
+}else {
+const scoreElement = document.createElement('p');
+scoreElement.textContent = `Votre score est  ${score}. Désolé, vous n'avez pas réussi le quiz !`;
+document.body.appendChild(scoreElement);
+
+const parentElement = document.getElementById('question-form');
+
+document.getElementById('question-form').appendChild(scoreElement);
+viewScoreButton.style.display = 'none';
+
+}
+
+for (let i = 0; i < questions.length; i++) {
+questions[i].style.display = 'none';
+}
+});
+}
+
+
+</script>	
+
+{% endblock %}

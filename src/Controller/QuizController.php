@@ -123,4 +123,13 @@ class QuizController extends AbstractController
             'questions' => $questions,
         ]);
     }
+    #[Route('/question/score', name: 'app_score')]
+    public function showScore(Request $request)
+    {
+        $score = $request->request->get('score');
+
+        return $this->render('score.html.twig', [
+            'score' => $score
+        ]);
+    }
 }

@@ -71,19 +71,12 @@ class Utilisateur
      */
     private $mdp;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="role", type="json", nullable=false)
-     */
-    private $role;
+    #[ORM\Column(name: "role", type: "json")]
+    private ?array $role;
 
-    /**
-     * @var array|null
-     *
-     * @ORM\Column(name="etat", type="json", nullable=true)
-     */
-    private $etat;
+    #[ORM\Column(name: "etat", type: "json")]
+    private ?array $etat;
+
 
     /**
      * @var int|null
@@ -183,7 +176,11 @@ class Utilisateur
 
     public function getRole(): array
     {
-        return $this->role;
+        $roles = $this->role;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     public function setRole(array $role): self
@@ -217,5 +214,8 @@ class Utilisateur
         return $this;
     }
 
-
+    public function __toString(): string
+    {
+        return $this->nom . " " . $this->prenom;
+    }
 }
