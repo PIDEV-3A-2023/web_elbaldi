@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Service\FileUploader;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 
 
@@ -36,14 +37,43 @@ class ProduitController extends AbstractController
     /**
      * @Route("/client/produit", name="app_produit_indexFront", methods={"GET"})
      */
-    public function indexFront(ProduitRepository $produitRepository, CategorieRepository $categorieRepository): Response
+    public function indexFront(ProduitRepository $produitRepository, CategorieRepository $categorieRepository, Request $request): Response
     {
         $produits = $produitRepository->findAll();
         $categories = $categorieRepository->findAll();
         return $this->render('produitFront/indexFront.html.twig', [
             'categories' => $categories,
             'produits' => $produits,
+        ]);
+    }
+       /**
+     * @Route("/produits/tri/{tri}", name="produits_tri")
+     */
+    public function trier(ProduitRepository $produitRepository, CategorieRepository $categorieRepository, $tri): Response
+    {
+        
+        switch ($tri) {
+            case 'prix_asc':
+                $produits = $produitRepository->findByPrixVenteAsc();
+                break;
+            case 'prix_desc':
+                $produits = $produitRepository->findByPrixVenteDesc();
+                break;
+            default:
+                $produits = $produitRepository->findAll();
+        }
 
+        $categories = $categorieRepository->findAll();
+
+        $html = $this->render('produitFront/indexFront.html.twig', [
+            'produits' => $produits,
+            'categories' => $categories,
+            
+        ]);
+    
+        return new JsonResponse([
+            'success' => true,
+            'html' => $html->getContent()
         ]);
     }
     /**
@@ -137,7 +167,6 @@ class ProduitController extends AbstractController
             }
 
 */
-          
             return $this->redirectToRoute('app_produit_index');
         }
 

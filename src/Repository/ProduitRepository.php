@@ -84,6 +84,21 @@ class ProduitRepository extends ServiceEntityRepository
 
     return $qb->execute();
 }
+public function findByPrixVenteAsc():array
+{
+    return $this->createQueryBuilder('p')
+        ->orderBy('p.prixVente', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
+
+public function findByPrixVenteDesc():array
+{
+    return $this->createQueryBuilder('p')
+        ->orderBy('p.prixVente', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
 
 public function rechercherParLibelle(string $libelle): array
 {

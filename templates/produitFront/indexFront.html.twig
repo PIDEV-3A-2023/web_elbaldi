@@ -1,8 +1,14 @@
 {% extends 'baseFront.html.twig' %}
 
 {% block body %}
-    <script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+   <script>
         $(document).ready(function() {
+            // variable pour stocker la catégorie sélectionnée
+            var categorieSelectionnee = "*";
+
             $('#portfolio-flters li').click(function() {
                 var categorie = $(this).data('filter');
                 $('#portfolio-flters li').removeClass('filter-active');
@@ -13,9 +19,40 @@
                     $('.portfolio-container .portfolio-item').hide();
                     $('.portfolio-container .portfolio-item' + categorie).show();
                 }
+                // mise à jour de la variable de catégorie sélectionnée
+                categorieSelectionnee = categorie;
+            });
+
+            $('#tri-select').change(function() {
+                var tri = $(this).val();
+                var url = '{{ path('produits_tri', {'tri': '__TRI__'}) }}';
+                url = url.replace('__TRI__', tri);
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(response) {
+                        if (response.success) {
+                            $('#produits-container').html(response.html);
+                            $('#tri-select').val(tri);
+
+                            // filtrer la liste de produits pour afficher uniquement les produits de la catégorie sélectionnée
+                            if (categorieSelectionnee != "*") {
+                                $('.portfolio-container .portfolio-item').hide();
+                                $('.portfolio-container .portfolio-item' + categorieSelectionnee).show();
+                            }
+                        } else {
+                            alert('Une erreur est survenue lors du tri des produits.');
+                        }
+                    },
+                    error: function() {
+                        alert('Une erreur est survenue lors du tri des produits.');
+                    }
+                });
             });
         });
     </script>
+<div id="produits-container">
     <div class="row">
         <div class="col-lg-12 d-flex justify-content-center">
             <ul id="portfolio-flters">
@@ -27,7 +64,21 @@
         </div>
     </div>
 
-    <div class="row portfolio-container">
+
+
+    <div class="row">
+        <div class="col-lg-4">
+                <label for="tri">Trier par :</label>
+                    <select name="tri" id="tri-select">
+                    <option value="#">-- Sélectionnez une option --</option>
+                    <option value="prix_asc">Prix croissant</option>
+                    <option value="prix_desc">Prix décroissant</option>
+                </select>
+        </div>
+         <input id="myInput" class="form-control form-control-navbar" type="search" placeholder="Rechercher" aria-label="rech">
+    </div>
+
+    <div  class="row portfolio-container">
         {% for produit in produits %}
             <div class="col-lg-4 col-md-6 portfolio-item filter-app filter-{{ produit.categorie.nomCategorie|replace({' ':'-'}) }}">
                 <div class="portfolio-wrap">
@@ -44,4 +95,6 @@
             </div>
         {% endfor %}
     </div>
+    </div>
+    
 {% endblock %}

@@ -109,8 +109,8 @@ class CommentaireController extends AbstractController
           // Vérifier si le contenu contient un mot inapproprié
     foreach ($badWords as $word) {
         if (stripos($contenu, $word) !== false) {
-            // Afficher une alerte si un mot inapproprié est détecté
-            echo "<script>alert('Votre commentaire contient des mots inappropriés. Veuillez modifier votre commentaire avant de l\'envoyer.');</script>";
+           // Ajouter un message d'erreur à la liste des erreurs de formulaire
+           $this->addFlash('error', 'Votre commentaire contient des mots inappropriés. Veuillez modifier votre commentaire avant de l\'envoyer.');
             return $this->redirectToRoute('produit_details', ['ref_produit' => $produit->getRef_produit()]);
         }
     }
@@ -120,6 +120,9 @@ class CommentaireController extends AbstractController
 
         $entityManager->persist($commentaire);
         $entityManager->flush();
+    // Ajouter un message de confirmation à la liste des messages flash
+    $this->addFlash('success', 'Votre commentaire a bien été ajouté.');
+
         return $this->redirectToRoute('produit_details', ['ref_produit' => $produit->getRef_produit()]);
 
     }

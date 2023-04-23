@@ -109,8 +109,16 @@
                 <p>Aucun commentaire pour le moment.</p>
             {% endif %}
             <hr>
+            {% for message in app.flashes('success') %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endfor %}
+
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endfor %}
+
             <h3>Ajouter un commentaire</h3>
-            <form method="POST" action="{{ path('add_comment', {'ref_produit': produit.ref_produit}) }}" id="comment-form" onsubmit="return detecterMotsInappropries();">
+            <form method="POST" action="{{ path('add_comment', {'ref_produit': produit.ref_produit}) }}" >
     <label for="contenu">Contenu</label>
     <input type="text" id="contenu" name="contenu">
     <button type="submit">Envoyer</button>
