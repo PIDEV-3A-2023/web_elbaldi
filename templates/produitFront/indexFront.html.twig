@@ -5,52 +5,62 @@
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
    <script>
-        $(document).ready(function() {
-            // variable pour stocker la catégorie sélectionnée
-            var categorieSelectionnee = "*";
+ $(document).ready(function() {
+  // variable pour stocker la catégorie sélectionnée
+  var categorieSelectionnee = "*";
 
-            $('#portfolio-flters li').click(function() {
-                var categorie = $(this).data('filter');
-                $('#portfolio-flters li').removeClass('filter-active');
-                $(this).addClass('filter-active');
-                if (categorie == "*") {
-                    $('.portfolio-container .portfolio-item').show();
-                } else {
-                    $('.portfolio-container .portfolio-item').hide();
-                    $('.portfolio-container .portfolio-item' + categorie).show();
-                }
-                // mise à jour de la variable de catégorie sélectionnée
-                categorieSelectionnee = categorie;
-            });
+  $('#portfolio-flters li').click(function() {
+    var categorie = $(this).data('filter');
+    $('#portfolio-flters li').removeClass('filter-active');
+    $(this).addClass('filter-active');
+    if (categorie == "*") {
+      $('.portfolio-container .portfolio-item').show();
+    } else {
+      $('.portfolio-container .portfolio-item').hide();
+      $('.portfolio-container .portfolio-item' + categorie).show();
+    }
+    // mise à jour de la variable de catégorie sélectionnée
+    categorieSelectionnee = categorie;
+  });
 
-            $('#tri-select').change(function() {
-                var tri = $(this).val();
-                var url = '{{ path('produits_tri', {'tri': '__TRI__'}) }}';
-                url = url.replace('__TRI__', tri);
+  $('#tri-select').change(function() {
+    var tri = $(this).val();
+    var url = '{{ path('produits_tri', {'tri': '__TRI__'}) }}';
+    url = url.replace('__TRI__', tri);
 
-                $.ajax({
-                    url: url,
-                    method: 'GET',
-                    success: function(response) {
-                        if (response.success) {
-                            $('#produits-container').html(response.html);
-                            $('#tri-select').val(tri);
+    $.ajax({
+      url: url,
+      method: 'GET',
+      success: function(response) {
+        if (response.success) {
+          $('#produits-container').html(response.html);
+          $('#tri-select').val(tri);
 
-                            // filtrer la liste de produits pour afficher uniquement les produits de la catégorie sélectionnée
-                            if (categorieSelectionnee != "*") {
-                                $('.portfolio-container .portfolio-item').hide();
-                                $('.portfolio-container .portfolio-item' + categorieSelectionnee).show();
-                            }
-                        } else {
-                            alert('Une erreur est survenue lors du tri des produits.');
-                        }
-                    },
-                    error: function() {
-                        alert('Une erreur est survenue lors du tri des produits.');
-                    }
-                });
-            });
-        });
+          // filtrer la liste de produits pour afficher uniquement les produits de la catégorie sélectionnée
+          if (categorieSelectionnee != "*") {
+            $('.portfolio-container .portfolio-item').hide();
+            $('.portfolio-container .portfolio-item' + categorieSelectionnee).show();
+          }
+        } else {
+          alert('Une erreur est survenue lors du tri des produits.');
+        }
+      },
+      error: function() {
+        alert('Une erreur est survenue lors du tri des produits.');
+      }
+    });
+  });
+
+  $('#myInput').on('keyup', function() {
+    var value = $(this).val().toLowerCase();
+    $('.portfolio-item').hide();
+    $('.portfolio-item' + categorieSelectionnee).filter(function() {
+      return $(this).find('h4').text().toLowerCase().indexOf(value) > -1;
+    }).show();
+  });
+});
+
+
     </script>
 <div id="produits-container">
     <div class="row">

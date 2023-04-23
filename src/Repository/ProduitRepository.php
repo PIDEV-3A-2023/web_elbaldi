@@ -230,4 +230,6 @@ public function findByEmailsByCategoryId($categoryId) {
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
 }
