@@ -19,6 +19,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Service\FileUploader;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Mailer;
 
 
 class ProduitController extends AbstractController
@@ -114,7 +118,7 @@ class ProduitController extends AbstractController
             $entityManager->flush();
 
             $categoryId  = $produit->getCategorie()->getid_categorie();
-            /*
+    
             //Api Email 
             // récupération des emails des utilisateurs
           
@@ -122,20 +126,22 @@ class ProduitController extends AbstractController
 
             // Envoi d'un email à chaque utilisateur
             foreach ($clients as $client) {
-                $message = (new \Swift_Message('Nouveau produit ajouté à votre catégorie préférée'))
-                    ->setFrom('elbaldinotification@gmail.com')
-                    ->setTo($client['email'])
-                    ->setBody(
-                        $this->renderView(
-                            'email/nouveau_produit.html.twig',
-                            ['produit' => $produit, 'nom' => $client['nom'], 'prenom' => $client['prenom']]
-                        ),
-                        'text/html'
-                    );
-
+            
+                $ms = new GmailSmtpTransport('elbaldinotification@gmail.com', 'eymmlmaxtvwotrzo'); 
+                $mailer = new Mailer($ms);
+                $emailBody = $this->renderView('email/nouveau_produit.html.twig', 
+                    ['produit' => $produit, 'nom' => $client['nom'], 'prenom' => $client['prenom']]
+                );
+            $message = (new TemplatedEmail())
+                ->from('elbaldinotification@gmail.com')
+                ->to($client['email'])
+                ->subject('BONNE NOUVELLE !')
+                ->html($emailBody);
+                
+                
                 $mailer->send($message);
                 }
-                */
+                
             //SMS
 /*
             $phoneNumbers = $produitRepository->findByTelByCategoryId($categoryId);
