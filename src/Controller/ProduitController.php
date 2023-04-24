@@ -203,7 +203,7 @@ class ProduitController extends AbstractController
                 $newFilename = $fileUploader->upload($imageFile);
                 $produit->setImage($newFilename);
             }
-
+         
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('app_produit_index');
@@ -214,7 +214,22 @@ class ProduitController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+/**
+ * @Route("/update_prix/{ref_produit}/{taux}", name="app_produit_update_prix", methods={"POST"})
+ */
+public function updatePrix(Request $request,Produit $produit , ProduitRepository $produitRepository): JsonResponse
+{  // $produit = $produitRepository->find($ref_produit);
+    //$taux = $request->request->get('taux');
+    $taux = $request->attributes->get('taux');
+    //dump('Le taux reçu est: ' . $taux);
+    $nouveauPrixVente = $produit->getPrixVente() * (1 - $taux/100);
+    $produit->setPrixVente($nouveauPrixVente);
+    $entityManager = $this->getDoctrine()->getManager();
+    $entityManager->persist($produit);
+    $entityManager->flush();
 
+    return new JsonResponse(['nouveauPrixVente' => $nouveauPrixVente]);
+}
     #[Route('/deleteProduit/{ref_produit}', name: 'app_produit_delete')]
     public function delete($ref_produit, ManagerRegistry $doctrine): Response
     { //trouver le bon produit 

@@ -59,7 +59,7 @@ public function findFiveLeastSoldProducts():array
         ->setParameter('startOfMonth', new \DateTime('first day of this month'))
         ->groupBy('cp.ref_produit')
         ->orderBy('total', 'ASC')
-        ->setMaxResults(10);
+        ->setMaxResults(5);
 
     return $qb->getQuery()->getResult();
 }
