@@ -81,7 +81,7 @@ class LivraisonController extends AbstractController
                     'idcmd' => $livraison->getIdCmd()->getIdCmd(),
                     'datecmd' => $livraison->getIdCmd()->getDateCmd()->format('d/m/Y'),
                     'adresse'=>$livraison->getAdresseLivraison(),
-                    'total' => $livraison->getIdCmd()->getIdPanier()->getTotalPanier()
+                    'total' => $livraison->getIdCmd()->getTotal()
                 ]);
                 // Remove HTML tags from the message body
                 $msgg = strip_tags($msgg);

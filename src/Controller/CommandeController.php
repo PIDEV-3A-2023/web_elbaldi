@@ -9,6 +9,7 @@ use App\Entity\Commande;
 use App\Form\CommandeType;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\Mailer;
+use App\Repository\CommandeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
-
+use Psr\Log\LoggerInterface;
 #[Route('/commande')]
 class CommandeController extends AbstractController
 {
@@ -36,7 +37,7 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/new/{idPanier}', name: 'app_commande_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, int $idPanier): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, int $idPanier,CommandeRepository $commandeRepository,LoggerInterface $logger): Response
     {
         $panier = $entityManager->getRepository(Panier::class)->find($idPanier);
 
@@ -46,7 +47,15 @@ class CommandeController extends AbstractController
 
         $commande = new Commande();
         $commande->setIdPanier($panier);
-        $commande->setTotal($panier->getTotalPanier());
+        $orderCount = $commandeRepository->countByCommande($panier->getIdPanier());
+        $total = $panier->getTotalPanier();
+        $logger->info(sprintf('total before : %d', $total));
+        $logger->info(sprintf('Order count: %d', $orderCount));
+        if ($orderCount >= 5) {
+            $total *= 0.9;
+        }
+        $commande->setTotal($total);
+        $logger->info(sprintf('total after : %d', $total));
         $form = $this->createForm(CommandeType::class, $commande);
         $form->handleRequest($request);
 
@@ -66,11 +75,18 @@ class CommandeController extends AbstractController
 
             $dompdf->setOptions($options);
         
-            
+            if ($orderCount >=5) {
+                $pdftotal= $panier->getTotalPanier().'DT - 10% de fidélité = '. $total . 'DT ';
+            } 
+            else
+            {
+                $pdftotal = $total;  
+            }
             $html = $this->renderView('pdf/facture.html.twig', [
 
                 'items' => $panier->getRefProduit(),
-                'total' => $panier->getTotalPanier(),
+                'total' => $pdftotal,
+                'tot' => $panier->getTotalPanier(),
                 'nbarticles' => $panier->getNombreArticle(),
                 'nom' => $nomComplet,
                 'Datecmd' => $commande->getDateCmd()->format('d/m/Y'),
@@ -98,7 +114,7 @@ class CommandeController extends AbstractController
                 'nom' => $client->getNom(),
                 'prenom' => $client->getPrenom(),
                 'items' => $panier->getRefProduit(),
-                'total' => $panier->getTotalPanier()
+                'total' => $pdftotal
             ]);
             $message = (new TemplatedEmail())
                 ->from('elbaldinotification@gmail.com')
@@ -120,6 +136,7 @@ class CommandeController extends AbstractController
         return $this->renderForm('commande/new.html.twig', [
             'commande' => $commande,
             'form' => $form,
+            'orderCount'=> $orderCount
         ]);
     }
 

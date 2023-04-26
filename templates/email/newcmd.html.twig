@@ -50,6 +50,7 @@
 		</style>
 	</head>
 	<body>
+	
 		<div class="message">
 			<p>Bonjour ,Cher(e)
 				{{ nom }}
@@ -68,17 +69,17 @@
 						<tr>
 							<td>{{ item.libelle }}</td>
 							<td>{{ item.prixVente }}
-								TND</td>
+								DT</td>
 							<td>{{ item.quantite }}</td>
 							<td>{{ item.prixVente * item.quantite  }}
-								TND
+								DT
 							</td>
 						</tr>
 					{% endfor %}
 					<tr>
 						<td colspan="3">Total de la commande:</td>
 						<td>{{ total }}
-							TND</td>
+							</td>
 					</tr>
 				</tbody>
 				<tfoot>
@@ -86,7 +87,7 @@
 						<td colspan="4">
 							<p>Merci de votre confiance en notre entreprise.</p>
 							<p>Cordialement,</p>
-
+							
 							<p class="footer">ElBaldi</p>
 						</td>
 					</tr>

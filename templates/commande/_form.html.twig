@@ -6,7 +6,7 @@
 	<br>
 	<br>
 
-
+	
 	{{ form_label(form.nom) }}
 	{{ form_widget(form.nom, {'attr': {'class': 'form-control', 'readonly': 'readonly'}, 'value': commande.idPanier.idUser.nom ~ ' ' ~ commande.idPanier.idUser.prenom}) }}
 </div>
@@ -26,10 +26,12 @@
 	{{ form_label(form.email) }}
 	{{ form_widget(form.email, {'attr': {'class': 'form-control', 'readonly': 'readonly'}, 'value': commande.idPanier.idUser.email}) }}
 </div>
-
+{% if orderCount >= 5 %}
+    <div class="alert alert-success">Vous êtes un client fidèle et avez gagné une promotion de 10% !</div>
+{% endif %}
 <div class="form-commande">
 	{{ form_label(form.total) }}
-	{{ form_widget(form.total, {'attr': {'class': 'form-control', 'readonly': 'readonly'}, 'value': commande.idPanier.totalPanier}) }}
+	{{ form_widget(form.total, {'attr': {'class': 'form-control', 'readonly': 'readonly'}, 'value': commande.total}) }}
 </div>
 <div class="form-commande">
 	{{ form_label(form.etat, null, {'label_attr': {'hidden': true}}) }}
@@ -38,6 +40,6 @@
 
 
 <div class="form-commande">
-	<button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+	<button class="btn btn-primary">{{ button_label|default('Commander') }}</button>
 </div>
 {{ form_end(form) }}

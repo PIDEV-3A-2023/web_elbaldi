@@ -38,6 +38,15 @@ class CommandeRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function countByCommande(int $panierId): int
+    {
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(c.idPanier)')
+            ->andWhere('c.idPanier = :idPanier')
+            ->setParameter('idPanier', $panierId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
 //    /**
 //     * @return Commande[] Returns an array of Commande objects
