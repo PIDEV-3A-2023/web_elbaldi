@@ -1,10 +1,10 @@
 
 {% extends 'baseBack.html.twig' %}
 {% block title %}
-Commande index
+Commande 
 {% endblock %}
 {% block body %}
-    <h1>Commande index</h1>
+    <h1>Commande </h1>
 
     <table class="table">
         <thead>
@@ -26,8 +26,8 @@ Commande index
                 <td>{{ commande.total }}</td>
                 <td>{{ commande.adresse }}</td>
                 <td>
-                    <a href="{{ path('app_commande_show', {'idCmd': commande.idCmd}) }}">show</a>
-                    <a href="{{ path('app_commande_edit', {'idCmd': commande.idCmd}) }}">edit</a>
+                    <a href="{{ path('app_commande_show', {'idCmd': commande.idCmd}) }}">Détails</a>
+                    <a href="{{ path('app_commande_edit', {'idCmd': commande.idCmd}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Merci pour votre commande !</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				font-size: 16px;
+			}
+
+			table {
+				border-collapse: collapse;
+				margin-bottom: 20px;
+				width: 100%;
+			}
+
+			th,
+			td {
+				border: 1px solid black;
+				padding: 8px;
+				text-align: left;
+			}
+
+			th {
+				background-color: #f2f2f2;
+			}
+
+			tbody tr:nth-child(even) {
+				background-color: #f2f2f2;
+			}
+
+			tfoot td {
+				border-top: 1px solid black;
+				font-weight: bold;
+				text-align: right;
+			}
+
+			.message {
+				border: 1px solid red;
+				margin: 20px auto;
+				padding: 20px;
+				width: 80%;
+			}
+
+			.footer {
+				font-size: 20px;
+				margin-top: 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="message">
+			<p>Bonjour ,Cher(e)
+				{{ nom }}
+				{{ prenom }}</p>
+			<table>
+				<thead>
+					<tr>
+						<th>Produit</th>
+						<th>Prix unitaire</th>
+						<th>Quantité</th>
+						<th>Prix total</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in items %}
+						<tr>
+							<td>{{ item.libelle }}</td>
+							<td>{{ item.prixVente }}
+								TND</td>
+							<td>{{ item.quantite }}</td>
+							<td>{{ item.prixVente * item.quantite  }}
+								TND
+							</td>
+						</tr>
+					{% endfor %}
+					<tr>
+						<td colspan="3">Total de la commande:</td>
+						<td>{{ total }}
+							TND</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="4">
+							<p>Merci de votre confiance en notre entreprise.</p>
+							<p>Cordialement,</p>
+
+							<p class="footer">ElBaldi</p>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</body>
+</html>

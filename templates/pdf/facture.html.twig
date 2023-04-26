@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Facture</title>
+    <style>
+      /* Define your styles here */
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .facture-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .facture-header h1 {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 0;
+      }
+      .facture-header img {
+        max-height: 100px;
+      }
+      .facture-header p {
+        margin: 0;
+      }
+      .facture-info {
+        margin-bottom: 20px;
+      }
+      .facture-info h2 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+        .facture-info h3 {
+        font-size: 15px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .facture-info p {
+        margin: 0;
+      }
+      .facture-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+      .facture-table th, .facture-table td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left;
+      }
+      .facture-table th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+      .facture-total {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .facture-total p {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="facture-header">
+<img src="images/elbaldi.jpg" alt="Logo">
+
+
+      <h1>Facture</h1>
+      <p>Date: {{ Datecmd }}</p>
+    </div>
+    <div class="facture-info">
+      <h2>Client</h2>
+      <p>  <h3>Nom et prénom : </h3> {{ nom }}</p>
+      <p> <h3>Adresse : </h3> {{ adresse }}</p>
+      <p> <h3>Nombres des articles :  </h3> {{ nbarticles }} article(s)</p>
+    </div>
+    <table class="facture-table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Quantité</th>
+          <th>Prix unitaire</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for produit in items %}
+        <tr>
+          <td>{{ produit.getLibelle() }}</td>
+          <td>{{ produit.getQuantite() }}</td>
+          <td>{{ produit.getPrixVente() }}</td>
+          <td>{{ produit.getQuantite() * produit.getPrixVente() }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="facture-total">
+        <p>Total: {{ total - 5 }} DT</p> 
+        <p>frais de livraison : 5 DT</p>
+      <p>Total TTC : {{ total }} DT</p>
+    </div>
+  </body>
+</html>

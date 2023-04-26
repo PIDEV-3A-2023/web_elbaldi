@@ -2,7 +2,7 @@
 
 
 {% block title %}
-	New Commande
+	 Commande
 {% endblock %}
 {% block body %}
 	<h1>Commande</h1>
@@ -18,7 +18,7 @@
 				<td>{{ commande.etat }}</td>
 			</tr>
 			<tr>
-				<th>DateCmd</th>
+				<th>Date Commande</th>
 				<td>{{ commande.dateCmd ? commande.dateCmd|date('Y-m-d') : '' }}</td>
 			</tr>
 			<tr>
@@ -26,7 +26,7 @@
 				<td>{{ commande.total }}</td>
 			</tr>
 			<tr>
-				<th>nom et prenom</th>
+				<th>Nom et Prenom</th>
 				<td>{{ commande.idPanier.idUser.nom ~ ' ' ~ commande.idPanier.idUser.prenom }}</td>
 			</tr>
 			<tr>
@@ -34,19 +34,19 @@
 				<td>{{ commande.adresse }}</td>
 			</tr>
 			<tr>
-				<th>numero telephone</th>
+				<th>Numero telephone</th>
 				<td>{{ commande.idPanier.idUser.numtel }}</td>
 			</tr>
 			<tr>
-				<th>Adresse</th>
+				<th>Email</th>
 				<td>{{ commande.idPanier.idUser.email }}</td>
 			</tr>
 		</tbody>
 	</table>
 
-	<a href="{{ path('app_commande_index') }}">back to list</a>
+	<a href="{{ path('app_commande_index') }}">retour</a>
 
-	<a href="{{ path('app_commande_edit', {'idCmd': commande.idCmd}) }}">edit</a>
+	<a href="{{ path('app_commande_edit', {'idCmd': commande.idCmd}) }}">Modifier</a>
 
 	{{ include('commande/_delete_form.html.twig') }}
 {% endblock %}

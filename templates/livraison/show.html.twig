@@ -1,6 +1,6 @@
 {% extends 'baseBack.html.twig' %}
 {% block title %}
-	Livraison index
+	Livraison 
 {% endblock %}
 {% block body %}
 	<h1>Livraison</h1>
@@ -12,20 +12,20 @@
 				<td>{{ livraison.idLivraison }}</td>
 			</tr>
 			<tr>
-				<th>StatusLivraison</th>
+				<th>Status Livraison</th>
 				<td>{{ livraison.statusLivraison }}</td>
 			</tr>
 
 			<tr>
-				<th>DateLivraison</th>
+				<th>Date Livraison</th>
 				<td>{{ livraison.dateLivraison ? livraison.dateLivraison|date('Y-m-d') : '' }}</td>
 			</tr>
 			<tr>
-				<th>nom de client</th>
+				<th>Nom de client</th>
 				<td>{{ livraison.idCmd.idPanier.idUser.nom ~ ' ' ~ livraison.idCmd.idPanier.idUser.prenom }}</td>
 			</tr>
 			<tr>
-				<th>AdresseLivraison</th>
+				<th>Adresse Livraison</th>
 				<td>{{ livraison.adresseLivraison }}</td>
 			</tr>
 
@@ -40,9 +40,9 @@
 		</tbody>
 	</table>
 
-	<a href="{{ path('app_livraison_index') }}">back to list</a>
+	<a href="{{ path('app_livraison_index') }}">Retour</a>
 
-	<a href="{{ path('app_livraison_edit', {'idLivraison': livraison.idLivraison}) }}">edit</a>
+	<a href="{{ path('app_livraison_edit', {'idLivraison': livraison.idLivraison}) }}">Modifier</a>
 
 	{{ include('livraison/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,13 +1,13 @@
 {% extends 'baseBack.html.twig' %}
 {% block title %}
-Edit Livraison
+Modifier Livraison
 {% endblock %}
 {% block body %}
-    <h1>Edit Livraison</h1>
+    <h1>Modifier Livraison</h1>
 
     {{ include('livraison/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_livraison_index') }}">back to list</a>
+    <a href="{{ path('app_livraison_index') }}">Retour</a>
 
     {{ include('livraison/_delete_form.html.twig') }}
 {% endblock %}

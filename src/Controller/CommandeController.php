@@ -2,14 +2,23 @@
 
 namespace App\Controller;
 
-use App\Entity\Commande;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Panier;
+use App\Entity\Commande;
 use App\Form\CommandeType;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
 
 #[Route('/commande')]
 class CommandeController extends AbstractController
@@ -44,6 +53,65 @@ class CommandeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($commande);
             $entityManager->flush();
+            $client = $panier->getIdUser();
+            $nomComplet = $client->getNom() . ' ' . $client->getPrenom();
+            $imagePath = 'asset(http://localhost/images/elbaldi.jpg)';
+
+            //pdf        
+            // Créer le PDF avec Dompdf
+// Create the PDF with Dompdf
+            $dompdf = new Dompdf();
+            $options = new Options();
+            $options->setIsRemoteEnabled(true);
+
+            $dompdf->setOptions($options);
+        
+            
+            $html = $this->renderView('pdf/facture.html.twig', [
+
+                'items' => $panier->getRefProduit(),
+                'total' => $panier->getTotalPanier(),
+                'nbarticles' => $panier->getNombreArticle(),
+                'nom' => $nomComplet,
+                'Datecmd' => $commande->getDateCmd()->format('d/m/Y'),
+                'adresse' => $commande->getAdresse()
+            ]);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+
+            // Get the PDF binary data
+            $pdfData = $dompdf->output();
+
+            // Save the PDF to a file on the server
+            $filename = 'commande' . $commande->getIdCmd() . '.pdf';
+            $file = 'D:\DownloadsD\\' . $filename;
+            file_put_contents($file, $pdfData);
+
+
+            // Envoi d'un email à chaque utilisateur
+
+
+            $ms = new GmailSmtpTransport('elbaldinotification@gmail.com', 'eymmlmaxtvwotrzo');
+            $mailer = new Mailer($ms);
+            $emailBody = $this->renderView('email/newcmd.html.twig', [
+                'nom' => $client->getNom(),
+                'prenom' => $client->getPrenom(),
+                'items' => $panier->getRefProduit(),
+                'total' => $panier->getTotalPanier()
+            ]);
+            $message = (new TemplatedEmail())
+                ->from('elbaldinotification@gmail.com')
+                ->to($client->getEmail())
+                ->subject('MERCI POUR VOTRE COMMANDE !')
+                ->html($emailBody)
+                ->attachFromPath($file, $filename, 'application/pdf');
+
+
+
+
+
+            $mailer->send($message);
 
             return $this->redirectToRoute('app_commande_thankyou', [], Response::HTTP_SEE_OTHER);
         }
@@ -54,7 +122,8 @@ class CommandeController extends AbstractController
             'form' => $form,
         ]);
     }
-    
+
+
     #[Route('/thankyou', name: 'app_commande_thankyou')]
     public function thankyou(): Response
     {

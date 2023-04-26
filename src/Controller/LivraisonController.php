@@ -61,6 +61,44 @@ class LivraisonController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+              //SMS
+            if($livraison->getStatusLivraison()=='en expédition'){
+            $phoneNumber = $livraison->getIdCmd()->getIdPanier()->getIdUser()->getNumtel();
+
+            $nomComplet = $livraison->getIdCmd()->getIdPanier()->getIdUser()->getNom() . ' ' . $livraison->getIdCmd()->getIdPanier()->getIdUser()->getPrenom();
+           
+                // Initialize the Twilio client
+                $sid = 'AC21dc5d3f63665f41ea25ef019b493cea';
+                $token = 'e71acd60f9dfa7c9ba12d216c09d14e0';
+                //$twilioNumber = 'YOUR_TWILIO_PHONE_NUMBER';
+                $clientt = new \Twilio\Rest\Client($sid, $token);
+
+                // Render the SMS body using the Twig template
+                $msgg = $this->renderView('sms/livraison.html.twig', [
+                    
+                    'nom' => $nomComplet,
+                    'idlivr'=>$livraison->getIdLivraison(),
+                    'idcmd' => $livraison->getIdCmd()->getIdCmd(),
+                    'datecmd' => $livraison->getIdCmd()->getDateCmd()->format('d/m/Y'),
+                    'adresse'=>$livraison->getAdresseLivraison(),
+                    'total' => $livraison->getIdCmd()->getIdPanier()->getTotalPanier()
+                ]);
+                // Remove HTML tags from the message body
+                $msgg = strip_tags($msgg);
+
+                // Send the SMS
+                $msg = $clientt->messages->create(
+                    //'+216'.$phoneNumber,
+                    '+21690025123',
+                    array(
+                        'from' => '+12764962871',
+                        'body' => 'Votre collier est en route!' . $msgg
+                    )
+                );
+            }
+           
+
+
 
             return $this->redirectToRoute('app_livraison_index', [], Response::HTTP_SEE_OTHER);
         }

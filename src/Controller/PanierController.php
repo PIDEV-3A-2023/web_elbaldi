@@ -87,7 +87,7 @@ class PanierController extends AbstractController
     {
         $total = 5;
         foreach ($panier->getRefProduit() as $produit) {
-            $total += $produit->getPrixVente();
+            $total += $produit->getPrixVente()*$produit->getQuantite();
         }
         $panier->setTotalPanier($total);
         $panier->setNombreArticle($panier->getRefProduit()->count());

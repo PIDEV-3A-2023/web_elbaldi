@@ -1,6 +1,6 @@
 {% extends 'baseFront.html.twig' %}
 {% block title %}
-	Panier index
+	Panier 
 {% endblock %}
 {% block body %}
 	{% set total = 0 %}
@@ -12,11 +12,11 @@
 					<div class="row">
 						<div class="col">
 							<h4>
-								<b>Shopping Cart</b>
+								<b>Panier</b>
 							</h4>
 						</div>
 						<div class="col align-self-center text-right text-muted">{{panier.refProduit|length}}
-							items</div>
+							Produits</div>
 					</div>
 				</div>
 				{% for Produit in panier.refProduit %}
@@ -43,38 +43,38 @@
 				{% else %}
 					<tr></tr>
 
-					<td colspan="7">no records found</td>
+					<td colspan="7">Aucun produit trouvé</td>
 				</tr>
 			{% endfor %}
 			<div class="back-to-shop">
 				<a href="#">&leftarrow;</a>
-				<span class="text-muted">Back to shop</span>
+				<span class="text-muted">Retour</span>
 			</div>
 		</div>
 		<div class="col-md-4 summary">
 			<div>
 				<h5>
-					<b>Summary</b>
+					<b>Résumé</b>
 				</h5>
 			</div>
 			<hr>
 			<div class="row">
-				<div class="col" style="padding-left:0;">ITEMS
+				<div class="col" style="padding-left:0;">
 					{{panier.refProduit|length}}</div>
 				<div class="col text-right">{{ total }}
 					TND</div>
 			</div>
 			<form>
-				<p>SHIPPING</p>
+				<p>Livraison</p>
 				<select>
-					<option class="text-muted">Standard-Delivery- 5.00 TND
+					<option class="text-muted">Livraison-Standard- 5.00 TND
 					</option>
 				</select>
-				<p>GIVE CODE</p>
+				<p>PROMO CODE</p>
 				<input id="code" placeholder="Enter your code">
 			</form>
 			<div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-				<div class="col">TOTAL PRICE</div>
+				<div class="col">TOTAL PRIX</div>
 				<div class="col text-right">{{ total+5 }}
 					TND
 				</div>
@@ -82,7 +82,7 @@
 			</div>
 
 			<button class="btn">
-				<a href="{{ path('app_commande_new', {'idPanier': panier.idPanier}) }}">CHECKOUT</a>
+				<a href="{{ path('app_commande_new', {'idPanier': panier.idPanier}) }}">Commander</a>
 			</button>
 
 		</div>
