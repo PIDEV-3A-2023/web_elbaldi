@@ -63,32 +63,6 @@ public function findFiveLeastSoldProducts():array
 
     return $qb->getQuery()->getResult();
 }
-/*
-public function findFiveLeastSoldProducts(): array
-{
-    $now = new \DateTimeImmutable();
-    $currentMonth = $now->format('Y-m');
-
-    $qb = $this->createQueryBuilder('p');
-    $qb->select('p.refProduit, COUNT(cp.idCmd) as count')
-        ->leftJoin('p.commandesProduit', 'cp')
-        ->where('cp.dateCmd LIKE :currentMonth')
-        ->setParameter('currentMonth', '%' . $currentMonth . '%')
-        ->groupBy('p.refProduit')
-        ->orderBy('count', 'ASC')
-        ->setMaxResults(5);
-
-    $results = $qb->getQuery()->getResult();
-
-    $products = [];
-    foreach ($results as $result) {
-        $product = $this->findOneBy(['refProduit' => $result['refProduit']]);
-        $product->setQuantite($result['count']);
-        $products[] = $product;
-    }
-
-    return $products;
-}*/
 
 //    /**
 //     * @return CommandProduit[] Returns an array of CommandProduit objects

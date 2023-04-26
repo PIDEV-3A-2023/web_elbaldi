@@ -284,55 +284,89 @@ id="main" class="main">
 
 {% block body %}
 
-    <h1>Statistiques</h1>
+    <h1 style="color:#000000;text-decoration: underline;">Statistiques :</h1>
 
+	<div class="col-xxl-4 col-md-6">
+  <div class="card info-card sales-card">
+    <div class="card-body">
+      <h5 class="card-title" style="color:#9a000a">Nombre total de produits</h5>
+      <p class="card-text text-center display-4" >{{ totalProducts }}</p>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
     <div id="div_chart"></div>
-
-<script type="text/javascript">
-        {{ gc_draw(pieChart, 'div_chart') }}
+    <script type="text/javascript">
+      {{ gc_draw(pieChart, 'div_chart') }}
     </script>
+  </div>
+  <div class="col-md-6">
+    <div id="chart_div"></div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
 
-<div class="card">
-  <div class="card-body">
-    <h5 class="card-title">Nombre total de produits</h5>
-    <p class="card-text text-center display-4">{{ totalProducts }}</p>
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Ref_produit', 'Quantité'],
+          {% for topProduct in topProducts %}
+            ['{{ topProduct.ref_produit }}', {{ topProduct.total }}],
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Top 5 des produits les plus demandés en {{ currentMonthName }}',
+          titleTextStyle: {
+            fontSize: 24,
+            bold: true,
+            color: '#9a000a'
+          },
+          legend: { position: 'none' },
+          width: 800,
+          height: 400,
+          colors: ['#e8cac6'],
+          hAxis: {
+            title: 'Ref_produit',
+            titleTextStyle: {
+              fontSize: 18,
+              bold: true,
+              color: '#495057'
+            },
+            textStyle: {
+              fontSize: 14,
+              color: '#495057'
+            },
+            slantedText: true,
+            slantedTextAngle: 45
+          },
+          vAxis: {
+            title: 'Quantité',
+            titleTextStyle: {
+              fontSize: 18,
+              bold: true,
+              color: '#495057'
+            },
+            textStyle: {
+              fontSize: 14,
+              color: '#495057'
+            },
+            minValue: 0,
+            format: '0'
+          }
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
   </div>
 </div>
 
-<h1>Top 5 des produits les plus demandés en {{ currentMonthName }} :</h1>
-<div id="chart_div"></div>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-  google.charts.load('current', {'packages':['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
 
-  function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-      ['Ref_produit', 'Quantité'],
-      {% for topProduct in topProducts %}
-        ['{{ topProduct.ref_produit }}', {{ topProduct.total }}],
-      {% endfor %}
-    ]);
 
-    var options = {
-      title: 'Top 5 des produits les plus demandés en {{ currentMonthName }}',
-      legend: { position: 'none' },
-      width: 800,
-      height: 400,
-      hAxis: {
-        title: 'Ref_produit',
-      },
-      vAxis: {
-        title: 'Quantité',
-        minValue: 0,
-      }
-    };
-
-    var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
-  }
-</script>
-<h1>Les produits les moins vendus en {{ currentMonthName }} </h1>
+<h1 style="color:#9a000a;">Les produits les moins vendus en {{ currentMonthName }} </h1>
 
 <div id="chart_div"></div>
 

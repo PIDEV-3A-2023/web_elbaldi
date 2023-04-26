@@ -78,7 +78,7 @@ class CommentaireController extends AbstractController
     #[Route('/{id_commentaire}', name: 'app_commentaire_delete', methods: ['POST'])]
     public function delete(Request $request, Commentaire $commentaire, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$commentaire->getId_commentaire(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $commentaire->getId_commentaire(), $request->request->get('_token'))) {
             $entityManager->remove($commentaire);
             $entityManager->flush();
         }
@@ -86,59 +86,55 @@ class CommentaireController extends AbstractController
         return $this->redirectToRoute('app_commentaire_index', [], Response::HTTP_SEE_OTHER);
     }
 
-
-    #[Route('/produit/{ref_produit}/add-comment', name:'add_comment', methods: ['Get','POST'])]
-    public function addComment(Request $request, EntityManagerInterface $entityManager, Produit $produit,CommentaireRepository $commentaireRepository,UtilisateurRepository $utilisateurRepository): Response
+    // pour ajouter un commentaire sur un produit
+    #[Route('/produit/{ref_produit}/add-comment', name: 'add_comment', methods: ['Get', 'POST'])]
+    public function addComment(Request $request, EntityManagerInterface $entityManager, Produit $produit, CommentaireRepository $commentaireRepository, UtilisateurRepository $utilisateurRepository): Response
     {
         // Liste de mots inappropriés
-    $badWords = array("mot1", "mot2", "mot3");
+        $badWords = array("mot1", "mot2", "mot3");
 
         $commentaires = $commentaireRepository->findByProduit2($produit);
         $user = $utilisateurRepository->find(2510);
         $commentaire = new Commentaire();
+        
         //$commentaire->setUser($this->getUser());
-  
         $commentaire->setUser($user);
         $commentaire->setProduit($produit);
-        //$commentaire->setContenu($request->request->get('contenu'));
         $contenu = $request->request->get('contenu');
         if ($contenu === null) {
             throw new \InvalidArgumentException('Contenu cannot be null.');
         }
 
-          // Vérifier si le contenu contient un mot inapproprié
-    foreach ($badWords as $word) {
-        if (stripos($contenu, $word) !== false) {
-           // Ajouter un message d'erreur à la liste des erreurs de formulaire
-           $this->addFlash('error', 'Votre commentaire contient des mots inappropriés. Veuillez modifier votre commentaire avant de l\'envoyer.');
-            return $this->redirectToRoute('produit_details', ['ref_produit' => $produit->getRef_produit()]);
+        // Vérifier si le contenu contient un mot inapproprié
+        foreach ($badWords as $word) {
+            if (stripos($contenu, $word) !== false) {
+                // Ajouter un message d'erreur à la liste des erreurs de formulaire
+                $this->addFlash('error', 'Votre commentaire contient des mots inappropriés. Veuillez modifier votre commentaire avant de l\'envoyer.');
+                return $this->redirectToRoute('produit_details', ['ref_produit' => $produit->getRef_produit()]);
+            }
         }
-    }
 
         $commentaire->setContenu($contenu);
         $commentaire->setDateComm(new \DateTime());
 
         $entityManager->persist($commentaire);
         $entityManager->flush();
-    // Ajouter un message de confirmation à la liste des messages flash
-    $this->addFlash('success', 'Votre commentaire a bien été ajouté.');
+        // Ajouter un message de confirmation à la liste des messages flash
+        $this->addFlash('success', 'Votre commentaire a bien été ajouté.');
 
         return $this->redirectToRoute('produit_details', ['ref_produit' => $produit->getRef_produit()]);
-
     }
 
     /**
- * @Route("/produit/{ref_produit}/commentaires", name="produit_commentaires")
- */
-public function commentaires(Produit $produit)
-{
-    $commentaires = $produit->getCommentaires();
+     * @Route("/produit/{ref_produit}/commentaires", name="produit_commentaires")
+     */
+    public function commentaires(Produit $produit)
+    {
+        $commentaires = $produit->getCommentaires();
 
-    return $this->render('produitFront/produitDetails.html.twig', [
-        'produit' => $produit,
-        'commentaires' => $commentaires,
-    ]);
-}
-
-
+        return $this->render('produitFront/produitDetails.html.twig', [
+            'produit' => $produit,
+            'commentaires' => $commentaires,
+        ]);
+    }
 }

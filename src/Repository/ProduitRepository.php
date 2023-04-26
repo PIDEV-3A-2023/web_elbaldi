@@ -74,16 +74,6 @@ class ProduitRepository extends ServiceEntityRepository
 
     }
 
-    public function filterByPrixVente(float $min, float $max): array
-{
-    $qb = $this->createQueryBuilder('p')
-        ->where('p.prixVente BETWEEN :min AND :max')
-        ->setParameter('min', $min)
-        ->setParameter('max', $max)
-        ->getQuery();
-
-    return $qb->execute();
-}
 public function findByPrixVenteAsc():array
 {
     return $this->createQueryBuilder('p')
@@ -108,22 +98,6 @@ public function rechercherParLibelle(string $libelle): array
     return $qb->getQuery()->getResult();
 }
 
-public function trierParPrixVenteCroissant()
-{
-    $entityManager = $this->getEntityManager();
-    $query = $entityManager->createQuery(
-        'SELECT p FROM App\Entity\Produit p ORDER BY p.prixVente ASC'
-    );
-    return $query->getResult();
-}
-public function trierParPrixVentedecroissant()
-{
-    $entityManager = $this->getEntityManager();
-    $query = $entityManager->createQuery(
-        'SELECT p FROM App\Entity\Produit p ORDER BY p.prixVente desc'
-    );
-    return $query->getResult();
-}
 public function countProducts(): int
 {
     $entityManager = $this->getEntityManager();
@@ -197,10 +171,6 @@ public function findByEmailsByCategoryId($categoryId) {
 
     return $emails;
 }
-
-
-
-
 
 
 

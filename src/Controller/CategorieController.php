@@ -26,6 +26,7 @@ class CategorieController extends AbstractController
             'categories' => $categories,
         ]);
     }
+
     #[Route('/Front', name: 'app_categorie_indexFront', methods: ['GET'])]
     public function indexFront(CategorieRepository $categorieRepository): Response
     {
@@ -36,7 +37,7 @@ class CategorieController extends AbstractController
         ]);
     }
 
-    
+
 
     #[Route('/new', name: 'app_categorie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -85,15 +86,14 @@ class CategorieController extends AbstractController
     }
 
     #[Route('/deleteCategorie/{id_categorie}', name: 'app_categorie_delete')]
-public function delete($id_categorie,ManagerRegistry $doctrine): Response
-{ //trouver la bonne categorie 
-$repoC=$doctrine->getRepository(Categorie::class);
-$categorie=$repoC->find($id_categorie);
-//utiliser manager pour supprimer la categorie trouve
-$em=$doctrine->getManager();
-$em->remove($categorie);
-$em->flush();
-return $this->redirectToRoute('app_categorie_index');
-}
-
+    public function delete($id_categorie, ManagerRegistry $doctrine): Response
+    { //trouver la bonne categorie 
+        $repoC = $doctrine->getRepository(Categorie::class);
+        $categorie = $repoC->find($id_categorie);
+        //utiliser manager pour supprimer la categorie trouve
+        $em = $doctrine->getManager();
+        $em->remove($categorie);
+        $em->flush();
+        return $this->redirectToRoute('app_categorie_index');
+    }
 }

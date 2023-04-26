@@ -14,7 +14,6 @@ class CommandProduitType extends AbstractType
         $builder
             ->add('ref_produit')
             ->add('date_cmd')
-          
         ;
     }
 

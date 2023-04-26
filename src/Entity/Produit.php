@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="produit", indexes={@ORM\Index(name="id_categorie", columns={"id_categorie"})})
  * @ORM\Entity
- * @UniqueEntity(fields={"ref_produit"}, message="Cette reference est déjà utilisé")
+ * @UniqueEntity(fields={"ref_produit"}, message="Cette référence est déjà utilisée")
  */
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -37,8 +37,8 @@ class Produit
      *
      * @ORM\Column(name="libelle", type="string", length=50, nullable=false)
      */
-    #[Assert\Length(min:6, minMessage:"La déscription doit contenir au minimum '{{ limit }}' lettres", max:100,maxMessage:"La déscription doit contenir au maximum'{{ limit }}' lettres")]
-    #[Assert\NotBlank(message:"ce champs est obligatoire !")]
+    #[Assert\Length(min:6, minMessage:"La description doit contenir au minimum '{{ limit }}' lettres", max:100,maxMessage:"La description doit contenir au maximum'{{ limit }}' lettres")]
+    #[Assert\NotBlank(message:"Ce champs est obligatoire !")]
     private $libelle;
 
     /**
@@ -46,8 +46,8 @@ class Produit
      *
      * @ORM\Column(name="description", type="string", length=200, nullable=false)
      */
-    #[Assert\Length(min:8, minMessage:"La déscription doit contenir au minimum '{{ limit }}' lettres", max:100,maxMessage:"La déscription doit contenir au maximum '{{ limit }}' lettres")]
-    #[Assert\NotBlank(message:"ce champs est obligatoire !")]
+    #[Assert\Length(min:8, minMessage:"La description doit contenir au minimum '{{ limit }}' lettres", max:100,maxMessage:"La description doit contenir au maximum '{{ limit }}' lettres")]
+    #[Assert\NotBlank(message:"Ce champs est obligatoire !")]
     private $description;
 
     /**

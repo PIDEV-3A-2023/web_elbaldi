@@ -39,19 +39,6 @@ class CommentaireRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-    public function findByProduit(Produit $produit): array
-{
-    return $this->createQueryBuilder('c')
-        ->addSelect('u')
-        ->addSelect('p')
-        ->join('c.user', 'u')
-        ->join('c.produit', 'p')
-        ->where('p.ref_produit = :ref_produit')
-        ->setParameter('ref_produit', $produit->getRef_produit())
-        ->getQuery()
-        ->getResult();
-}
 public function findByProduit2(Produit $produit)
 {
     return $this->createQueryBuilder('c')

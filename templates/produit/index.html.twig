@@ -1,4 +1,3 @@
-
 {% extends 'baseBack.html.twig' %}
 
 {% block body %}
@@ -26,15 +25,16 @@
                         <h5 class="card-title">{{ produit.libelle }}</h5>
                         <p class="card-text">{{ produit.ref_produit }}</p>
                         <p class="card-text">{{ produit.description }}</p>
-                        <p class="card-text">Prix de vente: {{ produit.prixVente }}</p>
+                        <p class="card-text">Prix de vente: {{ produit.prixVente }} dt</p>
 
-                        <div class="d-flex justify-content-between">
-                        <a href="{{ path('app_produit_edit', {'ref_produit': produit.ref_produit}) }}"  class="btn btn-success custom-btn">Modifier</a>
-                        <a href="{{ path('app_produit_delete', {'ref_produit': produit.ref_produit}) }}"  class="btn btn-success custom-btn d-inline-block" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')" id="delete-produit">
-                                        Supprimer</a>
- 
-
-                               
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div class="col-12 mb-4 d-flex justify-content-between">
+                            <i class="bi bi-pencil-square" style="font-size: 25px;"></i>
+                            <a href="{{ path('app_produit_edit', {'ref_produit': produit.ref_produit}) }}" class="btn btn-success custom-btn">Modifier</a>
+                            <i class="bi bi-trash" style="font-size: 25px;"></i>
+                            <a href="{{ path('app_produit_delete', {'ref_produit': produit.ref_produit}) }}" class="btn btn-success custom-btn d-inline-block" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')" id="delete-produit">Supprimer</a>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,5 @@
             </div>
         {% endfor %}
     </div>
-
-    
 </div>
 {% endblock %}

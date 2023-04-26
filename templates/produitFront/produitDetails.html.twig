@@ -4,14 +4,23 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>{% block title %} Sailor Bootstrap Template - Index{% endblock %}</title>
+  
+  <title>{% block title %} ElBaldi {% endblock %}</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    .icon-person {
+        font-size: 25px;
+    }
+</style>
 
   <!-- Favicons -->
-  <link href="{{asset('Front/img/favicon.png')}}" rel="icon">
-  <link href="{{asset('Front/img/apple-touch-icon.png ')}}" rel="apple-touch-icon">
+  <link href="{{asset('Front/img/elbaldi.jpg')}}" rel="icon">
+  <link href="{{asset('Front/img/elbaldi.jpg')}}" rel="apple-touch-icon">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -24,7 +33,6 @@
   <link href="{{asset('Front/vendor/glightbox/css/glightbox.min.css ')}}" rel="stylesheet">
   <link href="{{asset('Front/vendor/remixicon/remixicon.css ')}}" rel="stylesheet">
   <link href="{{asset('Front/vendor/swiper/swiper-bundle.min.css ')}}" rel="stylesheet">
-
   <!-- Template Main CSS File -->
   <link href="{{asset('Front/css/style.css')}}" rel="stylesheet">
 
@@ -50,6 +58,7 @@
 
   <!-- Template Main JS File -->
   <script src="{{asset('Front/js/main.js')}}"></script>
+
 {% endblock %}
  
 
@@ -72,33 +81,36 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="portfolio-info">
-                        <h3>{{ produit.libelle }}</h3>
+                        <h3 style="color:#9a000a;">{{ produit.libelle }}</h3>
+                        
                         <ul>
-                            <li><strong>Réference</strong>: {{ produit.ref_produit }}</li>
-                            <li><strong>Catégorie</strong>: {{ produit.categorie.nomCategorie }}</li>
-                            <li><strong>Prix</strong>: {{ produit.prixVente }}</li>
+                            <li><strong style="color:#9a000a;text-decoration: underline;">Référence</strong>: {{ produit.ref_produit }}</li>
+                            <li><strong style="color:#9a000a;text-decoration: underline;">Catégorie</strong>: {{ produit.categorie.nomCategorie }}</li>
+                            <li><strong style="color:#9a000a;text-decoration: underline;">Description</strong>: {{ produit.description }}</li>
+                            <li><strong style="color:#9a000a;text-decoration: underline;">Prix</strong>: {{ produit.prixVente }} dt</li>
                         </ul>
-                        <a href="#" class="btn btn-primary">Ajouter au panier</a>
+                        <a href="#" style="background-color: #9a000a; color: #fff;padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer;">Ajouter au panier</a>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="portfolio-description">
-                        <h2>Description</h2>
-                        <p>{{ produit.description }}</p>
-                    </div>
-                </div>
-            </div>
+            
+                
+            
            <div class="row">
     <div class="col-lg-12">
         <div class="portfolio-comments">
-            <h2>Commentaires</h2>
+            <div class="col-lg-12">
+                    <div class="portfolio-description">
+                        <h2 style="color:#9a000a;text-decoration: underline;">Commentaires:</h2>
+                    </div>
+                </div>
             {% if commentaires is not empty %}
                 {% for commentaire in commentaires %}
                     <div class="comment">
                         <div class="comment-info">
-                            <strong>{{ commentaire.user.nom }}</strong> - {{ commentaire.date_comm|date('d/m/Y') }}
+                         {# <img src="{{asset('Front/img/user.png')}}" alt="Photo de {{ commentaire.user.nom }}" style="width: 50px;"> #}
+                          <i class="bi bi-person-circle icon-person"></i> 
+                            <strong>{{ commentaire.user.nom }} {{ commentaire.user.prenom }}</strong> - {{ commentaire.date_comm|date('d/m/Y') }}
                         </div>
                         <div class="comment-text">
                             {{ commentaire.contenu }}
@@ -117,12 +129,12 @@
     <div class="alert alert-danger">{{ message }}</div>
 {% endfor %}
 
-            <h3>Ajouter un commentaire</h3>
-            <form method="POST" action="{{ path('add_comment', {'ref_produit': produit.ref_produit}) }}" >
-    <label for="contenu">Contenu</label>
-    <input type="text" id="contenu" name="contenu">
-    <button type="submit">Envoyer</button>
+           <h3 style="font-size: 24px; margin-bottom: 10px; color:#9a000a">Laisser un commentaire</h3>
+<form method="POST" action="{{ path('add_comment', {'ref_produit': produit.ref_produit}) }}" style="margin-bottom: 20px;">
+    <input type="text" id="contenu" name="contenu" style="padding: 5px; font-size: 16px; border: 1px solid #ccc; border-radius: 3px; width: 100%; margin-bottom: 10px;">
+    <button type="submit" style="background-color: #9a000a; color: #fff; padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer;">Publier</button>
 </form>
+
         </div>
     </div>
 </div>

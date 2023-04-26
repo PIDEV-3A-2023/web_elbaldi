@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Entity\Commentaire;
-use App\Entity\Utilisateur;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use App\Repository\CommandeProduitRepository;
@@ -19,7 +18,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Service\FileUploader;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Mailer;
@@ -79,6 +77,7 @@ class ProduitController extends AbstractController
             'success' => true,
             'html' => $html->getContent()
         ]);
+        
     }
     /**
      * @Route("/produit/{ref_produit}", name="produit_details", methods={"GET"})
@@ -91,9 +90,6 @@ class ProduitController extends AbstractController
             'commentaires' => $commentaires,
         ]);
     }
-
-
-
 
     /**
      * @Route("/admin/produit/new", name="app_produit_new", methods={"GET","POST"})
@@ -224,10 +220,8 @@ class ProduitController extends AbstractController
  * @Route("/update_prix/{ref_produit}/{taux}", name="app_produit_update_prix", methods={"POST"})
  */
 public function updatePrix(Request $request,Produit $produit , ProduitRepository $produitRepository): JsonResponse
-{  // $produit = $produitRepository->find($ref_produit);
-    //$taux = $request->request->get('taux');
+{  
     $taux = $request->attributes->get('taux');
-    //dump('Le taux reçu est: ' . $taux);
     $nouveauPrixVente = $produit->getPrixVente() * (1 - $taux/100);
     $produit->setPrixVente($nouveauPrixVente);
     $entityManager = $this->getDoctrine()->getManager();
@@ -236,10 +230,11 @@ public function updatePrix(Request $request,Produit $produit , ProduitRepository
 
     return new JsonResponse(['nouveauPrixVente' => $nouveauPrixVente]);
 }
+
     #[Route('/deleteProduit/{ref_produit}', name: 'app_produit_delete')]
     public function delete($ref_produit, ManagerRegistry $doctrine): Response
-    { //trouver le bon produit 
-        // trouver le bon produit 
+    {   
+        //trouver le bon produit 
         $repoC = $doctrine->getRepository(Produit::class);
         $produit = $repoC->find($ref_produit);
 
@@ -275,17 +270,15 @@ public function updatePrix(Request $request,Produit $produit , ProduitRepository
             $i = $i + 1;
         }
 
-
         $pieChart = new Piechart();
-
-
 
         $pieChart->getData()->setArrayToDataTable($prods);
         $pieChart->getOptions()->setTitle('Produits par catégories');
         $pieChart->getOptions()->setHeight(600);
         $pieChart->getOptions()->setWidth(600);
-        $pieChart->getOptions()->getTitleTextStyle()->setColor('#07600');
+        $pieChart->getOptions()->getTitleTextStyle()->setColor('#9a000a');
         $pieChart->getOptions()->getTitleTextStyle()->setFontSize(25);
+        $pieChart->getOptions()->setColors(['#e8cac6', '#c74d4d', '#c78da7','#a43120']); // Spécifiez les couleurs ici
 
 
         return $this->render('statistique.html.twig', [

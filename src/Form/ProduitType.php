@@ -40,7 +40,7 @@ class ProduitType extends AbstractType
                             'image/png',
                             'image/jpg',
                         ],
-                        'mimeTypesMessage' => 'Veuillez télécharger un fichier image valide (JPEG ou PNG)',
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier image valide (format JPEG ou PNG)',
                     ]),
                     
                 ],
@@ -50,7 +50,7 @@ class ProduitType extends AbstractType
             ->add('categorie',EntityType::class,[
                 'class'=>Categorie::class,
                 'choice_label'=>'nomCategorie',
-                'placeholder'=>'choisir une categorie',
+                'placeholder'=>'choisir une catégorie',
                 'multiple'=>false,
                 'expanded'=>false,
                 'constraints' => [

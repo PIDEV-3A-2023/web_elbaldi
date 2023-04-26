@@ -25,7 +25,6 @@ class CommentaireType extends AbstractType
                 'empty_data'=>''
                 ])
           
-        
         ->add('user',EntityType::class,[
             'class'=>Utilisateur::class,
             'choice_label'=>'nom',

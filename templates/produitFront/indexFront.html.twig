@@ -33,6 +33,7 @@
       method: 'GET',
       success: function(response) {
         if (response.success) {
+         
           $('#produits-container').html(response.html);
           $('#tri-select').val(tri);
 
@@ -75,18 +76,21 @@
     </div>
 
 
-
-    <div class="row">
-        <div class="col-lg-4">
-                <label for="tri">Trier par :</label>
-                    <select name="tri" id="tri-select">
-                    <option value="#">-- Sélectionnez une option --</option>
-                    <option value="prix_asc">Prix croissant</option>
-                    <option value="prix_desc">Prix décroissant</option>
-                </select>
+<div class="row">
+    <div class="col-lg-4 text-center">
+        <label style="color:#9a000a; font-weight: bold;" for="tri">Trier par :</label>
+        <select name="tri" id="tri-select">
+            <option value="#">-- Sélectionnez une option --</option>
+            <option value="prix_asc">Prix croissant</option>
+            <option value="prix_desc">Prix décroissant</option>
+        </select>
         </div>
-         <input id="myInput" class="form-control form-control-navbar" type="search" placeholder="Rechercher" aria-label="rech">
+<div class="col-lg-4 text-center">
+        <input id="myInput" class="form-control form-control-navbar" type="search" placeholder="Rechercher..." aria-label="rech">
+        </br>
+        </div>
     </div>
+</div>
 
     <div  class="row portfolio-container">
         {% for produit in produits %}
@@ -95,10 +99,10 @@
                     <img src="{{ asset('images/' ~ produit.image) }}" class="img-fluid" style="width: 480px; height: 180px;">
                     <div class="portfolio-info">
                         <h4>{{ produit.libelle }}</h4>
-                        <p>{{ produit.prixVente }}</p>
+                        <p>{{ produit.prixVente }} dt</p>
                         <div class="portfolio-links">
-                            <a href="{{ asset('images/' ~ produit.image) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ produit.libelle }}"><i class="bx bx-plus"></i></a>
-                            <a href="{{ path('produit_details', {'ref_produit': produit.ref_produit}) }}" class="portfolio-details-lightbox" data-glightbox="type: external" title="Produit Details"><i class="bx bx-link"></i></a>
+                            <a href="{{ asset('images/' ~ produit.image) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ produit.libelle }}"><i class="bi bi-arrows-fullscreen"></i></a>
+                            <a href="{{ path('produit_details', {'ref_produit': produit.ref_produit}) }}" class="portfolio-details-lightbox" data-glightbox="type: external" title="Produit Details"><i class="bx bx-list-ul"></i></a>
                         </div>
                     </div>
                 </div>

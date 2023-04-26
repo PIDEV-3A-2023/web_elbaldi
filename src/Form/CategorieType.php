@@ -14,7 +14,7 @@ class CategorieType extends AbstractType
         $builder
         ->add('nomCategorie', null, [
             'attr' => ['class' => 'form-control'],
-            'label' => 'Nom de categorie :',
+            'label' => 'Nom de catégorie :',
             'label_attr' => ['class' => 'col-sm-2 col-form-label'],
             'empty_data'=>''
 
@@ -26,7 +26,6 @@ class CategorieType extends AbstractType
             'empty_data'=>''
 
         ])
-        
           
         ;
     }

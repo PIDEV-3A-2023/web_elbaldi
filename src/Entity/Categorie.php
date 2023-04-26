@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="categorie")
  * @ORM\Entity
- * @UniqueEntity(fields={"nomCategorie"}, message="Cette catégorie est déjà utilisé")
+ * @UniqueEntity(fields={"nomCategorie"}, message="Cette catégorie existe déjà")
  */
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
 class Categorie
@@ -32,7 +32,7 @@ class Categorie
      *
      * @ORM\Column(name="nom_categorie", type="string", length=255, nullable=false)
      */
-    #[Assert\NotBlank(message:"ce champs est obligatoire !")]
+    #[Assert\NotBlank(message:"Ce champs est obligatoire !")]
     #[Assert\Regex(pattern:"/^[a-zA-Z\s]+$/", message:"Le nom ne doit contenir que des lettres")]
     private $nomCategorie;
 
@@ -41,8 +41,8 @@ class Categorie
      *
      * @ORM\Column(name="Description", type="string", length=255, nullable=false)
      */
-   #[Assert\Length(min:5, minMessage:"La déscription doit contenir au minimum'{{ limit }}' lettres", max:100, maxMessage:"La déscription doit contenir au maximum'{{ limit }}' lettres")]
-   #[Assert\NotBlank(message:"ce champs est obligatoire !")]
+   #[Assert\Length(min:5, minMessage:"La description doit contenir au minimum'{{ limit }}' lettres", max:100, maxMessage:"La description doit contenir au maximum'{{ limit }}' lettres")]
+   #[Assert\NotBlank(message:"Ce champs est obligatoire !")]
     private $description;
 
     #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Categorie::class, orphanRemoval: true, cascade: ['null'])]

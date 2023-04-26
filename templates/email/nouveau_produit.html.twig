@@ -3,16 +3,43 @@
     <head>
         <meta charset="UTF-8" />
         <title>Nouveau produit ajouté à votre catégorie préférée !</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+            }
+            h2 {
+                color: #9a000a;
+            }
+            p {
+                color: #333333;
+                line-height: 1.5;
+                font-size: 16px;
+            }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #ffffff;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+            .signature {
+                margin-top: 20px;
+                text-align: right;
+                font-style: italic;
+            }
+        </style>
     </head>
     <body>
         <p>Bonjour ,Cher(e) {{ nom }} {{ prenom }}</p>
-        <p>J'espère que vous allez bien. Je voulais vous informer que nous avons ajouté un nouveau produit à votre catégorie préférée "{{ produit.getCategorie().getnomCategorie() }}" :</p>
+        <p>J'espère que vous allez bien. Je voulais vous informer que nous avons ajouté un nouveau produit à votre catégorie préférée "{{ produit.getCategorie().getnomCategorie() }}":</p>
         <h2>{{ produit.getLibelle() }}</h2>
         <p>{{ produit.getDescription() }}</p>
         <p>Prix : {{ produit.getPrixVente() }} dt</p>
         <p>Nous avons sélectionné ce produit en pensant à vos besoins et à vos préférences. Nous pensons que cela pourrait être une excellente option pour vous.</p>
         <p>Merci de votre confiance en notre entreprise. Nous espérons que vous apprécierez le nouveau produit autant que nous.</p>
-        <p>Cordialement,</p>
-        <p>ElBaldi</p>
+       <p class="signature">Cordialement,<br>ElBaldi</p>
+    
     </body>
 </html>
