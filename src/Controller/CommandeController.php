@@ -6,10 +6,12 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Entity\Panier;
 use App\Entity\Commande;
+use App\Entity\Livraison;
 use App\Form\CommandeType;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mailer\Mailer;
 use App\Repository\CommandeRepository;
+use App\Repository\LivraisonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -185,6 +187,21 @@ class CommandeController extends AbstractController
         return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/dashboard', name: 'app_commande_dashboard')]
+    public function stats2( CommandeRepository $commandeRepository, LivraisonRepository $livraisonRepository): Response
+    {
+    //    $currentMonthName = (new \DateTime())->format('F');
+        $somme = $commandeRepository->countSomme();
+        $totalpendingorder=$commandeRepository->countPending();
+        $totalpendinglivraison=$livraisonRepository->countPendingLiv();
+      
+        return $this->render('dashboard.html.twig', [
 
+            'somme' => $somme,
+            'totalpendingorder'=> $totalpendingorder,
+            'totalpendinglivraison'=> $totalpendinglivraison,
+
+        ]);
+    }
 
 }

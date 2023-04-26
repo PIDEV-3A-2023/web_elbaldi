@@ -38,7 +38,18 @@ class LivraisonRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function countPendingLiv(): int
+    {
 
+        return $this->createQueryBuilder('l')
+        ->select('COUNT(l.idLivraison)')
+        ->andWhere('l.statusLivraison = :statusLivraison')
+        ->setParameter('statusLivraison', 'En attente')
+        ->getQuery()
+        ->getSingleScalarResult();
+
+    }
+    
 //    /**
 //     * @return Livraison[] Returns an array of Livraison objects
 //     */

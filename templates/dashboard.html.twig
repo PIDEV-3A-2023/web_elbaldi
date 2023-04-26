@@ -1,0 +1,35 @@
+
+{% extends 'baseBack.html.twig' %}
+{% block title %}
+Dashboard 
+{% endblock %}
+
+{% block body %}
+  <h1 style="color:#000000;text-decoration: underline;">Statistiques :</h1>
+
+	<div class="col-xxl-4 col-md-6">
+  <div class="card info-card sales-card">
+    <div class="card-body">
+      <h5 class="card-title" style="color:#9a000a">Nombre total de commande en attente</h5>
+      <p class="card-text text-center display-4" >{{ totalpendingorder }}</p>
+    </div>
+  </div>
+</div>
+
+	<div class="col-xxl-4 col-md-6">
+  <div class="card info-card sales-card">
+    <div class="card-body">
+      <h5 class="card-title" style="color:#9a000a">Nombre total de livraison en attente</h5>
+      <p class="card-text text-center display-4" >{{ totalpendinglivraison }}</p>
+    </div>
+  </div>
+</div>
+	<div class="col-xxl-4 col-md-6">
+  <div class="card info-card sales-card">
+    <div class="card-body">
+      <h5 class="card-title" style="color:#9a000a">Chiffre d'affaire</h5>
+      <p class="card-text text-center display-4" >{{ somme }} DT </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

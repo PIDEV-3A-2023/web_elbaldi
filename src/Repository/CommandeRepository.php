@@ -47,6 +47,24 @@ class CommandeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+    public function countSomme(): float
+    {
+
+        return $this->createQueryBuilder('c')
+            ->select('SUM(c.total)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function countPending(): int
+    {
+        return $this->createQueryBuilder('c')
+        ->select('COUNT(c.idCmd)')
+        ->andWhere('c.etat = :etat')
+        ->setParameter('etat', 'En attente')
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
+
 
 //    /**
 //     * @return Commande[] Returns an array of Commande objects

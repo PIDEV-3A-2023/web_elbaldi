@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommandeRepository;
@@ -37,7 +38,7 @@ class Commande
      *
      * @ORM\Column(name="date_cmd", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private ?\DateTimeInterface $dateCmd;
+    private ?DateTimeInterface $dateCmd;
     public function __construct()
     {
         $this->dateCmd = new \DateTime();
