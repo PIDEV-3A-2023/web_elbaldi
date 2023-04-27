@@ -283,6 +283,7 @@ id="main" class="main">
 
 
 {% block body %}
+<body>
 
     <h1 style="color:#000000;text-decoration: underline;">Statistiques :</h1>
 
@@ -389,7 +390,7 @@ id="main" class="main">
         <td>{{ produit.description }}</td>
 <td><span class="prix" id="prix-{{ produit.ref_produit }}" data-prix="{{ produit.prixVente }}">{{ produit.prixVente }} dt</span></td>
         <td><input type="number" class="form-control" id="taux-{{ produit.ref_produit }}" value="0"></td>
-        <td><button class="btn btn-primary" onclick="appliquerPromotion('{{ produit.ref_produit }}')">Valider</button></td>
+        <td><button class="btn btn-success custom-btn" onclick="appliquerPromotion('{{ produit.ref_produit }}')">Valider</button></td>
       </tr>
     {% endfor %}
   </tbody>
