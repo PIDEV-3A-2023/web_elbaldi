@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Question;
 use App\Entity\Quiz;
+use App\Entity\Utilisateur;
 use App\Form\QuestionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,10 +12,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\QuestionsRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\Promotion;
 
 #[Route('/question')]
 class QuestionController extends AbstractController
 {
+
+
+
+
+
+
+
+
+
+
+
+
     #[Route('/quiz/{idQuiz}/questions', name: 'app_question_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager, $idQuiz): Response
     {
@@ -29,6 +44,7 @@ class QuestionController extends AbstractController
         return $this->render('question/index.html.twig', [
             'questions' => $questions,
             'quiz' => $quiz,
+
         ]);
     }
 
@@ -38,7 +54,7 @@ class QuestionController extends AbstractController
 
 
 
-    #[Route('/quiz/{idQuiz}/questionsfront', name: 'app_question_indecx', methods: ['GET'])]
+    /* #[Route('/quiz/{idQuiz}/questionsfront', name: 'app_question_indecx', methods: ['GET', 'POST'])]
     public function indexfront(EntityManagerInterface $entityManager, $idQuiz): Response
     {
         $questions = $entityManager
@@ -49,7 +65,43 @@ class QuestionController extends AbstractController
             ->getRepository(Quiz::class)
             ->findOneBy(['idQuiz' => $idQuiz]);
 
-        return $this->render('quizFront/jouer.html.twig', [
+        return $this->render('quizFront/testfront.html.twig', [
+            'questions' => $questions,
+            'quiz' => $quiz,
+        ]);
+    } */
+    #[Route('/quiz/{idQuiz}/questionsfront', name: 'app_question_indecx', methods: ['GET', 'POST'])]
+    public function indexfront(EntityManagerInterface $entityManager, Request $request, $idQuiz): Response
+    {
+        $questions = $entityManager
+            ->getRepository(Question::class)
+            ->findBy(['idQuiz' => $idQuiz]);
+
+        $quiz = $entityManager
+            ->getRepository(Quiz::class)
+            ->findOneBy(['idQuiz' => $idQuiz]);
+
+        if ($request->isMethod('POST')) {
+            $codePromo = $request->request->get('codepromo');
+            $reduction = $request->request->get('reduction');
+            // Enregistrement de la promotion dans la base de données
+            $promotion = new Promotion();
+            $promotion->setCodePromo($codePromo);
+            $promotion->setTaux($reduction);
+
+            $user = $entityManager
+                ->getRepository(Utilisateur::class)
+                ->find(2499); // Récupérer l'utilisateur ayant l'id_user de 2499
+            $promotion->setIdUser($user);
+
+            $entityManager->persist($promotion);
+            $entityManager->flush();
+
+            // Retourner une réponse JSON indiquant que l'opération a réussi
+            return new JsonResponse(array('success' => true));
+        }
+
+        return $this->render('quizFront/testfront.html.twig', [
             'questions' => $questions,
             'quiz' => $quiz,
         ]);
@@ -164,11 +216,22 @@ class QuestionController extends AbstractController
         ]);
     }
 
-    #[Route('/codeQR', name: 'app_code', methods: ['GET'])]
-    public function code(Question $question): Response
+
+    #[Route('/quiz/{idQuiz}/jouer', name: 'app_quiz_jouer')]
+    public function jouer(EntityManagerInterface $entityManager, $idQuiz): Response
     {
-        return $this->render('quizFront/codeQR.html.twig', [
-            'question' => $question,
+        $utilisateur = $entityManager
+            ->getRepository(Utilisateur::class)
+            ->find(2499); // Récupérer l'utilisateur ayant l'id_user de 2499
+
+        $utilisateur->setNombrejouer($utilisateur->getNombrejouer() + 1); // Incrémenter le champ nombrejouer
+
+        $entityManager->flush(); // Enregistrer les modifications en base de données
+
+        // Rediriger l'utilisateur vers la page de questions du quiz
+        return $this->redirectToRoute('app_question_indecx', [
+            'idQuiz' => $idQuiz,
+            'nombrejouer' => $utilisateur->getNombrejouer(),
         ]);
     }
 }

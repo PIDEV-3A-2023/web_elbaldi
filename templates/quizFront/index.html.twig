@@ -27,8 +27,11 @@
 								{{ quiz.difficulte }}
 							</h4>
 							<div class="col-md-4 d-flex align-items-center justify-content-center">
-
-								<a href="{{ path('app_question_indecx', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn">Jouer</a>
+								{% if  utilisateur.nombrejouer < 3 %}
+									<a href="{{ path('app_quiz_jouer', {'idQuiz': quiz.idQuiz}) }}" class="btn btn-success custom-btn" onclick="return confirm('Êtes-vous sûr de vouloir jouer ? Il vous reste encore {{2- utilisateur.nombrejouer }} fois pour jouer au quiz !')">Jouer</a>
+								{% else %}
+									<button type="button" class="btn btn-success custom-btn" disabled>Jouer</button>
+								{% endif %}
 
 							</div>
 						</div>
@@ -39,5 +42,4 @@
 		</div>
 	</div>
 
-
-</script>{% endblock %}
+{% endblock %}

@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\CommenatireRepository;
 
 /**
  * Commentaire
@@ -12,7 +11,6 @@ use App\Repository\CommenatireRepository;
  * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="ref_produit", columns={"ref_produit"})})
  * @ORM\Entity
  */
-#[ORM\Entity(repositoryClass: CommenatireRepository::class)]
 class Commentaire
 {
     /**
@@ -39,16 +37,6 @@ class Commentaire
     private $dateComm;
 
     /**
-     * @var \Utilisateur
-     *
-     * @ORM\ManyToOne(targetEntity="Utilisateur")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user")
-     * })
-     */
-    private $idUser;
-
-    /**
      * @var \Produit
      *
      * @ORM\ManyToOne(targetEntity="Produit")
@@ -57,6 +45,16 @@ class Commentaire
      * })
      */
     private $refProduit;
+
+    /**
+     * @var \Utilisateur
+     *
+     * @ORM\ManyToOne(targetEntity="Utilisateur")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user")
+     * })
+     */
+    private $idUser;
 
     public function getIdCommentaire(): ?int
     {
@@ -87,18 +85,6 @@ class Commentaire
         return $this;
     }
 
-    public function getIdUser(): ?Utilisateur
-    {
-        return $this->idUser;
-    }
-
-    public function setIdUser(?Utilisateur $idUser): self
-    {
-        $this->idUser = $idUser;
-
-        return $this;
-    }
-
     public function getRefProduit(): ?Produit
     {
         return $this->refProduit;
@@ -107,6 +93,18 @@ class Commentaire
     public function setRefProduit(?Produit $refProduit): self
     {
         $this->refProduit = $refProduit;
+
+        return $this;
+    }
+
+    public function getIdUser(): ?Utilisateur
+    {
+        return $this->idUser;
+    }
+
+    public function setIdUser(?Utilisateur $idUser): self
+    {
+        $this->idUser = $idUser;
 
         return $this;
     }

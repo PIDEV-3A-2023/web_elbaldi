@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Quiz;
 use App\Entity\Question;
+use App\Entity\Utilisateur;
 use App\Form\QuizType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,9 +43,14 @@ class QuizController extends AbstractController
         $quizzes = $entityManager
             ->getRepository(Quiz::class)
             ->findAll();
-
+        $utilisateur = $entityManager
+            ->getRepository(Utilisateur::class)
+            ->find(2499); // Récupérer l'utilisateur ayant l'id_user de 2499
+        $nombrejouer = $utilisateur->getNombrejouer();
         return $this->render('quizFront/index.html.twig', [
             'quizzes' => $quizzes,
+            'utilisateur' => $utilisateur,
+            'nombrejouer' => $nombrejouer,
         ]);
     }
 

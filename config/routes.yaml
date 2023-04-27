@@ -2,6 +2,4 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
-app_generate_promo:
-    path: /generate-promo
-    controller: App\Controller\MyController::generatePromo
+

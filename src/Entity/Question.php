@@ -7,6 +7,7 @@ use App\Repository\QuestionRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+
 /**
  * Question
  *
@@ -14,7 +15,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Entity
  */
 
-#[ORM\Entity(repositoryClass: QuestionRepository::class)]
+#[ORM\Entity(repositoryClass: QuestionsRepository::class)]
 class Question
 {
     /**
