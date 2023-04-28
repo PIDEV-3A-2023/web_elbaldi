@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\Reservation;
+use App\Entity\Bonplan;
+use App\Entity\Utilisateur;
 use App\Form\ReservationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormError;
+
 
 #[Route('/reservation')]
 class ReservationController extends AbstractController
@@ -21,16 +23,38 @@ class ReservationController extends AbstractController
             ->getRepository(Reservation::class)
             ->findAll();
 
-        return $this->render('reservation/index.html.twig', [
-            'reservations' => $reservations,
-        ]);
+        $rdvs = [];
+        foreach ($reservations as $event)
+        {
+            $rdvs[]=[
+                'title'=>$event->getIdUser()->getNom() . ' ' . $event->getIdUser()->getPrenom(),
+                'start'=>$event->getDateReservation()->format("Y-m-d"),
+                'end'=>$event->getDateReservation()->modify("+1 day")->format("Y-m-d"),
+                'backgroundColor'=> '#0ec51',
+                'borderColor'=> 'green',
+                'textColor' => 'black'
+            ];
+        }
+        $data = json_encode($rdvs);
+
+        return $this->render('reservation/index.html.twig' ,compact('data', 'reservations' ));
     }
 
-    #[Route('/new', name: 'app_reservation_new', methods: ['GET', 'POST'])]
+   
+    
+
+    #[Route('/new/{idBonplan}', name: 'app_reservation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $reservation = new Reservation();
-        $form = $this->createForm(ReservationType::class, $reservation);
+        $bonplanId = $request->attributes->get('idBonplan');
+        $bonplan = $entityManager->getRepository(Bonplan::class)->find($bonplanId);
+        //$bonplanTitre = $bonplan->getTitreBonplan();
+        $reservation->setIdBonplan($bonplan);
+        $form = $this->createForm(ReservationType::class, $reservation,
+        [
+            'idBonplan' => $bonplan
+                ]);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,7 +72,7 @@ class ReservationController extends AbstractController
             $entityManager->persist($reservation);
             $entityManager->flush();
     
-            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_bonplan_indexFront', [], Response::HTTP_SEE_OTHER);
         }
     
         return $this->renderForm('reservation/new.html.twig', [

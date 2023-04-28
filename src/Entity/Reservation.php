@@ -43,7 +43,6 @@ class Reservation
      * @var string
      *
      * @ORM\Column(name="statut_reservation", type="string", length=255, nullable=false)
-     *  @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $statutReservation;
 
@@ -131,6 +130,8 @@ class Reservation
 
         return $this;
     }
+
+  
 
 
 }

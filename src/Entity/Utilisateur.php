@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -76,6 +79,14 @@ class Utilisateur
 
     #[ORM\Column(name: "etat", type: "json")]
     private ?array $etat;
+    
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="nombrejouer", type="integer", nullable=true)
+     */
+    private $nombrejouer;
 
     public function getIdUser(): ?int
     {
@@ -168,7 +179,11 @@ class Utilisateur
 
     public function getRole(): array
     {
-        return $this->role;
+        $roles = $this->role;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
     public function setRole(array $role): self
@@ -190,5 +205,30 @@ class Utilisateur
         return $this;
     }
 
+    public function getNombrejouer(): ?int
+    {
+        return $this->nombrejouer;
+    }
+
+    public function setNombrejouer(?int $nombrejouer): self
+    {
+        $this->nombrejouer = $nombrejouer;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->nom . " " . $this->prenom;
+    }
+        /**
+     * @ORM\OneToMany(targetEntity="Commentaire", mappedBy="user")
+     */
+    private $commentaires;
+
+    public function __construct()
+    {
+        $this->commentaires = new ArrayCollection();
+    }
 
 }

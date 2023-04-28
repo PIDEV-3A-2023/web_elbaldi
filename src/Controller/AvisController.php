@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Avis;
+use App\Entity\Bonplan;
+use App\Entity\Utilisateur;
 use App\Form\AvisType;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -81,4 +84,21 @@ class AvisController extends AbstractController
 
         return $this->redirectToRoute('app_avis_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+ * @Route("/bonplan/{idBonplan}/add-avis", name="app_bonplan_add_avis", methods={"POST"})
+ */
+public function addAvis(Bonplan $bonplan, Request $request, EntityManagerInterface $entityManager,UtilisateurRepository $utilisateurRepository): Response
+{ 
+    $user = $utilisateurRepository->find(2499);
+    $avis = new Avis();
+    $avis->setIdBonplan($bonplan);
+    $avis->setIdUser($user);
+    $avis->setNoteAvis($request->request->get('note'));
+    $avis->setDateAvis(new \DateTime());
+    $entityManager->persist($avis);
+    $entityManager->flush();
+    
+    return $this->redirectToRoute('app_bonplan_indexFront', ['idBonplan' => $bonplan->getIdBonplan()]);
+}
 }

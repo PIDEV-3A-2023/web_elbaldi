@@ -54,9 +54,21 @@ class Bonplan
      */
     private $imageBonplan;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="idBonplan")
+     */
+    private $avis;
+
     public function getIdBonplan(): ?int
     {
         return $this->idBonplan;
+    }
+    public function setIdBonplan(int $idBonplan): self
+    {
+        $this->idBonplan = $idBonplan;
+
+        return $this;
     }
 
     public function getTitreBonplan(): ?string
@@ -102,10 +114,15 @@ class Bonplan
 
     public function setImageBonplan(?string $imageBonplan): self
     {
-        $this->imageBonplan = $imageBonplan;
+        $this->imageBonplan = $imageBonplan ? $imageBonplan : "0000";
 
         return $this;
     }
+
+    public function __toString()
+        {
+            return $this->titreBonplan;
+        }
 
 
 }

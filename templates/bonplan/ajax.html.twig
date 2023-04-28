@@ -1,0 +1,47 @@
+{% for bonplan in bonplans %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="{{ asset('uploads/'~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}"  >
+                        <div class="card-body">
+                            <h5 class="card-title">{{ bonplan.titreBonplan }}</h5>
+                            {% if averageNotes[bonplan.idBonplan].averageNote is not null %}
+    <p>{{ averageNotes[bonplan.idBonplan].averageNote }}</p>
+{% else %}
+    <p>0</p>
+{% endif %}
+                            <p class="card-text clamp">{{ bonplan.descriptionBonplan }}</p>
+                            <p class="card-text"><strong>{{ bonplan.typeBonplan }}</strong></p>
+       
+
+
+                <form action="{{ path('app_bonplan_add_avis', {'idBonplan': bonplan.idBonplan}) }}" method="post">
+                    <div class="star">
+                        <input class="star star-5" id="star-5-{{ bonplan.idBonplan }}" type="radio" name="note" value="5" onclick="setNoteAvis({{ bonplan.idBonplan }}, 5)">
+                        <label class="star star-5" for="star-5-{{ bonplan.idBonplan}}"></label>
+                        <input class="star star-4" id="star-4-{{ bonplan.idBonplan }}" type="radio" name="note" value="4" onclick="setNoteAvis({{ bonplan.idBonplan }}, 4)">
+                        <label class="star star-4" for="star-4-{{ bonplan.idBonplan }}"></label>
+                        <input class="star star-3" id="star-3-{{ bonplan.idBonplan }}" type="radio" name="note" value="3" onclick="setNoteAvis({{ bonplan.idBonplan }}, 3)">
+                        <label class="star star-3" for="star-3-{{ bonplan.idBonplan }}"></label>
+                        <input class="star star-2" id="star-2-{{ bonplan.idBonplan }}" type="radio" name="note" value="2" onclick="setNoteAvis({{ bonplan.idBonplan }}, 2)">
+                        <label class="star star-2" for="star-2-{{bonplan.idBonplan }}"></label>
+                        <input class="star star-1" id="star-1-{{bonplan.idBonplan}}" type="radio" name="note" value="1" onclick="setNoteAvis({{ bonplan.idBonplan }}, 1)">
+                        <label class="star star-1" for="star-1-{{ bonplan.idBonplan }}"></label>
+                    </div>
+
+                    <button type="submit" name="submit">Ajouter un avis</button>
+                </form>
+
+
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ path('app_bonplanFront_show', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-primary">Voir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <div class="alert alert-info" role="alert">
+                        Aucun bon plan disponible.
+                    </div>
+                </div>
+            {% endfor %}

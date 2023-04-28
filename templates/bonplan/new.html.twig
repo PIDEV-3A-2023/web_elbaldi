@@ -1,11 +1,14 @@
 {% extends 'baseBack.html.twig' %}
 
-
 {% block body %}
+
+<style>
+
+</style>
     <h1>Ajouter un bon plan</h1>
-       <a href="{{ path('app_bonplan_index') }}" class="btn btn-success mb-3">Retour</a>
+
+    <a href="{{ path('app_bonplan_index') }}" class="btn btn-success mb-3">Retour</a>
 
     {{ include('bonplan/_form.html.twig') }}
 
-    
 {% endblock %}
