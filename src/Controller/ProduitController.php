@@ -66,13 +66,13 @@ class ProduitController extends AbstractController
         }
 
         $categories = $categorieRepository->findAll();
-
+// on  génére le code HTML correspondant à la vue
         $html = $this->render('produitFront/indexFront.html.twig', [
             'produits' => $produits,
             'categories' => $categories,
             
         ]);
-    
+       // retourne une réponse JSON
         return new JsonResponse([
             'success' => true,
             'html' => $html->getContent()

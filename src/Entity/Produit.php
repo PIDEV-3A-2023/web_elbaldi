@@ -91,6 +91,9 @@ class Produit
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'produit')]
     private $commentaires=[];
 
+    
+
+
     /**
      * Constructor
      */
@@ -98,7 +101,6 @@ class Produit
     {
         $this->commentaires = new ArrayCollection();
         $this->idPanier = new ArrayCollection();
-       
     }
     
 
@@ -252,5 +254,6 @@ public function removeCommentaire(Commentaire $commentaire): self
 
     return $this;
 }
+
 
 }

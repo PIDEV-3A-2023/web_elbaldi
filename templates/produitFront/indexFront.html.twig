@@ -11,13 +11,18 @@
   var categorieSelectionnee = "*";
 
   $('#portfolio-flters li').click(function() {
+    // On récupère la catégorie à filtrer depuis l'attribut data-filter du bouton cliqué
     var categorie = $(this).data('filter');
+    // On supprime la classe 'filter-active' de tous les boutons de filtrage
     $('#portfolio-flters li').removeClass('filter-active');
+    // On ajoute la classe 'filter-active' au bouton cliqué
     $(this).addClass('filter-active');
     if (categorie == "*") {
       $('.portfolio-container .portfolio-item').show();
     } else {
+      // on cache tous les produits
       $('.portfolio-container .portfolio-item').hide();
+      // Et on affiche uniquement les produits correspondant à la catégorie sélectionnée
       $('.portfolio-container .portfolio-item' + categorie).show();
     }
     // mise à jour de la variable de catégorie sélectionnée
@@ -25,17 +30,21 @@
   });
 
   $('#tri-select').change(function() {
+     // On récupère la valeur du tri sélectionné
     var tri = $(this).val();
+    // On construit l'URL de la page de tri en remplaçant '__TRI__' par la valeur du tri sélectionné
     var url = '{{ path('produits_tri', {'tri': '__TRI__'}) }}';
     url = url.replace('__TRI__', tri);
 
+    // On utilise une requête AJAX pour récupérer les produits triés depuis le serveur
     $.ajax({
       url: url,
       method: 'GET',
       success: function(response) {
         if (response.success) {
-         
+         // Si la requête réussit, on met à jour la liste de produits affichés
           $('#produits-container').html(response.html);
+          // Et on réapplique le filtre de catégorie sélectionnée
           $('#tri-select').val(tri);
 
           // filtrer la liste de produits pour afficher uniquement les produits de la catégorie sélectionnée
@@ -54,9 +63,13 @@
   });
 
   $('#myInput').on('keyup', function() {
+        // On récupère la valeur saisie et on la convertit en minuscules
     var value = $(this).val().toLowerCase();
+    // On cache tous les produits
     $('.portfolio-item').hide();
+    
     $('.portfolio-item' + categorieSelectionnee).filter(function() {
+      //Pour chaque élément sélectionné, la fonction de filtrage vérifie si le texte de la balise h4 contient la valeur saisie par l'utilisateur(value)
       return $(this).find('h4').text().toLowerCase().indexOf(value) > -1;
     }).show();
   });
@@ -104,6 +117,7 @@
                         <div class="portfolio-links">
                             <a href="{{ asset('images/' ~ produit.image) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ produit.libelle }}"><i class="bi bi-arrows-fullscreen"></i></a>
                             <a href="{{ path('produit_details', {'ref_produit': produit.ref_produit}) }}" class="portfolio-details-lightbox" data-glightbox="type: external" title="Produit Details"><i class="bx bx-list-ul"></i></a>
+                            
                         </div>
                     </div>
                 </div>

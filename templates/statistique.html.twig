@@ -397,20 +397,33 @@ id="main" class="main">
 </table>
 <script>
 function appliquerPromotion(ref_produit) {
+
+	  // Récupère la valeur de l'input associé au produit pour lequel on veut appliquer une promotion
   var taux = document.getElementById("taux-" + ref_produit).value;
+
   // Envoie une requête AJAX pour mettre à jour le prix de vente
+    // Crée une nouvelle requête AJAX
   var xhr = new XMLHttpRequest();
+    // Configure la requête en spécifiant la méthode (POST) et l'URL (/update_prix/ref_produit/taux)
 xhr.open('POST', '/update_prix/' + ref_produit + '/' + taux);
+
+  // Définit le type de contenu de la requête à envoyer (JSON)
   xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
+    // on a ajouter une fonction à exécuter lorsque la requête aura été envoyée et que la réponse sera arrivée
   xhr.onload = function() {
     if (xhr.status === 200) {
-      // Affiche le nouveau prix de vente après avoir reçu la réponse
+		
+	  // Parse le contenu de la réponse qui est un objet JSON contenant le nouveau prix de vente
       var nouveauPrixVente = JSON.parse(xhr.responseText).nouveauPrixVente;
+
+	  // Affiche le nouveau prix de vente après avoir reçu la réponse
 document.getElementById("prix-" + ref_produit).innerHTML = nouveauPrixVente + " dt";
     } else {
       console.log('Erreur lors de la mise à jour du prix de vente.');
     }
   };
+  // Envoie la requête AJAX en incluant les données à envoyer (ici le taux de promotion)
   xhr.send(JSON.stringify({taux: taux}));
 }
 

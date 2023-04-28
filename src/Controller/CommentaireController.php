@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 #[Route('/commentaire')]
 class CommentaireController extends AbstractController
 {
@@ -100,6 +101,7 @@ class CommentaireController extends AbstractController
         //$commentaire->setUser($this->getUser());
         $commentaire->setUser($user);
         $commentaire->setProduit($produit);
+        //on récupére la valeur du paramètre 'contenu' envoyé dans une requête HTTP POST.
         $contenu = $request->request->get('contenu');
         if ($contenu === null) {
             throw new \InvalidArgumentException('Contenu cannot be null.');
@@ -107,6 +109,7 @@ class CommentaireController extends AbstractController
 
         // Vérifier si le contenu contient un mot inapproprié
         foreach ($badWords as $word) {
+            //pour chercher la première occurrence d'un mot dans contenu
             if (stripos($contenu, $word) !== false) {
                 // Ajouter un message d'erreur à la liste des erreurs de formulaire
                 $this->addFlash('error', 'Votre commentaire contient des mots inappropriés. Veuillez modifier votre commentaire avant de l\'envoyer.');
