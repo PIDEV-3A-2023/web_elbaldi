@@ -23,6 +23,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Mailer;
 
 
+
 class ProduitController extends AbstractController
 {
     /**
@@ -139,12 +140,12 @@ class ProduitController extends AbstractController
                 }
                 
             //SMS
-/*
+
             $phoneNumbers = $produitRepository->findByTelByCategoryId($categoryId);
             foreach ($phoneNumbers as $phoneNumber) {
                 // Initialize the Twilio client
-                $sid = 'ACd87d0201acfd4e7c7abca86029ea64a3';
-                $token = '3d6eb3baa5a99b2508809eea8262f056';
+                $sid = 'AC71e1feb032fa0923d3b0a48b604bd489';
+                $token = 'c8f863d557084602ab043bfb8ac92d76';
                 //$twilioNumber = 'YOUR_TWILIO_PHONE_NUMBER';
                 $clientt = new \Twilio\Rest\Client($sid, $token);
 
@@ -164,13 +165,13 @@ class ProduitController extends AbstractController
                     //'+216'.$phoneNumber,
                     '+21697618378',
                     array(
-                        'from' => '+14095097044',
+                        'from' => '+12766378855',
                         'body' => 'BONNE NOUVELLE ! ' . $msgg
                     )
                 );
             }
 
-*/
+
             return $this->redirectToRoute('app_produit_index');
         }
 
@@ -278,7 +279,7 @@ public function updatePrix(Request $request,Produit $produit , ProduitRepository
         $pieChart->getOptions()->setWidth(600);
         $pieChart->getOptions()->getTitleTextStyle()->setColor('#9a000a');
         $pieChart->getOptions()->getTitleTextStyle()->setFontSize(25);
-        $pieChart->getOptions()->setColors(['#e8cac6', '#c74d4d', '#c78da7','#a43120']); // Spécifiez les couleurs ici
+        $pieChart->getOptions()->setColors(['#e8cac6', '#c74d4d', '#c78da7','#a43120','#774242','#8B0000']); // Spécifiez les couleurs ici
 
 
         return $this->render('statistique.html.twig', [
