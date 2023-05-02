@@ -78,6 +78,12 @@ class Panier
     {
         return $this->idPanier;
     }
+    public function setIdPanier(?int $id): self
+    {
+        $this->idPanier = $id;
+
+        return $this;
+    }
 
     public function getNombreArticle(): ?int
     {
@@ -140,6 +146,6 @@ class Panier
     }
     public function __toString(): string
     {
-        return $this->idPanier . " " ;
+        return $this->idPanier . " ";
     }
 }

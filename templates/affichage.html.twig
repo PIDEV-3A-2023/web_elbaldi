@@ -1,0 +1,8 @@
+{% extends 'baseBack.html.twig' %}
+{# service = questions #}
+{% for quiz in quizzes %}
+
+	<li>
+		<a href="{{ path ('app_questions', {'idQuiz': quiz.idQuiz}) }}"></a>
+	</li>
+{% endfor %}

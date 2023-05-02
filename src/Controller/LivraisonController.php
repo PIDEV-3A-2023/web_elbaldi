@@ -69,7 +69,7 @@ class LivraisonController extends AbstractController
            
                 // Initialize the Twilio client
                 $sid = 'AC21dc5d3f63665f41ea25ef019b493cea';
-                $token = 'e71acd60f9dfa7c9ba12d216c09d14e0';
+                $token = '6f88f614876498059fc2824ca663f27a';
                 //$twilioNumber = 'YOUR_TWILIO_PHONE_NUMBER';
                 $clientt = new \Twilio\Rest\Client($sid, $token);
 

@@ -23,6 +23,10 @@ use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+
 #[Route('/commande')]
 class CommandeController extends AbstractController
 {
@@ -37,9 +41,131 @@ class CommandeController extends AbstractController
             'commandes' => $commandes,
         ]);
     }
+    //MOBILE PART//
+    #[Route("/Allcommandes", name: "list")]
+    //* Dans cette fonction, nous utilisons les services NormlizeInterface et StudentRepository, 
+    //* avec la méthode d'injection de dépendances.
+    public function getcommandes(CommandeRepository $repo, SerializerInterface $serializer)
+    {
+        $commandes = $repo->findAll();
+        //* Nous utilisons la fonction normalize qui transforme le tableau d'objets 
+        //* students en  tableau associatif simple.
+        // $studentsNormalises = $normalizer->normalize($students, 'json', ['groups' => "students"]);
 
+        // //* Nous utilisons la fonction json_encode pour transformer un tableau associatif en format JSON
+        // $json = json_encode($studentsNormalises);
+
+        $json = $serializer->serialize($commandes, 'json', ['groups' => "commandes"]);
+
+        //* Nous renvoyons une réponse Http qui prend en paramètre un tableau en format JSON
+        return new Response($json);
+    }
+    //MOBILE PART//
+
+    #[Route("/commande/{id}", name: "commandejson")]
+    public function StudentId($id, NormalizerInterface $normalizer, CommandeRepository $repo)
+    {
+        $student = $repo->find($id);
+        $commandeNormalises = $normalizer->normalize($student, 'json', ['groups' => "commandes"]);
+        return new Response(json_encode($commandeNormalises));
+    }
+    #[Route("/addcommandeJSON", name: "addcommandeJSON")]
+    public function addStudentJSON(Request $req, NormalizerInterface $Normalizer, EntityManagerInterface $entityManager)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $commande = new commande();
+        $commande->setEtat($req->get('etat'));
+        $dateString = $req->get('DateCmd');
+        $dateCmd = new \DateTime($dateString);
+        $commande->setDateCmd($dateCmd);
+
+        $commande->setTotal($req->get('total'));
+
+        $panier = $entityManager->getRepository(Panier::class)->find(intval($req->get('IdPanier')));
+        $total = $panier->getTotalPanier();
+
+        $commande->setIdPanier($panier);
+        $commande->setAdresse($req->get('adresse'));
+
+        $em->persist($commande);
+        $em->flush();
+        $client = $panier->getIdUser();
+        $nomComplet = $client->getNom() . ' ' . $client->getPrenom();
+
+        $dompdf = new Dompdf();
+        $options = new Options();
+        $options->setIsRemoteEnabled(true);
+
+        $dompdf->setOptions($options);
+
+
+
+
+        $html = $this->renderView('pdf/facture.html.twig', [
+
+            'items' => $panier->getRefProduit(),
+            'total' => $total,
+            'tot' => $panier->getTotalPanier(),
+            'nbarticles' => $panier->getNombreArticle(),
+            'nom' => $nomComplet,
+            'Datecmd' => $commande->getDateCmd()->format('d/m/Y'),
+            'adresse' => $commande->getAdresse()
+        ]);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+
+        // Get the PDF binary data
+        $pdfData = $dompdf->output();
+
+        // Save the PDF to a file on the server
+        $filename = 'commande' . $commande->getIdCmd() . '.pdf';
+        $file = 'D:\DownloadsD\\' . $filename;
+        file_put_contents($file, $pdfData);
+
+
+        // Envoi d'un email à chaque utilisateur
+
+
+        $ms = new GmailSmtpTransport('elbaldinotification@gmail.com', 'eymmlmaxtvwotrzo');
+        $mailer = new Mailer($ms);
+        $emailBody = $this->renderView('email/newcmd.html.twig', [
+            'nom' => $client->getNom(),
+            'prenom' => $client->getPrenom(),
+            'items' => $panier->getRefProduit(),
+            'total' => $total
+        ]);
+        $message = (new TemplatedEmail())
+            ->from('elbaldinotification@gmail.com')
+            ->to($client->getEmail())
+            ->subject('MERCI POUR VOTRE COMMANDE !')
+            ->html($emailBody)
+            ->attachFromPath($file, $filename, 'application/pdf');
+
+
+
+
+
+        $mailer->send($message);
+
+        $jsonContent = $Normalizer->normalize($commande, 'json', ['groups' => 'commandes']);
+        return new Response(json_encode($jsonContent));
+    }
+
+    #[Route("/deletecommandeJSON/{id}", name: "deletecommandeJSON")]
+    public function deletecommandeJSON(Request $req, $id, NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $commande = $em->getRepository(Commande::class)->find($id);
+        $em->remove($commande);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($commande, 'json', ['groups' => 'commandes']);
+        return new Response("commande deleted successfully " . json_encode($jsonContent));
+    }
     #[Route('/new/{idPanier}', name: 'app_commande_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, int $idPanier,CommandeRepository $commandeRepository,LoggerInterface $logger): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, int $idPanier, CommandeRepository $commandeRepository, LoggerInterface $logger): Response
     {
         $panier = $entityManager->getRepository(Panier::class)->find($idPanier);
 
@@ -76,13 +202,11 @@ class CommandeController extends AbstractController
             $options->setIsRemoteEnabled(true);
 
             $dompdf->setOptions($options);
-        
-            if ($orderCount >=5) {
-                $pdftotal= $panier->getTotalPanier().'DT - 10% de fidélité = '. $total . 'DT ';
-            } 
-            else
-            {
-                $pdftotal = $total;  
+
+            if ($orderCount >= 5) {
+                $pdftotal = $panier->getTotalPanier() . 'DT - 10% de fidélité = ' . $total . 'DT ';
+            } else {
+                $pdftotal = $total;
             }
             $html = $this->renderView('pdf/facture.html.twig', [
 
@@ -138,7 +262,7 @@ class CommandeController extends AbstractController
         return $this->renderForm('commande/new.html.twig', [
             'commande' => $commande,
             'form' => $form,
-            'orderCount'=> $orderCount
+            'orderCount' => $orderCount
         ]);
     }
 
@@ -187,21 +311,6 @@ class CommandeController extends AbstractController
         return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/dashboard', name: 'app_commande_dashboard')]
-    public function stats2( CommandeRepository $commandeRepository, LivraisonRepository $livraisonRepository): Response
-    {
-    //    $currentMonthName = (new \DateTime())->format('F');
-        $somme = $commandeRepository->countSomme();
-        $totalpendingorder=$commandeRepository->countPending();
-        $totalpendinglivraison=$livraisonRepository->countPendingLiv();
-      
-        return $this->render('dashboard.html.twig', [
 
-            'somme' => $somme,
-            'totalpendingorder'=> $totalpendingorder,
-            'totalpendinglivraison'=> $totalpendinglivraison,
-
-        ]);
-    }
 
 }

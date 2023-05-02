@@ -7,6 +7,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CommandeRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * Commande
@@ -24,6 +26,8 @@ class Commande
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[Groups("commandes")]
+
     private $idCmd;
 
     /**
@@ -31,6 +35,8 @@ class Commande
      *
      * @ORM\Column(name="etat", type="string", length=30, nullable=false, options={"default"="En attente"})
      */
+    #[Groups("commandes")]
+
     private $etat = 'En attente';
 
     /**
@@ -38,6 +44,8 @@ class Commande
      *
      * @ORM\Column(name="date_cmd", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
+    #[Groups("commandes")]
+
     private ?DateTimeInterface $dateCmd;
     public function __construct()
     {
@@ -49,6 +57,8 @@ class Commande
      *
      * @ORM\Column(name="total", type="float", precision=10, scale=0, nullable=false)
      */
+    #[Groups("commandes")]
+
     private $total;
 
 
@@ -63,10 +73,12 @@ class Commande
      *      maxMessage = "L'adresse ne peut pas contenir plus de {{ limit }} caractères."
      * )
      */
-    #[Assert\NotBlank(message:"this field should not be empty")]
+    #[Groups("commandes")]
+
+    #[Assert\NotBlank(message: "this field should not be empty")]
 
     private $adresse;
-    
+
 
     /**
      * @var \Panier
@@ -75,7 +87,12 @@ class Commande
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_panier", referencedColumnName="id_panier")
      * })
+     *   
      */
+
+    #[Groups("commandes")]
+
+
     private $idPanier;
 
     private $email;
