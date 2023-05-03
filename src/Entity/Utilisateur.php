@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
 use Doctrine\DBAL\Types\Types;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
@@ -12,10 +15,23 @@ use Symfony\Component\Security\Core\User\UserInterface;
 //use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Utilisateur
+ *
+ * @ORM\Table(name="utilisateur")
+ * @ORM\Entity
+ */
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id_user", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -26,17 +42,28 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email(
         message: 'The email {{ value }} is not a valid email.',
     )]
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     */
     private ?string $email = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "roles", type: "json")]
     private array $roles = [];
 
     /**
      * @var string The hashed password
+     *
+     * @ORM\Column(name="mdp", type="string", length=255, nullable=false)
      */
     #[ORM\Column]
     private ?string $mdp = null;
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     */
     #[ORM\Column(length: 50)]
     #[Assert\Length(
         min: 2,
@@ -45,7 +72,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
     )]
     private ?string $nom = null;
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=50, nullable=false)
+     */
     #[ORM\Column(length: 50)]
     #[Assert\Length(
         min: 2,
@@ -55,7 +86,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $prenom = null;
 
-
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="numTel", type="integer", nullable=false)
+     */
     #[ORM\Column]
     #[Assert\Type(
         type: 'integer',
@@ -63,6 +98,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?int $numtel = null;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ville", type="string", length=20, nullable=false)
+     */
     #[ORM\Column(length: 20)]
     #[Assert\Length(
         min: 3,
@@ -72,15 +112,14 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $ville = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(name: "image", length: 255, nullable: true)]
     private ?string $image = null;
 
 
-
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(name: "etat", nullable: true)]
     private array $etat = [];
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(name: "reset_token", length: 255, nullable: true)]
     private ?string $reset_token = null;
 
     public function getIdUser(): ?int

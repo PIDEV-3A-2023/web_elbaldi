@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Bonplan
  *
@@ -25,6 +25,8 @@ class Bonplan
      * @var string
      *
      * @ORM\Column(name="titre_bonplan", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
+     * @Assert\Regex(pattern="/^[a-zA-Z\s]+$/",message="Le titre ne doit contenir que des lettres.")
      */
     private $titreBonplan;
 
@@ -32,6 +34,7 @@ class Bonplan
      * @var string|null
      *
      * @ORM\Column(name="description_bonplan", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $descriptionBonplan;
 
@@ -39,6 +42,7 @@ class Bonplan
      * @var string|null
      *
      * @ORM\Column(name="type_bonplan", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Ce champ est obligatoire!")
      */
     private $typeBonplan;
 
@@ -46,12 +50,25 @@ class Bonplan
      * @var string|null
      *
      * @ORM\Column(name="image_bonplan", type="string", length=255, nullable=true)
+    
      */
     private $imageBonplan;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="idBonplan")
+     */
+    private $avis;
 
     public function getIdBonplan(): ?int
     {
         return $this->idBonplan;
+    }
+    public function setIdBonplan(int $idBonplan): self
+    {
+        $this->idBonplan = $idBonplan;
+
+        return $this;
     }
 
     public function getTitreBonplan(): ?string
@@ -97,10 +114,15 @@ class Bonplan
 
     public function setImageBonplan(?string $imageBonplan): self
     {
-        $this->imageBonplan = $imageBonplan;
+        $this->imageBonplan = $imageBonplan ? $imageBonplan : "0000";
 
         return $this;
     }
+
+    public function __toString()
+        {
+            return $this->titreBonplan;
+        }
 
 
 }

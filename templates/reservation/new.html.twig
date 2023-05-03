@@ -1,0 +1,24 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block body %}
+<style>
+.my-custom-class{
+    color: red;
+}
+#reservation{
+   display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1px solid;
+}
+</style>
+    <h1>Ajouter une réservation</h1>
+<a href="{{ path('app_reservation_index') }}" class="btn btn-success mb-3">Retour</a>
+
+    {{ include('reservation/_form.html.twig') }}
+
+    
+{% endblock %}

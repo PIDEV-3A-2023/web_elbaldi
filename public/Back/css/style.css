@@ -221,6 +221,12 @@ h6 {
   border-color: #d3d3d4;
 }
 
+.btn-success {
+  color: #fff;
+  background-color: #d22124;
+  border-color: #d22124;
+}
+
 /* Card */
 .card {
   margin-bottom: 30px;
@@ -1237,20 +1243,17 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
-<<<<<<< HEAD
-=======
+
 
 .card-rounded {
   border-radius: 10px;
 }
 
->>>>>>> origin/selim
 .custom-btn.btn-success {
   background-color: #9a000a;
 }
 
-<<<<<<< HEAD
-=======
+
 .chosen-Quiz-card {
   background-color: #FFFFFF;
   border-radius: 30px;
@@ -1285,7 +1288,7 @@ h6 {
   z-index: -1;
 }
 
->>>>>>> origin/selim
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -1303,11 +1306,17 @@ h6 {
 
 .buttons-group {
   margin-top: 20px;
-<<<<<<< HEAD
-=======
+
 }
 
 .card-img {
   height: 70%;
->>>>>>> origin/selim
+
+}
+
+
+.btn-success {
+  color: #fff;
+  background-color: #d22124;
+  border-color: #d22124;
 }

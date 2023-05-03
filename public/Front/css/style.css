@@ -12,6 +12,7 @@
 .form-commande {
   margin-top: 20px;
 }
+
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
@@ -2118,105 +2119,121 @@ section {
 #footer .credits a:hover {
   color: white;
 }
-<<<<<<< HEAD
+
 .image-size {
   height: 250px;
   width: auto;
 }
-.card-footer .wcf-left{
-  float:left;
-  
+
+.card-footer .wcf-left {
+  float: left;
+
 }
 
-.card-footer .wcf-right{
-  float:right;
+.card-footer .wcf-right {
+  float: right;
 }
 
-.price{
-  font-size:18px;
-  font-weight:bold;
-}
-
-a.buy-btn{
-  display:block;
-  color:#212121;
-  text-align:center;
+.price {
   font-size: 18px;
-  width:35px;
-  height:35px;
-  line-height:35px;
-  border-radius:50%;
-  border:1px solid #212121;
+  font-weight: bold;
+}
+
+a.buy-btn {
+  display: block;
+  color: #212121;
+  text-align: center;
+  font-size: 18px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  border-radius: 50%;
+  border: 1px solid #212121;
   transition: all 0.2s ease-in-out;
 }
-a.buy-btn:hover , a.buy-btn:active, a.buy-btn:focus{
+
+a.buy-btn:hover,
+a.buy-btn:active,
+a.buy-btn:focus {
   border-color: #FF9800;
   background: #FF9800;
   color: #fff;
-  text-decoration:none;
+  text-decoration: none;
 }
-.wsk-btn{
-  display:inline-block;
-  color:#212121;
-  text-align:center;
+
+.wsk-btn {
+  display: inline-block;
+  color: #212121;
+  text-align: center;
   font-size: 18px;
   transition: all 0.2s ease-in-out;
   border-color: #FF9800;
   background: #FF9800;
-  padding:12px 30px;
-  border-radius:27px;
+  padding: 12px 30px;
+  border-radius: 27px;
   margin: 0 5px;
 }
-.wsk-btn:hover, .wsk-btn:focus, .wsk-btn:active{
-  text-decoration:none;
-  color:#fff;
-}  
-.red{
-  color:#F44336;
-  font-size:22px;
-  display:inline-block;
+
+.wsk-btn:hover,
+.wsk-btn:focus,
+.wsk-btn:active {
+  text-decoration: none;
+  color: #fff;
+}
+
+.red {
+  color: #F44336;
+  font-size: 22px;
+  display: inline-block;
   margin: 0 5px;
 }
+
 @media screen and (max-width: 991px) {
-  .wsk-cp-product{
-    margin:40px auto;
+  .wsk-cp-product {
+    margin: 40px auto;
   }
-  .wsk-cp-product .wsk-cp-img{
-  top:-40px;
+
+  .wsk-cp-product .wsk-cp-img {
+    top: -40px;
+  }
+
+  .wsk-cp-product .wsk-cp-img img {
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+  }
+
+  .wsk-cp-product .wsk-cp-text .category>span {
+    border-color: #ddd;
+    box-shadow: none;
+    padding: 11px 28px;
+  }
+
+  .wsk-cp-product .wsk-cp-text .category {
+    margin-top: 0px;
+  }
+
+  a.buy-btn {
+    border-color: #FF9800;
+    background: #FF9800;
+    color: #fff;
+  }
 }
-.wsk-cp-product .wsk-cp-img img{
-  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-}
-  .wsk-cp-product .wsk-cp-text .category > span{
-  border-color:#ddd;
-  box-shadow: none;
-  padding: 11px 28px;
-}
-.wsk-cp-product .wsk-cp-text .category{
-  margin-top: 0px;
-}
-a.buy-btn{
-  border-color: #FF9800;
-  background: #FF9800;
-  color: #fff;
-}
-}
-a.buy-btn-active{
-  display:block;
-  color:#212121;
-  text-align:center;
+
+a.buy-btn-active {
+  display: block;
+  color: #212121;
+  text-align: center;
   font-size: 18px;
-  width:35px;
-  height:35px;
-  line-height:35px;
-  border-radius:50%;
-  border:1px solid #212121;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  border-radius: 50%;
+  border: 1px solid #212121;
   transition: all 0.2s ease-in-out;
   border-color: #FF9800;
   background: #FF9800;
   color: #fff;
-  text-decoration:none;
-=======
+  text-decoration: none;
+}
 
 .custom-btn.btn-success {
   background-color: #9a000a;
@@ -2265,5 +2282,64 @@ a.buy-btn-active{
 
 .question.active {
   display: block;
->>>>>>> origin/selim
+
+}
+
+.star {
+  display: inline-block;
+  font-size: 0;
+  width: 125px;
+  height: 25px;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.star input[type="radio"] {
+  display: none;
+}
+
+.star label {
+  display: block;
+  float: right;
+  position: relative;
+  background: url("star.png");
+  background-size: contain;
+  height: 25px;
+  width: 25px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.star input[type="radio"]:checked~label {
+  background: url("star-filled.png");
+  background-size: contain;
+}
+
+.star label:hover,
+.star label:hover~label {
+  background: url("star-filled.png");
+  background-size: contain;
+}
+
+button[type=submit] {
+  background-color: #012970;
+  /* Couleur de fond */
+  color: white;
+  /* Couleur de texte */
+  padding: 12px 20px;
+  /* Taille du padding */
+  border: none;
+  /* Pas de bordure */
+  border-radius: 4px;
+  /* Coins arrondis */
+  cursor: pointer;
+  /* Curseur au survol */
+  display: inline-block;
+}
+
+button[type=submit]:hover {
+  background-color: #012970;
+  /* Couleur de fond au survol */
 }

@@ -1,0 +1,27 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <div class="container">
+        <div class="row">
+            {% for avi in avis %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 card-large rounded">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                Note :
+                                {{ avi.noteAvis }}</h5>
+                            <p class="card-title">Date :
+                                {{ avi.dateAvis ? avi.dateAvis|date('Y-m-d') : '' }}</p>
+
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ path('app_avis_edit', {'idAvis': avi.idAvis}) }}" class="btn btn-primary">Modifier</a>
+                                <a href="{{ path('app_avis_delete', {'idAvis': avi.idAvis}) }}" class="btn btn-primary">Supprimer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

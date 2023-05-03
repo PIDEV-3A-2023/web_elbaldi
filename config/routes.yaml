@@ -1,5 +1,7 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-
-
+app_bonplan_add_avis:
+    path: /bonplan/{idBonplan}/add-avis
+    controller: App\Controller\AvisController::addAvis
+    methods: [POST]

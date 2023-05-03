@@ -45,7 +45,7 @@ class Produit
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=200, nullable=false)
+     * @ORM\Column(name="description", type="string", length=50, nullable=false)
      */
     #[Assert\Length(min: 8, minMessage: "La description doit contenir au minimum '{{ limit }}' lettres", max: 100, maxMessage: "La description doit contenir au maximum '{{ limit }}' lettres")]
     #[Assert\NotBlank(message: "Ce champs est obligatoire !")]
@@ -71,7 +71,7 @@ class Produit
      *
      * @ORM\Column(name="quantite", type="integer", nullable=false)
      */
-    private $quantite = '0';
+    private $quantite;
 
     /**
      * @var \Categorie

@@ -30,7 +30,7 @@ class Categorie
     /**
      * @var string
      *
-     * @ORM\Column(name="nom_categorie", type="string", length=255, nullable=false)
+     * @ORM\Column(name="nom_categorie", type="string", length=30, nullable=false)
      */
     #[Assert\NotBlank(message: "Ce champs est obligatoire !")]
     #[Assert\Regex(pattern: "/^[a-zA-Z\s]+$/", message: "Le nom ne doit contenir que des lettres")]
@@ -39,7 +39,7 @@ class Categorie
     /**
      * @var string
      *
-     * @ORM\Column(name="Description", type="string", length=255, nullable=false)
+     * @ORM\Column(name="Description", type="string", length=50, nullable=false)
      */
     #[Assert\Length(min: 5, minMessage: "La description doit contenir au minimum'{{ limit }}' lettres", max: 100, maxMessage: "La description doit contenir au maximum'{{ limit }}' lettres")]
     #[Assert\NotBlank(message: "Ce champs est obligatoire !")]

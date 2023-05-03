@@ -1,0 +1,63 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+{% endblock %}
+{% block body %}
+    <div class="container">
+    {% for message in app.flashes('success') %}
+              <div class="alert alert-success"  id="flash-message">{{ message }}</div>
+          {% endfor %}
+          {% for message in app.flashes('danger') %}
+              <div class="alert alert-danger"  id="flash-message">{{ message }}</div>
+          {% endfor %}
+<script>
+    // Set a timer to hide the flash message after 3 seconds
+    setTimeout(function() {
+        var flashMessage = document.getElementById('flash-message');
+        if (flashMessage) {
+            flashMessage.style.display = 'none';
+        }
+    }, 3000);
+</script>
+        <h1>La liste des bons plans</h1>
+        <a href="{{ path('app_bonplan_new') }}" class="btn btn-primary">Ajouter un bon plan</a>
+        <hr>
+
+        <div class="row card-deck">
+            {% for bonplan in bonplans %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img class="card-img-top" src="{{ asset('uploads/'~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ bonplan.titreBonplan }}</h5>
+                            <p class="card-text clamp">{{ bonplan.descriptionBonplan }}</p>
+                            <p class="card-text"><span style="font-weight: bold; color: blue;">Le type de bon plan:</span> {{ bonplan.typeBonplan }}</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ path('app_bonplan_show', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-primary">Détails</a>
+                                <a href="{{ path('app_bonplan_edit', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-primary">Modifier</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <div class="alert alert-info" role="alert">
+                        Aucun bon plan disponible.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <style>
+        .clamp {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2; /* number of lines to display */
+            overflow: hidden;
+            text-overflow: ellipsis; /* add ellipsis at the end of the text */
+        }
+    </style>
+{% endblock %}

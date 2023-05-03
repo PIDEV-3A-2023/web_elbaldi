@@ -10,7 +10,7 @@ use App\Repository\CommentaireRepository;
 /**
  * Commentaire
  *
- * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="ref_produit", columns={"ref_produit"})})
+ * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="ref_produit", columns={"ref_produit"}), @ORM\Index(name="id_user", columns={"id_user"})})
  * @ORM\Entity
  */
 #[ORM\Entity(repositoryClass: CommentaireRepository::class)]

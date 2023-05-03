@@ -18,7 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager,SluggerInterface $slugger): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $user = new Utilisateur();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -26,12 +26,12 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-      //      /** @var UploadedFile $eventImage */
-           // $eventImage = $form->get('image')->getData();
+            //      /** @var UploadedFile $eventImage */
+            // $eventImage = $form->get('image')->getData();
 
             // this condition is needed because the 'eventImage' field is not required
             // so the Image file must be processed only when a file is uploaded
-           /* if ($eventImage) {
+            /* if ($eventImage) {
                 $originalFilename = pathinfo($eventImage->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);

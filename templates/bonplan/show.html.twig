@@ -1,0 +1,38 @@
+{% extends 'baseBack.html.twig' %}
+
+
+{% block body %}
+    <h1>Détails de Bonplan</h1>
+    <a href="{{ path('app_bonplan_index') }}" class="btn btn-success mb-3">Retour</a>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdBonplan</th>
+                <td>{{ bonplan.idBonplan }}</td>
+            </tr>
+            <tr>
+                <th>TitreBonplan</th>
+                <td>{{ bonplan.titreBonplan }}</td>
+            </tr>
+            <tr>
+                <th>DescriptionBonplan</th>
+                <td>{{ bonplan.descriptionBonplan }}</td>
+            </tr>
+            <tr>
+                <th>TypeBonplan</th>
+                <td>{{ bonplan.typeBonplan }}</td>
+            </tr>
+            <tr>
+                <th>ImageBonplan</th>
+                <td><img class="user_pic rounded img-raised" src="{{ asset('uploads/'~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}" height="180" ></td>
+            </tr>
+        </tbody>
+    </table>
+
+  
+
+    
+
+    
+{% endblock %}

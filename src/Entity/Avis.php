@@ -25,7 +25,7 @@ class Avis
     /**
      * @var float
      *
-     * @ORM\Column(name="note_avis", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="note_avis", type="float", precision=10, scale=0, nullable=true)
      */
     private $noteAvis;
 

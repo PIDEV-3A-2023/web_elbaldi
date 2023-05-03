@@ -1,0 +1,61 @@
+.star {
+    display: inline-block;
+    font-size: 0;
+    width: 125px;
+    height: 25px;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .star input[type="radio"] {
+    display: none;
+  }
+  
+  
+  .star input[type="radio"]:checked ~ label {
+    background: url("star-filled.png");
+    background-size: contain;
+  }
+  .star label {
+    display: block;
+    float: right;
+    position: relative;
+    background: url("star.png");
+    background-size: contain;
+    height: 25px;
+    width: 25px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .star label:hover,
+  .star label:hover ~ label {
+    display: block;
+    float: right;
+    position: relative;
+    background: url("star-filled.png");
+    background-size: contain;
+    height: 25px;
+    width: 25px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  button[type=submit] {
+    background-color: #012970; /* Couleur de fond */
+    color: white; /* Couleur de texte */
+    padding: 12px 20px; /* Taille du padding */
+    border: none; /* Pas de bordure */
+    border-radius: 4px; /* Coins arrondis */
+    cursor: pointer; /* Curseur au survol */
+    display: inline-block;
+  }
+  
+  button[type=submit]:hover {
+    background-color: #012970; /* Couleur de fond au survol */
+   
+  }
+
+  

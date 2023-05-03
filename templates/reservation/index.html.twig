@@ -1,0 +1,89 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ asset('Back/css/style.css') }}">
+<div class="container">
+<h1>La liste des réservations</h1>
+<table class="table">
+
+
+
+<thead>
+<tr>
+<th scope="col">Image</th>
+<th scope="col">Date de la réservation</th>
+<th scope="col">Nombre de personnes</th>
+<th scope="col">Statut de la réservation</th>
+<th scope="col">Actions</th>
+</tr>
+</thead>
+<tbody>
+{% for reservation in reservations %}
+<tr>
+<td><img src="{{ asset('uploads/' ~ reservation.idBonplan.getImageBonplan()) }}" class="img-thumbnail" width="150"></td>
+<td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+<td>{{ reservation.nombrePersonnes }}</td>
+<td>{{ reservation.statutReservation }}</td>
+<td>
+<a href="{{ path('app_reservation_edit', {'idReservation': reservation.idReservation}) }}" class="btn btn-primary">Modifier</a>
+<button class="btn btn-danger btn-delete" data-id="{{ reservation.idReservation }}">Supprimer</button>
+<form id="form-delete-{{ reservation.idReservation }}" method="post" action="{{ path('app_reservation_delete', {'idReservation': reservation.idReservation}) }}" style="display: none;">
+<input type="hidden" name="_method" value="DELETE">
+<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reservation.idReservation) }}">
+</form>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<style>
+                #calendrier{
+                    width: 80%;
+                    margin: auto;
+                }
+            </style>
+            <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js" integrity="sha256-YicH/8aE660iEnJtgll3vT54dJApy3XkYmqNfGVFEzA=" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css" integrity="sha256-5veQuRbWaECuYxwap/IOE/DAwNxgm4ikX7nrgsqYp88=" crossorigin="anonymous">
+
+            <div id="calendrier"></div>
+
+
+            <script>
+           
+    window.onload = () => {
+        let calendarElt = document.querySelector("#calendrier");
+        let calendar = new FullCalendar.Calendar(calendarElt, {
+            initialView: 'dayGridMonth',
+            locale: 'fr',
+            timeZone: 'Europe/Paris',
+            headerToolbar: {
+                start: 'prev,next today',
+                center: 'title',
+                end: 'dayGridMonth,timeGridWeek'
+            },
+            events: {{ data|raw }},
+            eventClick: function(info) {
+                
+            }
+        });
+        calendar.render();
+    };
+    {% set data = [] %}
+    
+</script>
+
+</div>
+<script>
+	document.querySelectorAll('.btn-delete').forEach(function(button) {
+		button.addEventListener('click', function(event) {
+			event.preventDefault();
+			var reservationId = this.getAttribute('data-id');
+			if (confirm('Êtes-vous sûr(e) de vouloir supprimer cette réservation ?')) {
+				var form = document.querySelector('#form-delete-' + reservationId);
+				form.submit();
+			}
+		});
+	});
+</script>
+{% endblock %}
