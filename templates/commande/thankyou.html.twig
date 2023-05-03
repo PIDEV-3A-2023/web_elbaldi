@@ -1,0 +1,37 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}
+	Merci pour votre commande !
+{% endblock %}
+
+{% block body %}
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container-fluid bg-lightgray">
+		<div class="row justify-content-center align-items-center min-vh-100">
+			<div class="col-md-6">
+				<div class="card shadow">
+					<div class="card-body">
+						<h1 class="text-center mb-5">Merci !</h1>
+						<div class="text-center mb-4">
+							<img src="{{ asset('Back/img/elbaldi.jpg') }}" alt="Thank you" width="1000">
+						</div>
+						<p class="text-center">Nous avons envoyé le lien dans votre boîte de réception.
+						</p>
+
+					</div>
+				</div>
+				<div class="text-center mt-5">
+					<a class="btn btn-primary btn-sm">Retour</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

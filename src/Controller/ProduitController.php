@@ -337,4 +337,21 @@ public function updatePrix(Request $request,Produit $produit , ProduitRepository
             'form' => $form->createView()
         ]);
     }
+    #[Route('/dashboard', name: 'app_commande_dashboard')]
+    public function stats2( CommandeRepository $commandeRepository, LivraisonRepository $livraisonRepository): Response
+    {
+    //    $currentMonthName = (new \DateTime())->format('F');
+        $somme = $commandeRepository->countSomme();
+        $sommeFormatted = number_format($somme, 2);
+        $totalpendingorder=$commandeRepository->countPending();
+        $totalpendinglivraison=$livraisonRepository->countPendingLiv();
+      
+        return $this->render('dashboard.html.twig', [
+
+            'somme' => $sommeFormatted,
+            'totalpendingorder'=> $totalpendingorder,
+            'totalpendinglivraison'=> $totalpendinglivraison,
+
+        ]);
+    }
 }

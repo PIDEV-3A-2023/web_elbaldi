@@ -1,0 +1,38 @@
+
+{% extends 'baseBack.html.twig' %}
+{% block title %}
+Panier index
+{% endblock %}
+{% block body %}
+    <h1>Panier index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdPanier</th>
+                <th>NombreArticle</th>
+                <th>TotalPanier</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for panier in paniers %}
+            <tr>
+                <td>{{ panier.idPanier }}</td>
+                <td>{{ panier.nombreArticle }}</td>
+                <td>{{ panier.totalPanier }}</td>
+                <td>
+                    <a href="{{ path('app_panier_show', {'idPanier': panier.idPanier}) }}">show</a>
+                    <a href="{{ path('app_panier_edit', {'idPanier': panier.idPanier}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_panier_new') }}">Create new</a>
+{% endblock %}

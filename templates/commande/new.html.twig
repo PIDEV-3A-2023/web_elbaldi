@@ -1,0 +1,13 @@
+{% extends 'baseFront.html.twig' %}
+
+
+{% block title %}
+nouvelle Commande
+{% endblock %}
+{% block body %}
+
+    <h1>Ajouter une Commande</h1>
+
+{{ include('commande/_form.html.twig', {'orderCount': orderCount}) }}
+    
+{% endblock %}

@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use APP\Repository\CommandeRepository;
+use App\Repository\CommandeRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * Commande
@@ -12,6 +16,7 @@ use APP\Repository\CommandeRepository;
  * @ORM\Table(name="commande", uniqueConstraints={@ORM\UniqueConstraint(name="id_cmdunique", columns={"id_cmd", "id_panier"})}, indexes={@ORM\Index(name="fk_idpaniera", columns={"id_panier"})})
  * @ORM\Entity
  */
+#[ORM\Entity(repositoryClass: CommandeRepository::class)]
 class Commande
 {
     /**
@@ -21,6 +26,8 @@ class Commande
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
+    #[Groups("commandes")]
+
     private $idCmd;
 
     /**
@@ -28,6 +35,8 @@ class Commande
      *
      * @ORM\Column(name="etat", type="string", length=30, nullable=false, options={"default"="En attente"})
      */
+    #[Groups("commandes")]
+
     private $etat = 'En attente';
 
     /**
@@ -35,21 +44,41 @@ class Commande
      *
      * @ORM\Column(name="date_cmd", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $dateCmd = 'CURRENT_TIMESTAMP';
+    #[Groups("commandes")]
+
+    private ?DateTimeInterface $dateCmd;
+    public function __construct()
+    {
+        $this->dateCmd = new \DateTime();
+    }
 
     /**
      * @var float
      *
      * @ORM\Column(name="total", type="float", precision=10, scale=0, nullable=false)
      */
+    #[Groups("commandes")]
+
     private $total;
+
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="adresse", type="string", length=50, nullable=true)
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 60,
+     *      minMessage = "L'adresse doit contenir au moins {{ limit }} caractères.",
+     *      maxMessage = "L'adresse ne peut pas contenir plus de {{ limit }} caractères."
+     * )
      */
+    #[Groups("commandes")]
+
+    #[Assert\NotBlank(message: "this field should not be empty")]
+
     private $adresse;
+
 
     /**
      * @var \Panier
@@ -58,8 +87,50 @@ class Commande
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_panier", referencedColumnName="id_panier")
      * })
+     *   
      */
+
+    #[Groups("commandes")]
+
+
     private $idPanier;
+
+    private $email;
+
+    private $numtel;
+
+    private $nom;
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+    public function getNumtel(): ?int
+    {
+        return $this->numtel;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+    public function setNumtel(int $numtel): self
+    {
+        $this->numtel = $numtel;
+
+        return $this;
+    }
 
     public function getIdCmd(): ?int
     {
@@ -126,5 +197,9 @@ class Commande
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return $this->idCmd . " ";
+    }
 
 }

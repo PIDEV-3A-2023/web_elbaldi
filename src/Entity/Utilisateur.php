@@ -77,7 +77,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
 
 
-
     #[ORM\Column(nullable: true)]
     private array $etat = [];
 
@@ -272,6 +271,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
-
+    public function __toString(): string
+    {
+        return $this->nom . " " . $this->prenom;
+    }
 }

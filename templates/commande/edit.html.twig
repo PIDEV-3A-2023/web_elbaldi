@@ -1,0 +1,16 @@
+
+
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+Modifier Commande
+{% endblock %}
+{% block body %}
+    <h1>Modifier Commande</h1>
+
+    {{ include('commande/_form2.html.twig') }}
+
+    <a href="{{ path('app_commande_index') }}">Retour</a>
+
+    {{ include('commande/_delete_form.html.twig') }}
+{% endblock %}
