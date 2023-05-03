@@ -19,17 +19,6 @@ use App\Entity\Promotion;
 class QuestionController extends AbstractController
 {
 
-
-
-
-
-
-
-
-
-
-
-
     #[Route('/quiz/{idQuiz}/questions', name: 'app_question_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager, $idQuiz): Response
     {
@@ -101,7 +90,7 @@ class QuestionController extends AbstractController
             return new JsonResponse(array('success' => true));
         }
 
-        return $this->render('quizFront/testfront.html.twig', [
+        return $this->render('quizFront/Jouer.html.twig', [
             'questions' => $questions,
             'quiz' => $quiz,
         ]);

@@ -11,10 +11,47 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use App\Entity\Utilisateur;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+
+
 
 #[Route('/promotion')]
 class PromotionController extends AbstractController
 {
+
+    #[Route('/check-promo', name: 'check_promo', methods: ['GET', 'POST'])]
+    public function verifierCodePromo(Request $request)
+    {
+        $promo_exist = null;
+
+        if ($request->getMethod() == 'POST') {
+            $code_promo = $request->request->get('code_promo');
+
+            // on utilise l'ORM Doctrine pour récupérer une instance de la classe "Promotion" qui a le même code promo que 
+            //celui envoyé via le formulaire et qui a l'utilisateur ayant l'ID 2499 associé.
+            // Si aucune instance n'est trouvée, la variable $promo sera null.
+            $promo = $this->getDoctrine()
+                ->getRepository(Promotion::class)
+                ->findOneBy([
+                    'codePromo' => $code_promo,
+                    'idUser' => 2499
+                ]);
+
+            //  on assigne à la variable $promo_exist la valeur true si l'instance trouvée précédemment n'est pas null, ou false sinon.
+            $promo_exist = ($promo !== null);
+        }
+
+
+        return $this->render('promotion/check.html.twig', [
+            'promo_exist' => $promo_exist
+
+        ]);
+    }
+
+
 
 
     #[Route('/promotion/code', name: 'promo', methods: ['POST'])]
