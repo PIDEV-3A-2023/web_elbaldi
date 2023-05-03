@@ -1,0 +1,33 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+
+    <div style="margin-top: 200px;margin-left: 700px;max-width: 800px;margin-bottom: 200px" class="row">
+
+        <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+            <div class="member" data-aos="fade-up" data-aos-delay="100">
+                <div class="member-img">
+                    <img src="{{ asset('/uploads/'~app.user.image) }}" class="img-fluid" alt="">
+                    <div class="social">
+                        <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h4>{{ app.user.nom  }}-{{ app.user.prenom }}</h4>
+                    <span>E-mail:{{ app.user.email  }}</span><br>
+                    <span>Numero:{{ app.user.numtel  }}</span><br>
+                    <span>Adresse:{{ app.user.ville  }}</span><br>
+                     <a style="max-width: 100px" href="{{path('updateProfile',{'idUser':app.user.idUser})}}" class="form-control">Update</a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

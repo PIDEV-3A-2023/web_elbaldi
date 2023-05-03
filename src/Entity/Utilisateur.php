@@ -2,99 +2,171 @@
 
 namespace App\Entity;
 
+use App\Repository\UtilisateurRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+//use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Utilisateur
- *
- * @ORM\Table(name="utilisateur")
- * @ORM\Entity
- */
-class Utilisateur
+#[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id_user", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idUser;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idUser = null;
+
+    #[ORM\Column(length: 180, unique: true)]
+
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
+    private ?string $email = null;
+
+    #[ORM\Column]
+    private array $roles = [];
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     * @var string The hashed password
      */
-    private $nom;
+    #[ORM\Column]
+    private ?string $mdp = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=50, nullable=false)
-     */
-    private $prenom;
+    #[ORM\Column(length: 50)]
+    #[Assert\Length(
+        min: 2,
+        max: 10,
+        minMessage: 'Your first name must be at least {{ limit }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+    )]
+    private ?string $nom = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=50, nullable=false)
-     */
-    private $email;
+    #[ORM\Column(length: 50)]
+    #[Assert\Length(
+        min: 2,
+        max: 10,
+        minMessage: 'Your first name must be at least {{ limit }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+    )]
+    private ?string $prenom = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateDeNaissance", type="date", nullable=false)
-     */
-    private $datedenaissance;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="numTel", type="integer", nullable=false)
-     */
-    private $numtel;
+    #[ORM\Column]
+    #[Assert\Type(
+        type: 'integer',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
+    private ?int $numtel = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ville", type="string", length=20, nullable=false)
-     */
-    private $ville;
+    #[ORM\Column(length: 20)]
+    #[Assert\Length(
+        min: 3,
+        max: 15,
+        minMessage: 'Your first name must be at least {{ limit }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+    )]
+    private ?string $ville = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="mdp", type="string", length=255, nullable=false)
-     */
-    private $mdp;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="role", type="json", nullable=false)
-     */
-    private $role;
 
-    /**
-     * @var array|null
-     *
-     * @ORM\Column(name="etat", type="json", nullable=true)
-     */
-    private $etat;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="nombrejouer", type="integer", nullable=true)
-     */
-    private $nombrejouer;
+
+    #[ORM\Column(nullable: true)]
+    private array $etat = [];
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $reset_token = null;
 
     public function getIdUser(): ?int
     {
         return $this->idUser;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->mdp;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->mdp = $password;
+
+        return $this;
+    }
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getNom(): ?string
@@ -121,29 +193,7 @@ class Utilisateur
         return $this;
     }
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getDatedenaissance(): ?\DateTimeInterface
-    {
-        return $this->datedenaissance;
-    }
-
-    public function setDatedenaissance(\DateTimeInterface $datedenaissance): self
-    {
-        $this->datedenaissance = $datedenaissance;
-
-        return $this;
-    }
 
     public function getNumtel(): ?int
     {
@@ -169,28 +219,33 @@ class Utilisateur
         return $this;
     }
 
-    public function getMdp(): ?string
+    public function getImage(): ?string
     {
-        return $this->mdp;
+        return $this->image;
     }
 
-    public function setMdp(string $mdp): self
+    public function setImage(?string $image): self
     {
-        $this->mdp = $mdp;
+        $this->image = $image;
 
         return $this;
     }
-
-    public function getRole(): array
+    public function setImageFile(File $image = null)
     {
-        return $this->role;
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
     }
 
-    public function setRole(array $role): self
+    public function getImageFile()
     {
-        $this->role = $role;
-
-        return $this;
+        return $this->imageFile;
     }
 
     public function getEtat(): array
@@ -205,17 +260,18 @@ class Utilisateur
         return $this;
     }
 
-    public function getNombrejouer(): ?int
+    public function getResetToken(): ?string
     {
-        return $this->nombrejouer;
+        return $this->reset_token;
     }
 
-    public function setNombrejouer(?int $nombrejouer): self
+    public function setResetToken(?string $reset_token): self
     {
-        $this->nombrejouer = $nombrejouer;
+        $this->reset_token = $reset_token;
 
         return $this;
     }
+
 
 
 }

@@ -1,0 +1,18 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Verification{% endblock %}
+
+{% block body %}
+    <div style="margin-top: 200px;margin-bottom: 200px;margin-left: 500px;margin-right: 500px">
+        <h1>Verification code</h1>
+
+        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+
+        {{ form_row(form.reset_token ,{'label': "enter your code"} ) }}
+
+
+        <button style="max-width: 100px" type="submit" class="form-control">save</button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
