@@ -1,7 +1,3 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-# routes.yaml
-app_produit_details:
-    path: '/produit/{ref_Produit}'
-    controller: App\Controller\ProduitController::details

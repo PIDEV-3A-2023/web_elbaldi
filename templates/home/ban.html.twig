@@ -1,0 +1,29 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    <div style=" margin-top: 200px;margin-bottom: 100px">
+
+        <a href="#"><img style="max-width:1000px;margin-left: 470px" src="{{ asset('/uploads/ban.png') }}" alt=""></a>
+
+        <h3 style="margin-left: 530px;color: red">You are baned for some administration reason  </h3>
+
+
+
+    </div>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/643f945831ebfa0fe7f92b50/1guc5mut5';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+
+{% endblock %}

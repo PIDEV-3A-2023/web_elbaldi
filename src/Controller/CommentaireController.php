@@ -95,7 +95,7 @@ class CommentaireController extends AbstractController
         $badWords = array("mot1", "mot2", "mot3");
 
         $commentaires = $commentaireRepository->findByProduit2($produit);
-        $user = $utilisateurRepository->find(2510);
+        $user = $utilisateurRepository->find(2499);
         $commentaire = new Commentaire();
         
         //$commentaire->setUser($this->getUser());
