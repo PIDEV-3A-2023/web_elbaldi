@@ -6,6 +6,8 @@ use App\Entity\Produit;
 use App\Entity\Commentaire;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
+use App\Repository\CommandeRepository;
+use App\Repository\LivraisonRepository;
 use App\Repository\CommandeProduitRepository;
 use App\Repository\CategorieRepository;
 use App\Repository\CommentaireRepository;
@@ -49,12 +51,12 @@ class ProduitController extends AbstractController
             'produits' => $produits,
         ]);
     }
-       /**
+    /**
      * @Route("/produits/tri/{tri}", name="produits_tri")
      */
     public function trier(ProduitRepository $produitRepository, CategorieRepository $categorieRepository, $tri): Response
     {
-        
+
         switch ($tri) {
             case 'prix_asc':
                 $produits = $produitRepository->findByPrixVenteAsc();
@@ -67,18 +69,17 @@ class ProduitController extends AbstractController
         }
 
         $categories = $categorieRepository->findAll();
-// on  génére le code HTML correspondant à la vue
+        // on  génére le code HTML correspondant à la vue
         $html = $this->render('produitFront/indexFront.html.twig', [
             'produits' => $produits,
             'categories' => $categories,
-            
+
         ]);
-       // retourne une réponse JSON
+        // retourne une réponse JSON
         return new JsonResponse([
             'success' => true,
             'html' => $html->getContent()
         ]);
-        
     }
     /**
      * @Route("/produit/{ref_produit}", name="produit_details", methods={"GET"})
@@ -115,30 +116,31 @@ class ProduitController extends AbstractController
             $entityManager->flush();
 
             $categoryId  = $produit->getCategorie()->getid_categorie();
-    
+
             //Api Email 
             // récupération des emails des utilisateurs
-          
+
             $clients = $produitRepository->findByEmailsByCategoryId($categoryId);
 
             // Envoi d'un email à chaque utilisateur
             foreach ($clients as $client) {
-            
-                $ms = new GmailSmtpTransport('elbaldinotification@gmail.com', 'eymmlmaxtvwotrzo'); 
+
+                $ms = new GmailSmtpTransport('elbaldinotification@gmail.com', 'eymmlmaxtvwotrzo');
                 $mailer = new Mailer($ms);
-                $emailBody = $this->renderView('email/nouveau_produit.html.twig', 
+                $emailBody = $this->renderView(
+                    'email/nouveau_produit.html.twig',
                     ['produit' => $produit, 'nom' => $client['nom'], 'prenom' => $client['prenom']]
                 );
-            $message = (new TemplatedEmail())
-                ->from('elbaldinotification@gmail.com')
-                ->to($client['email'])
-                ->subject('BONNE NOUVELLE !')
-                ->html($emailBody);
-                
-                
+                $message = (new TemplatedEmail())
+                    ->from('elbaldinotification@gmail.com')
+                    ->to($client['email'])
+                    ->subject('BONNE NOUVELLE !')
+                    ->html($emailBody);
+
+
                 $mailer->send($message);
-                }
-                
+            }
+
             //SMS
 
             $phoneNumbers = $produitRepository->findByTelByCategoryId($categoryId);
@@ -206,7 +208,7 @@ class ProduitController extends AbstractController
                 $newFilename = $fileUploader->upload($imageFile);
                 $produit->setImage($newFilename);
             }
-         
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('app_produit_index');
@@ -217,24 +219,24 @@ class ProduitController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-/**
- * @Route("/update_prix/{ref_produit}/{taux}", name="app_produit_update_prix", methods={"POST"})
- */
-public function updatePrix(Request $request,Produit $produit , ProduitRepository $produitRepository): JsonResponse
-{  
-    $taux = $request->attributes->get('taux');
-    $nouveauPrixVente = $produit->getPrixVente() * (1 - $taux/100);
-    $produit->setPrixVente($nouveauPrixVente);
-    $entityManager = $this->getDoctrine()->getManager();
-    $entityManager->persist($produit);
-    $entityManager->flush();
+    /**
+     * @Route("/update_prix/{ref_produit}/{taux}", name="app_produit_update_prix", methods={"POST"})
+     */
+    public function updatePrix(Request $request, Produit $produit, ProduitRepository $produitRepository): JsonResponse
+    {
+        $taux = $request->attributes->get('taux');
+        $nouveauPrixVente = $produit->getPrixVente() * (1 - $taux / 100);
+        $produit->setPrixVente($nouveauPrixVente);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($produit);
+        $entityManager->flush();
 
-    return new JsonResponse(['nouveauPrixVente' => $nouveauPrixVente]);
-}
+        return new JsonResponse(['nouveauPrixVente' => $nouveauPrixVente]);
+    }
 
     #[Route('/deleteProduit/{ref_produit}', name: 'app_produit_delete')]
     public function delete($ref_produit, ManagerRegistry $doctrine): Response
-    {   
+    {
         //trouver le bon produit 
         $repoC = $doctrine->getRepository(Produit::class);
         $produit = $repoC->find($ref_produit);
@@ -279,7 +281,7 @@ public function updatePrix(Request $request,Produit $produit , ProduitRepository
         $pieChart->getOptions()->setWidth(600);
         $pieChart->getOptions()->getTitleTextStyle()->setColor('#9a000a');
         $pieChart->getOptions()->getTitleTextStyle()->setFontSize(25);
-        $pieChart->getOptions()->setColors(['#e8cac6', '#c74d4d', '#c78da7','#a43120','#774242','#8B0000']); // Spécifiez les couleurs ici
+        $pieChart->getOptions()->setColors(['#e8cac6', '#c74d4d', '#c78da7', '#a43120', '#774242', '#8B0000']); // Spécifiez les couleurs ici
 
 
         return $this->render('statistique.html.twig', [
@@ -338,19 +340,19 @@ public function updatePrix(Request $request,Produit $produit , ProduitRepository
         ]);
     }
     #[Route('/dashboard', name: 'app_commande_dashboard')]
-    public function stats2( CommandeRepository $commandeRepository, LivraisonRepository $livraisonRepository): Response
+    public function statscommande(CommandeRepository $commandeRepository, LivraisonRepository $livraisonRepository): Response
     {
-    //    $currentMonthName = (new \DateTime())->format('F');
+        //    $currentMonthName = (new \DateTime())->format('F');
         $somme = $commandeRepository->countSomme();
         $sommeFormatted = number_format($somme, 2);
-        $totalpendingorder=$commandeRepository->countPending();
-        $totalpendinglivraison=$livraisonRepository->countPendingLiv();
-      
+        $totalpendingorder = $commandeRepository->countPending();
+        $totalpendinglivraison = $livraisonRepository->countPendingLiv();
+
         return $this->render('dashboard.html.twig', [
 
             'somme' => $sommeFormatted,
-            'totalpendingorder'=> $totalpendingorder,
-            'totalpendinglivraison'=> $totalpendinglivraison,
+            'totalpendingorder' => $totalpendingorder,
+            'totalpendinglivraison' => $totalpendinglivraison,
 
         ]);
     }

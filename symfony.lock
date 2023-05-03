@@ -1,6 +1,4 @@
 {
-    "cmen/google-charts-bundle": {
-        "version": "5.0.1"
     "api-platform/core": {
         "version": "2.7",
         "recipe": {
@@ -15,6 +13,9 @@
             "./src/Entity/.gitignore"
         ]
     },
+    "cmen/google-charts-bundle": {
+        "version": "5.0.1"
+    },
     "doctrine/annotations": {
         "version": "2.0",
         "recipe": {
@@ -28,7 +29,7 @@
         ]
     },
     "doctrine/doctrine-bundle": {
-        "version": "2.8",
+        "version": "2.9",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -304,19 +305,7 @@
             "./config/routes/web_profiler.yaml"
         ]
     },
-    "symfony/webapp-pack": {
-        "version": "1.1",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.0",
-            "ref": "aece95c8a188f6e6d04f01ccb8678d1764fd2642"
-        },
-        "files": [
-            "./config/packages/messenger.yaml"
-        ]
-    },
     "twig/extra-bundle": {
-        "version": "v3.5.1"
+        "version": "v3.6.0"
     }
 }

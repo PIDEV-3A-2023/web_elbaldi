@@ -3,13 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-<<<<<<< HEAD
 use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-=======
->>>>>>> origin/selim
 
 /**
  * Categorie
@@ -35,8 +32,8 @@ class Categorie
      *
      * @ORM\Column(name="nom_categorie", type="string", length=255, nullable=false)
      */
-    #[Assert\NotBlank(message:"Ce champs est obligatoire !")]
-    #[Assert\Regex(pattern:"/^[a-zA-Z\s]+$/", message:"Le nom ne doit contenir que des lettres")]
+    #[Assert\NotBlank(message: "Ce champs est obligatoire !")]
+    #[Assert\Regex(pattern: "/^[a-zA-Z\s]+$/", message: "Le nom ne doit contenir que des lettres")]
     private $nomCategorie;
 
     /**
@@ -44,8 +41,8 @@ class Categorie
      *
      * @ORM\Column(name="Description", type="string", length=255, nullable=false)
      */
-   #[Assert\Length(min:5, minMessage:"La description doit contenir au minimum'{{ limit }}' lettres", max:100, maxMessage:"La description doit contenir au maximum'{{ limit }}' lettres")]
-   #[Assert\NotBlank(message:"Ce champs est obligatoire !")]
+    #[Assert\Length(min: 5, minMessage: "La description doit contenir au minimum'{{ limit }}' lettres", max: 100, maxMessage: "La description doit contenir au maximum'{{ limit }}' lettres")]
+    #[Assert\NotBlank(message: "Ce champs est obligatoire !")]
     private $description;
 
     #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Categorie::class, orphanRemoval: true, cascade: ['null'])]
@@ -80,7 +77,7 @@ class Categorie
 
         return $this;
     }
-         /**
+    /**
      * @return Collection<int, Produit>
      */
     public function getProduits(): Collection
@@ -114,8 +111,4 @@ class Categorie
     {
         return $this->id_categorie;
     }
-
-
-
-
 }
