@@ -8,7 +8,9 @@
 		<button type="submit">Vérifier</button>
 	</form>
 	{% if promo_exist %}
-		<p>Le code promo existe pour l'utilisateur 2499</p>
+		<p>Le code promo existe pour l'utilisateur
+			{{taux_promo}}
+			2499</p>
 	{% elseif promo_exist is not null %}
 		<p>Le code promo n'existe pas pour l'utilisateur 2499</p>
 	{% endif %}

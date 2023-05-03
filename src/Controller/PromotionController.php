@@ -26,6 +26,7 @@ class PromotionController extends AbstractController
     public function verifierCodePromo(Request $request)
     {
         $promo_exist = null;
+        $taux_promo = null;
 
         if ($request->getMethod() == 'POST') {
             $code_promo = $request->request->get('code_promo');
@@ -37,17 +38,21 @@ class PromotionController extends AbstractController
                 ->getRepository(Promotion::class)
                 ->findOneBy([
                     'codePromo' => $code_promo,
-                    'idUser' => 2499
+                    'idUser' => 2492
                 ]);
 
             //  on assigne à la variable $promo_exist la valeur true si l'instance trouvée précédemment n'est pas null, ou false sinon.
             $promo_exist = ($promo !== null);
+
+            // si la promotion existe, on récupère le taux
+            if ($promo_exist) {
+                $taux_promo = $promo->getTaux();
+            }
         }
 
-
         return $this->render('promotion/check.html.twig', [
-            'promo_exist' => $promo_exist
-
+            'promo_exist' => $promo_exist,
+            'taux_promo' => $taux_promo
         ]);
     }
 
