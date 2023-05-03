@@ -1,0 +1,16 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    <div style="max-width: 500px;margin-top: 200px;margin-bottom: 300px;margin-left: 560px">
+
+    {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+    {{ form_row(form.nom ,{ 'attr': {'class': 'form-control' } }) }}
+    {{ form_row(form.prenom ,{ 'attr': {'class': 'form-control' } }) }}
+    {{ form_row(form.numtel ,{ 'attr': {'class': 'form-control' } }) }}
+    {{ form_row(form.ville ,{ 'attr': {'class': 'form-control' } }) }}
+    {{ form_end(form) }}
+
+    </div>
+{% endblock %}
