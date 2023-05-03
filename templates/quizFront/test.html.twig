@@ -1,0 +1,110 @@
+{% extends 'baseFront.html.twig' %}
+
+
+{% block body %}
+
+	<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+	<link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
+	<div class="container mt-5">
+		<div class="col-12 mb-4 d-flex align-items-center">
+			<i class="bi bi-box-arrow-left" style="font-size: 30px; margin-right: 5px; "></i>
+			<a href="{{ path('app_quiz_indexc') }}" class="btn btn-success custom-btn float-right">Retour</a>
+		</div>
+
+		{% if questions is not empty %}
+			{% set shuffledQuestions = [] %}
+			{% for i in 0..questions|length-1 %}
+				{% set randomIndex = random(0, questions|length-1) %}
+				{% set shuffledQuestion = questions[randomIndex] %}
+				{% set shuffledQuestions = shuffledQuestions|merge([shuffledQuestion]) %}
+				{% set questions = questions|slice(0, randomIndex)|merge(questions|slice(randomIndex+1)) %}
+			{% endfor %}
+			<div class="card">
+
+				<div class="card-body">
+					<form method="post" id="question-form">
+						{% for q in shuffledQuestions %}
+							<div class="form-group question{% if loop.first %} active{% endif %}" data-question="{{ q.idQuestion }}" data-correct-answer="{{ q.getSolution() }}">
+								<h3>{{ q.getQuestionn() }}</h3>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="reponse" id="reponse1" value="{{ q.getReponse1() }}">
+									<label class="form-check-label" for="reponse1">
+										{{ q.getReponse1() }}
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="reponse" id="reponse2" value="{{ q.getReponse2() }}">
+									<label class="form-check-label" for="reponse2">
+										{{ q.getReponse2() }}
+									</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="reponse" id="reponse3" value="{{ q.getReponse3() }}">
+									<label class="form-check-label" for="reponse3">
+										{{ q.getReponse3() }}
+									</label>
+								</div>
+								{% if loop.last %}
+									<a href="{{ path('app_quiz_score', {'score': score}) }}" class="btn btn-success custom-btn" onclick="calculerScore()">Voir mon score</a>
+
+									{# 
+																											<button type="button" class="btn btn-success custom-btn float-right" id="score-button" onclick="calculerScore()">Voir Score</button> #}
+								{% else %}
+									<button type="button" class="btn btn-success custom-btn float-right" id="next-button" onclick="updateButtons()">Suivant</button>
+								{% endif %}
+							</div>
+						{% endfor %}
+					</form>
+				</div>
+			</div>
+		{% else %}
+			<p>Aucune question disponible pour le moment.</p>
+		{% endif %}
+	</div>
+
+
+	<script>
+		const nextButton = document.getElementById('next-button');
+const scoreButton = document.getElementById('score-button');
+const questions = document.querySelectorAll('.question');
+
+function updateButtons() {
+const currentQuestion = document.querySelector('.question.active');
+const nextQuestion = currentQuestion.nextElementSibling;
+if (nextQuestion) {
+nextButton.style.display = 'block';
+scoreButton.style.display = 'none';
+} else {
+nextButton.style.display = 'none';
+scoreButton.style.display = 'block';
+}
+}
+
+// écouter les clics sur le bouton "Suivant"
+nextButton.addEventListener('click', function () {
+const currentQuestion = document.querySelector('.question.active');
+const nextQuestion = currentQuestion.nextElementSibling;
+currentQuestion.classList.remove('active');
+nextQuestion.classList.add('active');
+updateButtons();
+});
+
+// Mettre à jour l'affichage des boutons initialement
+updateButtons();
+
+
+function calculerScore() {
+const questions = document.querySelectorAll('.question');
+let score = 0;
+questions.forEach(function (question) {
+const selectedAnswer = question.querySelector('input[type="radio"]:checked');
+if (selectedAnswer && selectedAnswer.value === question.dataset.correctAnswer) {
+score++;
+}
+});
+const path = '{{ path("app_quiz_score", {"score": score}) }}';
+window.location.href = path;
+}
+	</script>
+
+{% endblock %}

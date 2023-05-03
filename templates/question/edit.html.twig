@@ -1,0 +1,13 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+	<div class="text-center">
+		<h1 style="font-weight: bold;">Modifier Quiz</h1>
+	</div>
+
+	{# {{ include('question/_form.html.twig', {'button_label': 'Modifier'}) }} #}
+	{{ include('question/_form.html.twig', {'button_label': 'Modifier', 'quiz': quiz}) }}
+
+
+	{# {{ include('question/_delete_form.html.twig') }} #}
+{% endblock %}

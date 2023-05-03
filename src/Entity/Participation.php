@@ -29,16 +29,6 @@ class Participation
     private $date;
 
     /**
-     * @var \Evenement
-     *
-     * @ORM\ManyToOne(targetEntity="Evenement")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_event", referencedColumnName="id_event")
-     * })
-     */
-    private $idEvent;
-
-    /**
      * @var \Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur")
@@ -47,6 +37,16 @@ class Participation
      * })
      */
     private $idClient;
+
+    /**
+     * @var \Evenement
+     *
+     * @ORM\ManyToOne(targetEntity="Evenement")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_event", referencedColumnName="id_event")
+     * })
+     */
+    private $idEvent;
 
     public function getIdParticipation(): ?int
     {
@@ -65,18 +65,6 @@ class Participation
         return $this;
     }
 
-    public function getIdEvent(): ?Evenement
-    {
-        return $this->idEvent;
-    }
-
-    public function setIdEvent(?Evenement $idEvent): self
-    {
-        $this->idEvent = $idEvent;
-
-        return $this;
-    }
-
     public function getIdClient(): ?Utilisateur
     {
         return $this->idClient;
@@ -85,6 +73,18 @@ class Participation
     public function setIdClient(?Utilisateur $idClient): self
     {
         $this->idClient = $idClient;
+
+        return $this;
+    }
+
+    public function getIdEvent(): ?Evenement
+    {
+        return $this->idEvent;
+    }
+
+    public function setIdEvent(?Evenement $idEvent): self
+    {
+        $this->idEvent = $idEvent;
 
         return $this;
     }

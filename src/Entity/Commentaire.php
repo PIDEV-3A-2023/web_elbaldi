@@ -4,7 +4,10 @@ namespace App\Entity;
 use App\Entity\Utilisateur;
 use App\Entity\Produit;
 use Doctrine\ORM\Mapping as ORM;
+<<<<<<< HEAD
 use App\Repository\CommentaireRepository;
+=======
+>>>>>>> origin/selim
 
 /**
  * Commentaire
@@ -12,7 +15,10 @@ use App\Repository\CommentaireRepository;
  * @ORM\Table(name="commentaire", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="ref_produit", columns={"ref_produit"})})
  * @ORM\Entity
  */
+<<<<<<< HEAD
 #[ORM\Entity(repositoryClass: CommentaireRepository::class)]
+=======
+>>>>>>> origin/selim
 class Commentaire
 {
     /**
@@ -39,6 +45,7 @@ class Commentaire
     private $date_comm;
 
     /**
+<<<<<<< HEAD
      * @var \Utilisateur
      *
      * @ORM\ManyToOne(targetEntity="Utilisateur",inversedBy="commentaires",cascade={"persist"})
@@ -49,6 +56,8 @@ class Commentaire
     private $user;
 
     /**
+=======
+>>>>>>> origin/selim
      * @var \Produit
      *
      * @ORM\ManyToOne(targetEntity="Produit", inversedBy="commentaires")
@@ -58,7 +67,21 @@ class Commentaire
      */
     private $produit;
 
+<<<<<<< HEAD
     public function getId_commentaire(): ?int
+=======
+    /**
+     * @var \Utilisateur
+     *
+     * @ORM\ManyToOne(targetEntity="Utilisateur")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id_user")
+     * })
+     */
+    private $idUser;
+
+    public function getIdCommentaire(): ?int
+>>>>>>> origin/selim
     {
         return $this->id_commentaire;
     }
@@ -123,11 +146,42 @@ class Commentaire
 
     public function setDateComm(\DateTimeInterface $date_comm): self
     {
+<<<<<<< HEAD
         $this->date_comm = $date_comm;
+=======
+        $this->dateComm = $dateComm;
 
         return $this;
     }
 
+    public function getRefProduit(): ?Produit
+    {
+        return $this->refProduit;
+    }
+
+    public function setRefProduit(?Produit $refProduit): self
+    {
+        $this->refProduit = $refProduit;
+>>>>>>> origin/selim
+
+        return $this;
+    }
+
+<<<<<<< HEAD
     
+=======
+    public function getIdUser(): ?Utilisateur
+    {
+        return $this->idUser;
+    }
+
+    public function setIdUser(?Utilisateur $idUser): self
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+
+>>>>>>> origin/selim
 
 }

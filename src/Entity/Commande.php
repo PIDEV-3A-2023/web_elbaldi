@@ -5,10 +5,13 @@ namespace App\Entity;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+<<<<<<< HEAD
 use App\Repository\CommandeRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+=======
+>>>>>>> origin/selim
 
 /**
  * Commande

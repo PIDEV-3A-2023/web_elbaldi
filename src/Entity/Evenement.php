@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,16 +37,16 @@ class Evenement
     private $description;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="date_debut_event", type="string", length=20, nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="date_debut_event", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $dateDebutEvent = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="date_fin_event", type="string", length=20, nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="date_fin_event", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $dateFinEvent = 'CURRENT_TIMESTAMP';
 
@@ -92,24 +93,24 @@ class Evenement
         return $this;
     }
 
-    public function getDateDebutEvent(): ?string
+    public function getDateDebutEvent(): ?\DateTimeInterface
     {
         return $this->dateDebutEvent;
     }
 
-    public function setDateDebutEvent(string $dateDebutEvent): self
+    public function setDateDebutEvent(\DateTimeInterface $dateDebutEvent): self
     {
         $this->dateDebutEvent = $dateDebutEvent;
 
         return $this;
     }
 
-    public function getDateFinEvent(): ?string
+    public function getDateFinEvent(): ?\DateTimeInterface
     {
         return $this->dateFinEvent;
     }
 
-    public function setDateFinEvent(string $dateFinEvent): self
+    public function setDateFinEvent(\DateTimeInterface $dateFinEvent): self
     {
         $this->dateFinEvent = $dateFinEvent;
 

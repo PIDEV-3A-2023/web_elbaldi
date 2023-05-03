@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<title>Promotion index</title>
+
+{% block body %}
+    <h1>Promotion index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdPromotion</th>
+                <th>CodePromo</th>
+                <th>Taux</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for promotion in promotions %}
+            <tr>
+                <td>{{ promotion.idPromotion }}</td>
+                <td>{{ promotion.codePromo }}</td>
+                <td>{{ promotion.taux }}</td>
+                <td>
+                    <a href="{{ path('app_promotion_show', {'idPromotion': promotion.idPromotion}) }}">show</a>
+                    <a href="{{ path('app_promotion_edit', {'idPromotion': promotion.idPromotion}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_promotion_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+	<h1>Vérifier un code promo</h1>
+	<form method="POST" action="{{ path('check_promo') }}">
+		<label for="code_promo">Code promo :</label>
+		<input type="text" id="code_promo" name="code_promo">
+		<button type="submit">Vérifier</button>
+	</form>
+	{% if promo_exist %}
+		<p>Le code promo existe pour l'utilisateur
+			{{taux_promo}}
+			2499</p>
+	{% elseif promo_exist is not null %}
+		<p>Le code promo n'existe pas pour l'utilisateur 2499</p>
+	{% endif %}
+{% endblock %}

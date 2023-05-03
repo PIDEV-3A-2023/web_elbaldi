@@ -13,6 +13,11 @@
   scroll-behavior: smooth;
 }
 
+.card-rounded {
+  border-radius: 10px;
+}
+
+
 body {
   font-family: "Open Sans", sans-serif;
   background: #f6f9ff;
@@ -1232,10 +1237,55 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+<<<<<<< HEAD
+=======
+
+.card-rounded {
+  border-radius: 10px;
+}
+
+>>>>>>> origin/selim
 .custom-btn.btn-success {
   background-color: #9a000a;
 }
 
+<<<<<<< HEAD
+=======
+.chosen-Quiz-card {
+  background-color: #FFFFFF;
+  border-radius: 30px;
+  height: 10px;
+  overflow: hidden;
+  position: relative;
+  padding: 20px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chosen-Quiz-card::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom right, #FFFFFF 50%, transparent);
+  transform: rotate(-45deg);
+  z-index: -1;
+}
+
+.chosen-Quiz-card::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top left, #FFFFFF 50%, transparent);
+  transform: rotate(-45deg);
+  z-index: -1;
+}
+
+>>>>>>> origin/selim
 .form-group {
   display: flex;
   flex-direction: column;
@@ -1253,4 +1303,11 @@ h6 {
 
 .buttons-group {
   margin-top: 20px;
+<<<<<<< HEAD
+=======
+}
+
+.card-img {
+  height: 70%;
+>>>>>>> origin/selim
 }

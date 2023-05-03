@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PromotionRepository;
 
 /**
  * Promotion
@@ -10,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="promotion", indexes={@ORM\Index(name="id_user", columns={"id_user"})})
  * @ORM\Entity
  */
+
+#[ORM\Entity(repositoryClass: PromotionRepository::class)]
 class Promotion
 {
     /**
@@ -85,6 +88,4 @@ class Promotion
 
         return $this;
     }
-
-
 }
