@@ -89,7 +89,7 @@
                             <li><strong style="color:#9a000a;text-decoration: underline;">Description</strong>: {{ produit.description }}</li>
                             <li><strong style="color:#9a000a;text-decoration: underline;">Prix</strong>: {{ produit.prixVente }} dt</li>
                         </ul>
-                        <a href="#" style="background-color: #9a000a; color: #fff;padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer;">Ajouter au panier</a>
+                        <a href="{{ path('add_product_to_basket', { 'refProduit': produit.ref_produit, 'idPanier': panier.idPanier }) }}" style="background-color: #9a000a; color: #fff;padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer;">Ajouter au panier</a>
                     </div>
                 </div>
             </div>

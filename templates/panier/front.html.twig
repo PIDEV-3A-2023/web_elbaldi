@@ -1,8 +1,285 @@
-{% extends 'baseFront.html.twig' %}
-{% block title %}
-	Panier 
-{% endblock %}
-{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>
+			{% block title %}
+				Elbadli
+			{% endblock %}
+		</title>
+		<meta content="" name="description">
+		<meta content="" name="keywords">
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+		<!-- Favicons -->
+		<link href="{{asset('Front/img/elbaldi.jpg')}}" rel="icon">
+		<link
+		href="{{asset('Front/img/elbaldi.jpg')}}" rel="apple-touch-icon">
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+		{% block css%}
+			<!-- Vendor CSS Files -->
+			<link href="{{asset('Front/vendor/animate.css/animate.min.css ')}}" rel="stylesheet">
+			<link href="{{asset('Front/vendor/bootstrap/css/bootstrap.min.css ')}}" rel="stylesheet">
+			<link href="{{asset('Front/vendor/bootstrap-icons/bootstrap-icons.css ')}}" rel="stylesheet">
+			<link href="{{asset('Front/vendor/boxicons/css/boxicons.min.css ')}}" rel="stylesheet">
+			<link href="{{asset('Front/vendor/glightbox/css/glightbox.min.css ')}}" rel="stylesheet">
+			<link href="{{asset('Front/vendor/remixicon/remixicon.css ')}}" rel="stylesheet">
+			<link
+			href="{{asset('Front/vendor/swiper/swiper-bundle.min.css ')}}" rel="stylesheet">
+
+			<!-- Template Main CSS File -->
+			<link
+			href="{{asset('Front/css/style.css')}}" rel="stylesheet">
+
+		<!-- =======================================================
+																				  * Template Name: Sailor
+																				  * Updated: Mar 10 2023 with Bootstrap v5.2.3
+																				  * Template URL: https://bootstrapmade.com/sailor-free-bootstrap-theme/
+																				  * Author: BootstrapMade.com
+																				  * License: https://bootstrapmade.com/license/
+																				  ======================================================== -->
+		{% endblock %}
+		<style>
+			.logo {
+				display: flex;
+				align-items: center;
+			}
+
+			.logo img {
+				width: 50px;
+				margin-right: 20px;
+			}
+
+			.logo a {
+				color: #9a000a; /* Changer la couleur du texte ici */
+				font-size: 36px;
+				font-weight: bold;
+				text-decoration: none;
+			}
+			.custom-logo {
+				max-width: 500%;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!-- ======= Header ======= -->
+		<header id="header" class="fixed-top d-flex align-items-center">
+			<div class="container d-flex align-items-center">
+
+				<h1 class="logo me-auto">
+					<a href="{{path('app_produit_indexFront')}}">
+
+						<img src="{{asset('Front/img/elbaldi.jpg')}}" alt="Logo Elbaldi" class="img-fluid custom-logo">
+						Elbaldi
+					</a>
+				</h1>
+
+				<nav id="navbar" class="navbar">
+					<ul>
+						<li>
+							<a href="#" class="active">Profil</a>
+						</li>
+
+						<li>
+							<a href="{{path('app_produit_indexFront')}}">Produits</a>
+						</li>
+						<li>
+							<a href="{{path('app_bonplan_indexFront')}}">Bons plans</a>
+						</li>
+						<li>
+							<a href="portfolio.html">Evènements</a>
+						</li>
+						<li>
+						<a href="{{path('app_quiz_indexc')}}">Quiz</a>
+							
+						</li>
+
+						<li>
+							<a href="index.html" class="getstarted">Déconnexion</a>
+						</li>
+					</ul>
+					<i class="bi bi-list mobile-nav-toggle"></i>
+				</nav>
+				<!-- .navbar -->
+
+			</div>
+		</header>
+		<!-- End Header -->
+
+		<!-- ======= Hero Section ======= -->
+
+		<div></div>
+		<hr></body>
+</html></hr></section><!-- End Hero --><mainid="main"><!-- ======= Portfolio Section ======= --><section id="portfolio" class="portfolio">
+<br>
+<br>
+
+
+
+<style>
+.form-commande {
+    margin-top: 20px;
+  }
+body{
+    background: #ddd;
+    min-height: 100vh;
+    vertical-align: middle;
+    display: flex;
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.title{
+    margin-bottom: 5vh;
+}
+.card{
+    margin: auto;
+    max-width: 1500px;
+    width: 90%;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1rem;
+    border: transparent;
+}
+@media(max-width:1500px){
+    .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            width: 75%;
+            float: left;
+            margin-left: 225px;
+        }
+}
+.cart{
+    background-color: #fff;
+    padding: 4vh 5vh;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+@media(max-width:1200px){
+    .cart{
+        padding: 4vh;
+        border-bottom-left-radius: unset;
+        border-top-right-radius: 1rem;
+    }
+}
+.summary{
+    background-color: #ddd;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 4vh;
+    color: rgb(65, 65, 65);
+}
+@media(max-width:1000px){
+    .summary{
+    border-top-right-radius: unset;
+    border-bottom-left-radius: 1rem;
+    }
+}
+.summary .col-2{
+    padding: 0;
+}
+.summary .col-10
+{
+    padding: 0;
+}.row{
+    margin: 0;
+}
+.title b{
+    font-size: 1.5rem;
+}
+.main{
+    margin: 0;
+    padding: 2vh 0;
+    width: 100%;
+}
+.col-2, .col{
+    padding: 0 1vh;
+}
+a{
+    padding: 0 1vh;
+}
+.close{
+    margin-left: auto;
+    font-size: 0.7rem;
+}
+img{
+    width: 3.5rem;
+}
+.back-to-shop{
+    margin-top: 4.5rem;
+}
+h5{
+    margin-top: 4vh;
+}
+hr{
+    margin-top: 1.25rem;
+}
+form{
+    padding: 2vh 0;
+}
+select{
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1.5vh 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+}
+input{
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+}
+input:focus::-webkit-input-placeholder
+{
+      color:transparent;
+}
+.btn{
+    background-color: #cc0000;
+    border-color: #000;
+    color: white;
+    width: 100%;
+    font-size: 0.7rem;
+    margin-top: 4vh;
+    padding: 1vh;
+    border-radius: 0;
+}
+.btn:focus{
+    box-shadow: none;
+    outline: none;
+    box-shadow: none;
+    color: white;
+    -webkit-box-shadow: none;
+    -webkit-user-select: none;
+    transition: none; 
+}
+.btn:hover{
+    color: white;
+}
+a{
+    color: black; 
+}
+a:hover{
+    color: black;
+    text-decoration: none;
+}
+ #code{
+    background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253) , rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: center;
+}
+</style>
+
 	{% set total = 0 %}
 
 	<div class="card">
@@ -22,7 +299,8 @@
 				{% for Produit in panier.refProduit %}
 					<div class="row border-top border-bottom">
 						<div class="row main align-items-center">
-							<div class="col-2"><img class="img-fluid" src="{{ 'http://localhost/images/' ~ Produit.image }}">
+
+							<div class="col-2"><img class="img-fluid" src="{{ asset('images/' ~ Produit.image ) }}">
 							</div>
 							<div class="col">
 								<div class="row text-muted">{{ Produit.libelle }}</div>
@@ -88,4 +366,5 @@
 		</div>
 	</div>
 
-</div>{% endblock %}
+</div>
+

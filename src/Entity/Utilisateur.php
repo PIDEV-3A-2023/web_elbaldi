@@ -94,6 +94,13 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(name: "reset_token", length: 255, nullable: true)]
     private ?string $reset_token = null;
+    
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="nombrejouer", type="integer", nullable=true)
+     */
+    private $nombrejouer;
 
     public function getIdUser(): ?int
     {
@@ -270,7 +277,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    public function getNombrejouer(): ?int
+    {
+        return $this->nombrejouer;
+    }
 
+    public function setNombrejouer(?int $nombrejouer): self
+    {
+        $this->nombrejouer = $nombrejouer;
+
+        return $this;
+    }
     public function getResetToken(): ?string
     {
         return $this->reset_token;

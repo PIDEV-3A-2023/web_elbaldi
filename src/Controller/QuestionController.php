@@ -80,7 +80,7 @@ class QuestionController extends AbstractController
 
             $user = $entityManager
                 ->getRepository(Utilisateur::class)
-                ->find(2499); // Récupérer l'utilisateur ayant l'id_user de 2499
+                ->find(2528); // Récupérer l'utilisateur ayant l'id_user de 2528
             $promotion->setIdUser($user);
 
             $entityManager->persist($promotion);
@@ -211,7 +211,7 @@ class QuestionController extends AbstractController
     {
         $utilisateur = $entityManager
             ->getRepository(Utilisateur::class)
-            ->find(2499); // Récupérer l'utilisateur ayant l'id_user de 2499
+            ->find(2528); // Récupérer l'utilisateur ayant l'id_user de 2528
 
         $utilisateur->setNombrejouer($utilisateur->getNombrejouer() + 1); // Incrémenter le champ nombrejouer
 

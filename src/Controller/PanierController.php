@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Produit;
+use App\Repository\CommandeRepository;
+use App\Repository\CommentaireRepository;
+use App\Entity\Commentaire;
 
 #[Route('/panier')]
 class PanierController extends AbstractController
@@ -167,5 +170,42 @@ class PanierController extends AbstractController
     
         // Redirect to the basket page
         return $this->redirectToRoute('app_panier_show_front', ['idPanier' => $idPanier]);
+    }
+    #[Route('/add-product-to-basket/{idPanier}/{refProduit}', name: 'add_product_to_basket', methods: ['GET', 'POST'])]
+    public function addProducttoBasket(EntityManagerInterface $entityManager,CommentaireRepository $commentaireRepository ,Request $request, string $refProduit, int $idPanier): Response
+    {
+       // Get the basket
+       $panier = $this->getDoctrine()
+       ->getRepository(Panier::class)
+       ->find($idPanier);
+
+        
+        // Get the product to remove from the basket
+        $produit = $this->getDoctrine()
+            ->getRepository(Produit::class)
+            ->find($refProduit);
+            
+               // Remove the product from the basket
+        if ($panier->getRefProduit()->contains($produit)) {
+            $this->addFlash('error', 'le produit deja existe dans votre panier');
+    
+            
+    
+            
+        } else {
+            $produit->setQuantite($produit->getQuantite()+1);
+            
+            $entityManager->persist($produit);
+            $entityManager->flush();
+            $panier->addRefProduit($produit);
+            $entityManager->persist($panier);
+            $entityManager->flush();
+            $this->addFlash('success', 'le produit a été ajouté avec succés.');
+        }
+           
+        $commentaires = $commentaireRepository->findByProduit2($produit);
+    
+        // Redirect to the basket page
+        return $this->redirectToRoute('produit_details', ['ref_produit'=> $produit->getRef_produit(),]);
     }
 }

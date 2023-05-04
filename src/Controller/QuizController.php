@@ -45,7 +45,7 @@ class QuizController extends AbstractController
             ->findAll();
         $utilisateur = $entityManager
             ->getRepository(Utilisateur::class)
-            ->find(2499); // Récupérer l'utilisateur ayant l'id_user de 2499
+            ->find(2528); // Récupérer l'utilisateur ayant l'id_user de 2499
         $nombrejouer = $utilisateur->getNombrejouer();
         return $this->render('quizFront/index.html.twig', [
             'quizzes' => $quizzes,

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Entity\Commentaire;
+use App\Entity\Panier;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
 use App\Repository\CommandeRepository;
@@ -46,9 +47,14 @@ class ProduitController extends AbstractController
     {
         $produits = $produitRepository->findAll();
         $categories = $categorieRepository->findAll();
+         // Get the basket
+       $panier = $this->getDoctrine()
+       ->getRepository(Panier::class)
+       ->find(21);
         return $this->render('produitFront/indexFront.html.twig', [
             'categories' => $categories,
             'produits' => $produits,
+            'panier' => $panier
         ]);
     }
     /**
@@ -67,12 +73,13 @@ class ProduitController extends AbstractController
             default:
                 $produits = $produitRepository->findAll();
         }
-
+       
         $categories = $categorieRepository->findAll();
         // on  génére le code HTML correspondant à la vue
         $html = $this->render('produitFront/indexFront.html.twig', [
             'produits' => $produits,
             'categories' => $categories,
+            
 
         ]);
         // retourne une réponse JSON
@@ -87,9 +94,15 @@ class ProduitController extends AbstractController
     public function produitDetails(Produit $produit, CommentaireRepository $commentaireRepository): Response
     {
         $commentaires = $commentaireRepository->findByProduit2($produit);
+          // Get the basket
+       $panier = $this->getDoctrine()
+       ->getRepository(Panier::class)
+       ->find(21);
         return $this->render('produitFront/produitDetails.html.twig', [
+            
             'produit' => $produit,
             'commentaires' => $commentaires,
+            'panier' => $panier
         ]);
     }
 
