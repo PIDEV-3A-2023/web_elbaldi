@@ -196,7 +196,7 @@ class CommandeController extends AbstractController
 
             //pdf        
             // Créer le PDF avec Dompdf
-// Create the PDF with Dompdf
+            // Create the PDF with Dompdf
             $dompdf = new Dompdf();
             $options = new Options();
             $options->setIsRemoteEnabled(true);
@@ -310,7 +310,4 @@ class CommandeController extends AbstractController
 
         return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
     }
-
-
-
 }

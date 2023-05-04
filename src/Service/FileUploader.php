@@ -9,7 +9,7 @@ class FileUploader
 {
     private $targetDirectory;
 
-    public function __construct($targetDirectory)
+    public function __construct(String $targetDirectory)
     {
         $this->targetDirectory = $targetDirectory;
     }
@@ -20,8 +20,7 @@ class FileUploader
 
         try {
             $file->move($this->getTargetDirectory(), $fileName);
-        } catch (FileException $e) 
-        {
+        } catch (FileException $e) {
             throw new FileException('Erreur lors de l\'upload de fichier');
         }
 
