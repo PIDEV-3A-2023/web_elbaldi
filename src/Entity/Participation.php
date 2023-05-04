@@ -2,56 +2,114 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Participation
  *
- * @ORM\Table(name="participation", indexes={@ORM\Index(name="id_client", columns={"id_client"}), @ORM\Index(name="fk_event", columns={"id_event"})})
+ * @ORM\Table(name="participation", indexes={@ORM\Index(name="id_evenement_id", columns={"id_evenement_id"}), @ORM\Index(name="id_client_id", columns={"id_client_id"})})
  * @ORM\Entity
  */
 class Participation
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id_participation", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    * @var int
+    
+    * @ORM\Column(name="id", type="integer", nullable=false)
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="IDENTITY")
+    */
     private $idParticipation;
 
     /**
+    * @var string
+    
+    * @ORM\Column(name="Nom_client", type="string", length=255, nullable=false)
+    * @Assert\NotBlank(message="title is required")
+    */
+    private $nomClient;
+
+    /**
+     * @var string
+     * @ORM\Column(name="Prenom_client", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="title is required")
+     */
+    private $prenomClient;
+
+    /**
+     * @var string
+     * @Assert\NotBlank(message="title is required")
+     * @ORM\Column(name="Nom_evenement", type="string", length=255, nullable=false)
+     */
+    private $nomEvenement;
+
+    /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date", nullable=false)
+     * @Assert\NotBlank(message="title is required")
+     * @ORM\Column(name="Date", type="datetime",length=255, nullable=false)
      */
     private $date;
 
     /**
-     * @var \Utilisateur
-     *
-     * @ORM\ManyToOne(targetEntity="Utilisateur")
+     * @var \Event
+     * @Assert\NotBlank(message="title is required")
+     * @ORM\ManyToOne(targetEntity="Event")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_client", referencedColumnName="id_user")
+     *   @ORM\JoinColumn(name="id_evenement_id", referencedColumnName="id")
+     * })
+     */
+    private $idEvenement;
+
+    /**
+     * @var \Client
+     *  @Assert\NotBlank(message="title is required")
+     * @ORM\ManyToOne(targetEntity="Client")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_client_id", referencedColumnName="id")
      * })
      */
     private $idClient;
 
-    /**
-     * @var \Evenement
-     *
-     * @ORM\ManyToOne(targetEntity="Evenement")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_event", referencedColumnName="id_event")
-     * })
-     */
-    private $idEvent;
-
     public function getIdParticipation(): ?int
     {
         return $this->idParticipation;
+    }
+
+    public function getNomClient(): ?string
+    {
+        return $this->nomClient;
+    }
+
+    public function setNomClient(string $nomClient): self
+    {
+        $this->nomClient = $nomClient;
+
+        return $this;
+    }
+
+    public function getPrenomClient(): ?string
+    {
+        return $this->prenomClient;
+    }
+
+    public function setPrenomClient(string $prenomClient): self
+    {
+        $this->prenomClient = $prenomClient;
+
+        return $this;
+    }
+
+    public function getNomEvenement(): ?string
+    {
+        return $this->nomEvenement;
+    }
+
+    public function setNomEvenement(string $nomEvenement): self
+    {
+        $this->nomEvenement = $nomEvenement;
+
+        return $this;
     }
 
     public function getDate(): ?\DateTimeInterface
@@ -66,29 +124,32 @@ class Participation
         return $this;
     }
 
-    public function getIdClient(): ?Utilisateur
+    public function getIdEvenement(): ?Event
+    {
+        return $this->idEvenement;
+    }
+
+    public function setIdEvenement(?Event $idEvenement): self
+    {
+        $this->idEvenement = $idEvenement;
+
+        return $this;
+    }
+
+    public function getIdClient(): ?Client
     {
         return $this->idClient;
     }
 
-    public function setIdClient(?Utilisateur $idClient): self
+    public function setIdClient(?Client $idClient): self
     {
         $this->idClient = $idClient;
 
         return $this;
     }
 
-    public function getIdEvent(): ?Evenement
-    {
-        return $this->idEvent;
-    }
 
-    public function setIdEvent(?Evenement $idEvent): self
-    {
-        $this->idEvent = $idEvent;
 
-        return $this;
-    }
 
 
 }

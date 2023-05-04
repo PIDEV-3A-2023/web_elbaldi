@@ -3,7 +3,7 @@
 
 {% block body %}
     <h1>Détails de Bonplan</h1>
-    <a href="{{ path('app_bonplan_index') }}" class="btn btn-success mb-3">Retour</a>
+    <a href="{{ path('app_bonplan_index') }}" class="btn btn-success custom-btn mb-3">Retour</a>
 
     <table class="table">
         <tbody>
@@ -25,14 +25,10 @@
             </tr>
             <tr>
                 <th>ImageBonplan</th>
-                <td><img class="user_pic rounded img-raised" src="{{ asset('uploads/'~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}" height="180" ></td>
+                <td><img class="user_pic rounded img-raised" src="{{ asset('images/' ~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}" height="180"></td>
             </tr>
         </tbody>
     </table>
 
-  
 
-    
-
-    
 {% endblock %}

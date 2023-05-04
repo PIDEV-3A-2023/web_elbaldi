@@ -40,7 +40,7 @@ class ProduitController extends AbstractController
         ]);
     }
     /**
-     * @Route("/client/produit", name="app_produit_indexFront", methods={"GET"})
+     * @Route("/internaute/produit", name="app_produit_indexFront", methods={"GET"})
      */
     public function indexFront(ProduitRepository $produitRepository, CategorieRepository $categorieRepository, Request $request): Response
     {

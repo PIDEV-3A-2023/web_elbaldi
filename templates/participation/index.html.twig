@@ -1,0 +1,41 @@
+{% extends 'BackOffice.html.twig' %}
+
+{% block title %}Participation index{% endblock %}
+
+{% block body %}
+    <h1>Participation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdParticipation</th>
+                <th>NomClient</th>
+                <th>PrenomClient</th>
+                <th>NomEvenement</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for participation in participations %}
+            <tr>
+                <td>{{ participation.idParticipation }}</td>
+                <td>{{ participation.nomClient }}</td>
+                <td>{{ participation.prenomClient }}</td>
+                <td>{{ participation.nomEvenement }}</td>
+                <td>{{ participation.date ? participation.date|date('Y-m-d H:i:s') : '' }} </td>
+                <td>
+                    
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>  
+    </table>
+    {{ knp_pagination_render(participations) }}
+
+   
+{% endblock %}

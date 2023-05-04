@@ -1,6 +1,10 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
-
+    form_themes: ['bootstrap_5_layout.html.twig']
+    paths:
+        # point this wherever your images live
+        '%kernel.project_dir%/public/uploads': uploads
 when@test:
     twig:
         strict_variables: true
+  

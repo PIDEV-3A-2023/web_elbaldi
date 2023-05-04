@@ -26,7 +26,7 @@ class BonplanType extends AbstractType
             ])
             
             ->add('imageBonplan', FileType::class, [
-                'label' => 'Choose an image',
+                'label' => 'choisir une image',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Email Design</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			font-size: 14px;
+			line-height: 1.5;
+			background-color: #f2f2f2;
+		}
+		.container {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0 2px 4px rgba(0,0,0,.1);
+		}
+		.header {
+			background-color: #4285f4;
+			color: #fff;
+			text-align: center;
+			padding: 10px;
+		}
+		.header h1 {
+			margin: 0;
+			font-size: 24px;
+		}
+		.content {
+			padding: 20px;
+			text-align: justify;
+		}
+		.content img {
+			max-width: 100%;
+			height: auto;
+			margin-bottom: 20px;
+		}
+		.footer {
+			text-align: center;
+			padding: 10px;
+			background-color: #eee;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="header">
+			<h1>Reused</h1>
+		</div>
+		<div class="content">
+        
+			<p> {{username}} ! You have won in "Roue de chance"</p>
+			
+			<p>take this code to nearest store of Reuse to take your reward : {{code}} </p>
+		</div>
+		<div class="footer">
+			<p>&copy; 2023 Reused. All rights reserved.</p>
+		</div>
+	</div>
+</body>
+</html>

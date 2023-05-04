@@ -1,0 +1,12 @@
+
+<style>
+    .hidden-form {
+        display: none;
+    }
+</style>
+<form id="hidden-form" class="hidden-form"{{ form_start(form,{'attr':{'novalidate':'novalidate'}},{'action': path('app_event_showSingle',{'idEvent':event.idEvent})})}}>
+    {{ form_widget(form) }}
+     {{form_errors(form,{'attr':{'class':'text-danger'}})}}
+     <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+</form>

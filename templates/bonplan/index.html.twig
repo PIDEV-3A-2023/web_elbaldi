@@ -6,37 +6,46 @@
 {% endblock %}
 {% block body %}
     <div class="container">
-    {% for message in app.flashes('success') %}
-              <div class="alert alert-success"  id="flash-message">{{ message }}</div>
-          {% endfor %}
-          {% for message in app.flashes('danger') %}
-              <div class="alert alert-danger"  id="flash-message">{{ message }}</div>
-          {% endfor %}
-<script>
-    // Set a timer to hide the flash message after 3 seconds
-    setTimeout(function() {
-        var flashMessage = document.getElementById('flash-message');
-        if (flashMessage) {
-            flashMessage.style.display = 'none';
-        }
-    }, 3000);
-</script>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success" id="flash-message">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger" id="flash-message">{{ message }}</div>
+        {% endfor %}
+        <script>
+            // Set a timer to hide the flash message after 3 seconds
+setTimeout(function () {
+var flashMessage = document.getElementById('flash-message');
+if (flashMessage) {
+flashMessage.style.display = 'none';
+}
+}, 3000);
+        </script>
         <h1>La liste des bons plans</h1>
-        <a href="{{ path('app_bonplan_new') }}" class="btn btn-primary">Ajouter un bon plan</a>
+        <div class="col-12 mb-4 d-flex align-items-center">
+            <i class="bi bi-file-plus" style="font-size: 30px; margin-right: 5px; "></i>
+            <a href="{{ path('app_bonplan_new') }}" class="btn btn-success custom-btn">Ajouter un bon plan</a>
+        </div>
         <hr>
 
         <div class="row card-deck">
             {% for bonplan in bonplans %}
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="{{ asset('uploads/'~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}">
+                        <img class="card-img-top" src="{{ asset('images/' ~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ bonplan.titreBonplan }}</h5>
                             <p class="card-text clamp">{{ bonplan.descriptionBonplan }}</p>
-                            <p class="card-text"><span style="font-weight: bold; color: blue;">Le type de bon plan:</span> {{ bonplan.typeBonplan }}</p>
+                            <p class="card-text">
+                                <span style="font-weight: bold; ">Le type de bon plan:</span>
+                                {{ bonplan.typeBonplan }}</p>
                             <div class="d-flex justify-content-between">
-                                <a href="{{ path('app_bonplan_show', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-primary">Détails</a>
-                                <a href="{{ path('app_bonplan_edit', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-primary">Modifier</a>
+                                <i class="bi bi-list align-self-center ml-6" style="font-size: 25px;"></i>
+                                <a href="{{ path('app_bonplan_show', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-success custom-btn">Détails</a>
+
+                                <i class="bi bi-pencil-square align-self-center ml-6" style="font-size: 25px;"></i>
+                                <a href="{{ path('app_bonplan_edit', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-success custom-btn">Modifier</a>
+
                             </div>
                         </div>
                     </div>
@@ -50,7 +59,7 @@
             {% endfor %}
         </div>
     </div>
-    
+
     <style>
         .clamp {
             display: -webkit-box;

@@ -1,7 +1,7 @@
 {% for bonplan in bonplans %}
                 <div class="col-md-3 mb-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="{{ asset('uploads/'~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}"  >
+                        <img class="card-img-top" src="{{ asset('images/' ~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}"  >
                         <div class="card-body">
                             <h5 class="card-title">{{ bonplan.titreBonplan }}</h5>
                             {% if averageNotes[bonplan.idBonplan].averageNote is not null %}

@@ -15,7 +15,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\Extension\StringLoaderExtension;
 use MercurySeries\FlashyBundle\FlashyNotifier;
-
+use App\Service\FileUploader;
 
 #[Route('/bonplan')]
 class BonplanController extends AbstractController
@@ -31,11 +31,11 @@ class BonplanController extends AbstractController
             'bonplans' => $bonplans,
         ]);
     }
-    
+
     #[Route('/searchbonplanajax', name: 'ajaxbonplan', methods: ['GET'])]
     public function searchajax(Request $request, BonplanRepository $repository)
     {
-        $requestString=$request->get('searchValue');
+        $requestString = $request->get('searchValue');
         $bonplans = $repository->findBonplan($requestString);
 
         $averageNotes = [];
@@ -44,26 +44,26 @@ class BonplanController extends AbstractController
             $averageNote = $repository->findAverageNoteAvisByIdBonplan($bonplan->getIdBonplan());
             $averageNotes[$bonplan->getIdBonplan()] = $averageNote;
         }
-    
+
         return $this->render('bonplan/ajax.html.twig', [
-            "bonplans"=>$bonplans,
+            "bonplans" => $bonplans,
             'averageNotes' => $averageNotes,
         ]);
     }
 
-   #[Route('/front', name: 'app_bonplan_indexFront', methods: ['GET'])]
-    public function indexFront(EntityManagerInterface $entityManager,BonplanRepository $repository ): Response
+    #[Route('/front', name: 'app_bonplan_indexFront', methods: ['GET'])]
+    public function indexFront(EntityManagerInterface $entityManager, BonplanRepository $repository): Response
     {
-        
+
         $bonplans = $repository->findAll();
-    $averageNotes = [];
+        $averageNotes = [];
 
-    foreach ($bonplans as $bonplan) {
-        $averageNote = $repository->findAverageNoteAvisByIdBonplan($bonplan->getIdBonplan());
-        $averageNotes[$bonplan->getIdBonplan()] = $averageNote;
-    }
+        foreach ($bonplans as $bonplan) {
+            $averageNote = $repository->findAverageNoteAvisByIdBonplan($bonplan->getIdBonplan());
+            $averageNotes[$bonplan->getIdBonplan()] = $averageNote;
+        }
 
-        
+
 
         return $this->render('bonplan/indexFront.html.twig', [
             'bonplans' => $bonplans,
@@ -72,13 +72,13 @@ class BonplanController extends AbstractController
     }
 
     #[Route('/newback', name: 'app_bonplan_new', methods: ['GET', 'POST'])]
-    public function new(Request $request,SluggerInterface $slugger,EntityManagerInterface $entityManager, FlashyNotifier $flashy ): Response
+    public function new(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManager, FlashyNotifier $flashy, FileUploader $fileUploader): Response
     {
         $bonplan = new Bonplan();
         $form = $this->createForm(BonplanType::class, $bonplan);
         $form->handleRequest($request);
 
-       /* if ($form->isSubmitted() && $form->isValid()) {
+        /* if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('imageBonplan')->getData();
         if ($file) {
             $fileName = uniqid().'.'.$file->guessExtension();
@@ -97,29 +97,13 @@ class BonplanController extends AbstractController
         }*/
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $brochureFile = $form->get('imageBonplan')->getData();
-
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('post_image'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
+            // Upload new image if provided
+            $imageFile = $form->get('imageBonplan')->getData();
+            if ($imageFile) {
+                $newFilename = $fileUploader->upload($imageFile);
                 $bonplan->setImageBonplan($newFilename);
+            } else {
+                $bonplan->setImageBonplan('images/image_par_defaut.png');
             }
             $entityManager->persist($bonplan);
             $entityManager->flush();
@@ -137,13 +121,13 @@ class BonplanController extends AbstractController
     }
 
     #[Route('/newfront', name: 'app_bonplan_newfront', methods: ['GET', 'POST'])]
-    public function newfront(Request $request,SluggerInterface $slugger,EntityManagerInterface $entityManager): Response
+    public function newfront(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $bonplan = new Bonplan();
         $form = $this->createForm(BonplanType::class, $bonplan);
         $form->handleRequest($request);
 
-       /* if ($form->isSubmitted() && $form->isValid()) {
+        /* if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('imageBonplan')->getData();
         if ($file) {
             $fileName = uniqid().'.'.$file->guessExtension();
@@ -162,29 +146,12 @@ class BonplanController extends AbstractController
         }*/
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $brochureFile = $form->get('imageBonplan')->getData();
-
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('post_image'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
+            $imageFile = $form->get('imageBonplan')->getData();
+            if ($imageFile) {
+                $newFilename = $fileUploader->upload($imageFile);
                 $bonplan->setImageBonplan($newFilename);
+            } else {
+                $bonplan->setImageBonplan('images/image_par_defaut.png');
             }
             $entityManager->persist($bonplan);
             $entityManager->flush();
@@ -206,7 +173,7 @@ class BonplanController extends AbstractController
             'bonplan' => $bonplan,
         ]);
     }
-    
+
     #[Route('/showFront/{idBonplan}', name: 'app_bonplanFront_show', methods: ['GET'])]
     public function showFront(Bonplan $bonplan): Response
     {
@@ -214,38 +181,21 @@ class BonplanController extends AbstractController
             'bonplan' => $bonplan,
         ]);
     }
-     
-    
+
+
     #[Route('/{idBonplan}/edit', name: 'app_bonplan_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Bonplan $bonplan, SluggerInterface $slugger,EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Bonplan $bonplan, SluggerInterface $slugger, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(BonplanType::class, $bonplan);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $brochureFile = $form->get('imageBonplan')->getData();
-
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($brochureFile) {
-                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $brochureFile->move(
-                        $this->getParameter('post_image'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
+            $imageFile = $form->get('imageBonplan')->getData();
+            if ($imageFile) {
+                $newFilename = $fileUploader->upload($imageFile);
                 $bonplan->setImageBonplan($newFilename);
+            } else {
+                $bonplan->setImageBonplan('images/image_par_defaut.png');
             }
             $entityManager->flush();
 
@@ -259,14 +209,16 @@ class BonplanController extends AbstractController
     }
 
     #[Route('/{idBonplan}', name: 'app_bonplan_delete', methods: ['POST'])]
-    public function delete(Request $request, Bonplan $bonplan, EntityManagerInterface $entityManager, FlashyNotifier $flashy
-    ): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$bonplan->getIdBonplan(), $request->request->get('_token'))) {
+    public function delete(
+        Request $request,
+        Bonplan $bonplan,
+        EntityManagerInterface $entityManager,
+        FlashyNotifier $flashy
+    ): Response {
+        if ($this->isCsrfTokenValid('delete' . $bonplan->getIdBonplan(), $request->request->get('_token'))) {
             $entityManager->remove($bonplan);
             $entityManager->flush();
             $this->addFlash('danger', 'This reclamation deleted successfully');
-
         }
 
         return $this->redirectToRoute('app_bonplan_index', [], Response::HTTP_SEE_OTHER);
@@ -274,23 +226,19 @@ class BonplanController extends AbstractController
 
 
     public function listAvis(Bonplan $bonlan)
-{
-    $avisRepository = $this->getDoctrine()->getRepository(Avis::class);
-    $query = $avisRepository->createQueryBuilder('a')
-        ->where('a.idBonplan = :id')
-        ->setParameter('id', $id)
-        ->groupBy('a.id_bonplan')
-        ->getQuery();
-    $avis = $query->getResult();
+    {
+        $avisRepository = $this->getDoctrine()->getRepository(Avis::class);
+        $query = $avisRepository->createQueryBuilder('a')
+            ->where('a.idBonplan = :id')
+            ->setParameter('id', $id)
+            ->groupBy('a.id_bonplan')
+            ->getQuery();
+        $avis = $query->getResult();
 
 
 
-    return $this->render('my_template.html.twig', [
-        'avis' => $avis,
-    ]);
-}
-
-
-
-   
+        return $this->render('my_template.html.twig', [
+            'avis' => $avis,
+        ]);
+    }
 }
