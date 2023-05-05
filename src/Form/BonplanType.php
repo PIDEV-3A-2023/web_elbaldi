@@ -16,15 +16,6 @@ class BonplanType extends AbstractType
     {
         $builder
             ->add('titreBonplan')
-            ->add('descriptionBonplan')
-            ->add('typeBonplan', ChoiceType::class, [
-                'choices' => [
-                    '' => '',
-                    'Hotel' => 'hotel',
-                    'Restaurant' => 'restaurant',
-                ],
-            ])
-            
             ->add('imageBonplan', FileType::class, [
                 'label' => 'choisir une image',
                 'mapped' => false,
@@ -41,6 +32,16 @@ class BonplanType extends AbstractType
                     ])
                 ],
             ])
+            ->add('descriptionBonplan')
+            ->add('typeBonplan', ChoiceType::class, [
+                'choices' => [
+                    '' => '',
+                    'Hotel' => 'hotel',
+                    'Restaurant' => 'restaurant',
+                ],
+            ])
+            
+            
         ;
     }
 

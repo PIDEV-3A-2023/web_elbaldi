@@ -82,5 +82,35 @@
 		</div>
 
 	</div>
+	<br><br>
+	<div class="member-info">
+		<h4>Nom :
+			{{ app.user.nom }}</h4>
+		<h4>Prénom :
+			{{ app.user.prenom }}</h4>
+		<h4>E_mail :
+			{{ app.user.email }}</h4>
+		<h4>Numero :
+			{{ app.user.numtel }}</h4>
+		<h4>Adresse :
+			{{ app.user.ville }}</h4><br>
 
-{% endblock %}
+		<a style="max-width: 200px; text-align: center;" href="{{path('updateProfile',{'idUser':app.user.idUser})}}" class="form-control">Modifier le profil</a>
+		<br><br>
+		<div class="social">
+			<a href="">
+				<i class="bi bi-twitter"></i>
+			</a>
+			<a href="">
+				<i class="bi bi-facebook"></i>
+			</a>
+			<a href="">
+				<i class="bi bi-instagram"></i>
+			</a>
+			<a href="">
+				<i class="bi bi-linkedin"></i>
+			</a>
+		</div>
+	</div>
+
+</div></div></div>{% endblock %}

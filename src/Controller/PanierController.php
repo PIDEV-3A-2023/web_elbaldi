@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Controller\PromotionController;
 use App\Entity\Panier;
 use App\Form\PanierType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +13,11 @@ use App\Entity\Produit;
 use App\Repository\CommandeRepository;
 use App\Repository\CommentaireRepository;
 use App\Entity\Commentaire;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+
 
 #[Route('/panier')]
 class PanierController extends AbstractController
@@ -207,5 +212,27 @@ class PanierController extends AbstractController
     
         // Redirect to the basket page
         return $this->redirectToRoute('produit_details', ['ref_produit'=> $produit->getRef_produit(),]);
+    }
+   
+    #[Route('/verifypromo/{idPanier}', name: 'verifypromo', methods: ['GET', 'POST'])]
+
+    public function codepromo( Request $req, PromotionController $promotionController , Request $request, EntityManagerInterface $entityManager, int $idPanier): Response
+    {       
+        $promoValue = $req->get('promo');
+        // Dump the promo code to the console
+        
+
+        // Get the basket
+       $panier = $this->getDoctrine()
+       ->getRepository(Panier::class)
+       ->find($idPanier);
+       
+       $taux_promo = $promotionController->verifierCodePromo($promoValue, $panier->getIdUser());
+       dump($taux_promo);
+              $nouveautotal = $panier->getTotalPanier() * (1 - $taux_promo);
+       $panier->setTotalPanier($nouveautotal);
+       $entityManager->persist($panier);
+       $entityManager->flush();
+       return $this->redirectToRoute('app_panier_show_front', ['idPanier'=> $panier->getIdUser()]);
     }
 }

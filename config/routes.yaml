@@ -5,3 +5,7 @@ app_bonplan_add_avis:
     path: /bonplan/{idBonplan}/add-avis
     controller: App\Controller\AvisController::addAvis
     methods: [POST]
+verifypromo:
+    path: '/verifypromo/{idPanier}'
+    controller: App\Controller\PanierController::codepromo
+    methods: ['POST']

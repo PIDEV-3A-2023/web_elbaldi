@@ -240,20 +240,37 @@ RIGHT SIDEBAR TOGGLE SECTION
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="{{asset('Front1/img/logo.png ')}}" alt="" class="img-fluid"></a>-->
 
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a href="index.html" class="active">Profil</a></li>
+   
+  <nav id="navbar" class="navbar">
+                    <ul>
+                        <li>
+                            <a href="{{path('profile')}}">Profil</a>
+                        </li>
 
-           <li><a href="services.html">Produits</a></li>
-          <li><a href="services.html">Bons plans</a></li>
-          <li><a href="portfolio.html">Evènements</a></li>
-          <li><a href="{{ path('app_event_roue', {'idClient': client.idClient}) }}">Roue</a></li>
-         
-          <li><a href="index.html" class="getstarted">Déconnexion</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+                        <li>
+                            <a href="{{path('app_produit_indexFront')}}">Produits</a>
+                        </li>
+                        <li>
+                            <a href="{{path('app_bonplan_indexFront')}}">Bons plans</a>
+                        </li>
+                        <li>
+                            <a href="{{path('app_event_front')}}">Evènements</a>
+                        </li>
+						<li><a href="{{ path('app_event_roue', {'idClient': client.idClient}) }}">Roue</a></li>
+                        <li>
+                            <a href="{{path('app_quiz_indexc')}}">Quiz</a>
 
+                        </li>
+ <li>
+                            <a href="{{path('app_panier_show_front', {'idPanier': 21 })}}">Mon panier</a>
+
+                        </li>
+                        <li>
+                            <a href="{{path('app_logout')}}">Déconnexion</a>
+                        </li>
+                    </ul>
+                    <i class="bi bi-list mobile-nav-toggle"></i>
+                </nav>
     </div>
   </header><!-- End Header -->
 	<!-- //top header -->
@@ -372,11 +389,7 @@ RIGHT SIDEBAR TOGGLE SECTION
 	<!-- //header -->
 
 	<!-- banner -->
-	<div class="banner banner2">
-		<div class="container">
-			<h2>Evenement Single</h2>
-		</div>
-	</div>
+	
 	<!-- //banner -->
 	<!-- breadcrumbs -->
 	<div class="breadcrumb_dress">

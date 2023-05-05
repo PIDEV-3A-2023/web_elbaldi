@@ -19,8 +19,8 @@
 </thead>
 <tbody>
 {% for reservation in reservations %}
-<tr>
-<td><img src="{{ asset('uploads/' ~ reservation.idBonplan.getImageBonplan()) }}" class="img-thumbnail" width="150"></td>
+<tr>   
+<td><img src="{{ asset('images/' ~ reservation.idBonplan.getImageBonplan()) }}" class="img-thumbnail" width="150"></td>
 <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
 <td>{{ reservation.nombrePersonnes }}</td>
 <td>{{ reservation.statutReservation }}</td>

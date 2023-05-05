@@ -16,11 +16,9 @@
 <div class="form-commande">
 	{{ form_label(form.adresse, null, {'label_attr': {'class': 'form-label', 'style': 'margin-left: 500px;'}}) }}
 	<br>
-
-	{{ form_errors(form.adresse, {'attr': {'style': 'margin-left: 500px;'}}) }}
+	{{ form_errors(form.adresse) }}
 	{{ form_widget(form.adresse, {'attr': {'class': 'form-control', 'style': 'width: 30%; margin-left: 500px;'}}) }}
 </div>
-
 
 <div class="form-commande">
 	{{ form_label(form.numtel, null, {'label_attr': {'class': 'form-label', 'style': 'margin-left: 500px;'}}) }}

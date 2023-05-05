@@ -15,10 +15,19 @@
     border: 1px solid;
 }
 </style>
+	<style>
+		h1 {
+			font-size: 32px;
+			font-weight: bold;
+			text-align: center;
+			margin-top: 20px;
+			margin-bottom: 0;
+		}
+	</style>
     <h1>Ajouter une réservation</h1>
-<a href="{{ path('app_reservation_index') }}" class="btn btn-success mb-3">Retour</a>
+<a href="{{ path('app_reservation_index') }}" class="btn btn-success custom-btn mb-3"style="margin-left: 200px;">Retour</a>
 
-    {{ include('reservation/_form.html.twig') }}
+    {{ include('reservation/_form2.html.twig') }}
 
     
 {% endblock %}

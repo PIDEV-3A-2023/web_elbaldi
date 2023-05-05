@@ -23,13 +23,26 @@ class ReservationType extends AbstractType
                     ])
         
             ->add('dateReservation')
-            ->add('idUser', EntityType::class, [
-                'class' => Utilisateur::class,
-                'label' => false,
-                
-                'attr' => ['hidden' => true]
 
-            ])
+             ->add('statutReservation', ChoiceType::class, [
+                'choices' => [
+                    'En attente' => 'En attente',
+                    'confirmée' => 'confirmée',
+                ],
+            ])     
+            
+
+
+            ->add('idUser',EntityType::class,[
+                'class'=>Utilisateur::class,
+                'choice_label'=>FALSE,
+                'multiple'=>false,
+                'expanded'=>false,
+                'empty_data'=>'',
+                'attr' => ['hidden' => true],
+                ])
+
+
             ->add('idBonplan', EntityType::class, [
                 'class' => Bonplan::class,
                 'label' => false,

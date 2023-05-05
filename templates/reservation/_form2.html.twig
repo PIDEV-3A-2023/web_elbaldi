@@ -1,0 +1,26 @@
+{{form_start(form,{'attr':{'novalidate':'novalidate'}})}}
+
+<div class="form-reservation">
+
+	{{ form_label(form.nombrePersonnes, null, {'label_attr': {'class': 'form-label', 'style': 'margin-left: 430px;'}}) }}
+	{{ form_widget(form.nombrePersonnes, {'attr': {'class': 'form-control', 'style': 'width: 30%; margin-left: 430px;'}}) }}
+</div>
+
+<div class="form-reservation">
+	{{ form_label(form.dateReservation, null, {'label_attr': {'class': 'form-label', 'style': 'margin-left: 430px;'}}) }}
+	{{form_errors(form.dateReservation)}}
+	{{ form_widget(form.dateReservation, {'attr': {'class': 'form-control', 'style': 'width: 30%; margin-left: 430px;'}}) }}
+</div>
+<div class="form-reservation">  
+	{{ form_label(form.statutReservation, null, {'label_attr': {'hidden': true}}) }}
+	{{ form_widget(form.statutReservation, {'attr': {'class': 'form-control', 'hidden': true }}) }}
+</div>
+<div class="form-reservation">
+	{{ form_label(form.idUser, null, {'label_attr': {'hidden': true}}) }}
+	{{ form_widget(form.idUser, {'attr': {'class': 'form-control', 'hidden': true }}) }}
+</div>
+<br>
+<div class="form-reservation">
+	<button class="btn btn-success custom-btn"style="margin-left: 550px;">{{ button_label|default('Enregistrer') }}</button>
+</div>
+{{ form_end(form) }}
