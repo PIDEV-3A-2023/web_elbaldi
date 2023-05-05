@@ -1,37 +1,47 @@
 {% extends 'baseFront.html.twig' %}
 
 {% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
    <link rel="stylesheet" href="{{ asset('/css/cards.css') }}">
-   
+   <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+   </style>
 {% endblock %}
 {% block body %}
-    <h1>Bonplan</h1> 
-     <a href="{{ path('app_bonplan_indexFront') }}" class="btn btn-success mb-3">Retour</a>
-    <table class="table">
-        <tbody>
-            
-            <tr>
-                <th>TitreBonplan</th>
-                <td>{{ bonplan.titreBonplan }}</td>
-            </tr>
-            <tr>
-                <th>DescriptionBonplan</th>
-                <td>{{ bonplan.descriptionBonplan }}</td>
-            </tr>
-            <tr>
-                <th>TypeBonplan</th>
-                <td>{{ bonplan.typeBonplan }}</td>
-            </tr>
-            <tr>
-                <th>ImageBonplan</th>
-                <td><img class="user_pic rounded img-raised" src="{{ asset('images/'~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}" height="180" ></td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container">
 
-  
-    <a href="{{ path('app_reservation_new', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-primary">Reserver</a>
-   
+<a href="{{ path('app_bonplan_indexFront') }}" class="btn btn-success custom-btn mb-3">Retour</a>
+<table class="table">
+<tbody>
+<tr>
+<th>IdBonplan</th>
+<td>{{ bonplan.idBonplan }}</td>
+</tr>
+<tr>
+<th>TitreBonplan</th>
+<td>{{ bonplan.titreBonplan }}</td>
+</tr>
+<tr>
+<th>DescriptionBonplan</th>
+<td>{{ bonplan.descriptionBonplan }}</td>
+</tr>
+<tr>
+<th>TypeBonplan</th>
+<td>{{ bonplan.typeBonplan }}</td>
+</tr>
+<tr>
+<th>ImageBonplan</th>
+<td><img class="user_pic rounded img-raised" src="{{ asset('images/' ~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}" height="180" ></td>
+</tr>
+</tbody>
+</table>
+    <a href="{{ path('app_reservation_new', {'idBonplan': bonplan.idBonplan}) }}" class="btn btn-success custom-btn">Réserver</a>
+</div>
 {% endblock %}

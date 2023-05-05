@@ -22,14 +22,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class PromotionController extends AbstractController
 {
 
-    #[Route('/check-promo', name: 'check_promo', methods: ['GET', 'POST'])]
-    public function verifierCodePromo(Request $request)
+    public function verifierCodePromo(  $promo , $iduser): int
     {
         $promo_exist = null;
-        $taux_promo = null;
-
-        if ($request->getMethod() == 'POST') {
-            $code_promo = $request->request->get('code_promo');
+        $taux_promo = 0 ;
 
             // on utilise l'ORM Doctrine pour récupérer une instance de la classe "Promotion" qui a le même code promo que 
             //celui envoyé via le formulaire et qui a l'utilisateur ayant l'ID 2499 associé.
@@ -37,8 +33,8 @@ class PromotionController extends AbstractController
             $promo = $this->getDoctrine()
                 ->getRepository(Promotion::class)
                 ->findOneBy([
-                    'codePromo' => $code_promo,
-                    'idUser' => 2492
+                    'codePromo' => $promo,
+                    'idUser' => $iduser
                 ]);
 
             //  on assigne à la variable $promo_exist la valeur true si l'instance trouvée précédemment n'est pas null, ou false sinon.
@@ -48,13 +44,10 @@ class PromotionController extends AbstractController
             if ($promo_exist) {
                 $taux_promo = $promo->getTaux();
             }
+            return $taux_promo;
         }
-
-        return $this->render('promotion/check.html.twig', [
-            'promo_exist' => $promo_exist,
-            'taux_promo' => $taux_promo
-        ]);
-    }
+      
+    
 
 
 

@@ -1,30 +1,83 @@
 {% extends 'baseFront.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Hello HomeController!
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 50px;
+            margin-right: 20px;
+        }
+
+        .logo a {
+            color: #9a000a; /* Changer la couleur du texte ici */
+            font-size: 36px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .custom-logo {
+            max-width: 500%;
+        }
+        img {
+            display: block;
+            margin: 0 auto;
+            width: 80%;
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
 
-    <div style="margin-top: 200px;margin-left: 700px;max-width: 800px;margin-bottom: 200px" class="row">
+    <div style="margin: 0px auto; max-width: 450px;" class="row">
+
 
         <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
             <div class="member" data-aos="fade-up" data-aos-delay="100">
                 <div class="member-img">
-                    <img src="{{ asset('/uploads/'~app.user.image) }}" class="img-fluid" alt="">
-                    <div class="social">
-                        <a href=""><i class="bi bi-twitter"></i></a>
-                        <a href=""><i class="bi bi-facebook"></i></a>
-                        <a href=""><i class="bi bi-instagram"></i></a>
-                        <a href=""><i class="bi bi-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="member-info">
-                    <h4>{{ app.user.nom  }}-{{ app.user.prenom }}</h4>
-                    <span>E-mail:{{ app.user.email  }}</span><br>
-                    <span>Numero:{{ app.user.numtel  }}</span><br>
-                    <span>Adresse:{{ app.user.ville  }}</span><br>
-                     <a style="max-width: 100px" href="{{path('updateProfile',{'idUser':app.user.idUser})}}" class="form-control">Update</a>
+                    <img src="{{asset('Front/img/elbaldi.jpg')}}" alt="Logo" style="display: block; margin: auto; margin-top: 50px; width: 200px;">
 
                 </div>
+                <br><br>
+                <div class="member-info">
+                    <h4>Nom :
+                        {{ app.user.nom }}</h4>
+                    <h4>Prénom :
+                        {{ app.user.prenom }}</h4>
+                    <h4>E_mail :
+                        {{ app.user.email }}</h4>
+                    <h4>Numero :
+                        {{ app.user.numtel }}</h4>
+                    <h4>Adresse :
+                        {{ app.user.ville }}</h4><br>
+
+                    <a style="max-width: 200px; text-align: center;" href="{{path('updateProfile',{'idUser':app.user.idUser})}}" class="form-control">Modifier le profil</a>
+                    <br><br>
+                    <div class="social">
+                        <a href="">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
 

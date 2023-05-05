@@ -36,12 +36,12 @@
             href="{{asset('Front/css/style.css')}}" rel="stylesheet">
 
         <!-- =======================================================
-                                                                                                                                                                                                                                                                                                                                                                                          * Template Name: Sailor
-                                                                                                                                                                                                                                                                                                                                                                                          * Updated: Mar 10 2023 with Bootstrap v5.2.3
-                                                                                                                                                                                                                                                                                                                                                                                          * Template URL: https://bootstrapmade.com/sailor-free-bootstrap-theme/
-                                                                                                                                                                                                                                                                                                                                                                                          * Author: BootstrapMade.com
-                                                                                                                                                                                                                                                                                                                                                                                          * License: https://bootstrapmade.com/license/
-                                                                                                                                                                                                                                                                                                                                                                                          ======================================================== -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                  * Template Name: Sailor
+                                                                                                                                                                                                                                                                                                                                                                                                                                  * Updated: Mar 10 2023 with Bootstrap v5.2.3
+                                                                                                                                                                                                                                                                                                                                                                                                                                  * Template URL: https://bootstrapmade.com/sailor-free-bootstrap-theme/
+                                                                                                                                                                                                                                                                                                                                                                                                                                  * Author: BootstrapMade.com
+                                                                                                                                                                                                                                                                                                                                                                                                                                  * License: https://bootstrapmade.com/license/
+                                                                                                                                                                                                                                                                                                                                                                                                                                  ======================================================== -->
         {% endblock %}
         <style>
             body {
@@ -93,9 +93,10 @@
 
                 {% if app.user %}
                     <div class="mb-3">
-                        You are logged in as
+                        Vous êtes connecté en tant que
                         {{ app.user.userIdentifier }},
-                        <a href="{{ path('app_logout') }}">Logout</a>
+
+                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
                     </div>
                 {% endif %}
 
