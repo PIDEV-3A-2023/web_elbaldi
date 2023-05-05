@@ -1,11 +1,12 @@
 {% extends 'baseBack.html.twig' %}
 {% block title %}
-Nouvelle Livraison 
+	Nouvelle Livraison
 {% endblock %}
 {% block body %}
-    <h1>Ajouter une Livraison</h1>
+	<h1>Ajouter une Livraison</h1>
+	<br>
+	{{ include('livraison/_form.html.twig') }}
 
-    {{ include('livraison/_form.html.twig') }}
-
-    <a href="{{ path('app_livraison_index') }}">Retour</a>
+	<br>
+	<a href="{{ path('app_livraison_index') }}" class="btn btn-success custom-btn">Retour</a>
 {% endblock %}

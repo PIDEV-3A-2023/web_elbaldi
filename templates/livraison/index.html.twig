@@ -1,40 +1,42 @@
-
 {% extends 'baseBack.html.twig' %}
 {% block title %}
-Livraison 
+	Livraison
 {% endblock %}
 {% block body %}
-    <h1>Livraison </h1>
+	<h1>Livraison
+	</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>IdLivraison</th>
-                <th>Status Livraison</th>
-                <th>Adresse Livraison</th>
-                <th>Date Livraison</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for livraison in livraisons %}
-            <tr>
-                <td>{{ livraison.idLivraison }}</td>
-                <td>{{ livraison.statusLivraison }}</td>
-                <td>{{ livraison.adresseLivraison }}</td>
-                <td>{{ livraison.dateLivraison ? livraison.dateLivraison|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_livraison_show', {'idLivraison': livraison.idLivraison}) }}">Détails</a>
-                    <a href="{{ path('app_livraison_edit', {'idLivraison': livraison.idLivraison}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id Livraison</th>
+				<th>Statut Livraison</th>
+				<th>Adresse de livraison</th>
+				<th>Date de livraison</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for livraison in livraisons %}
+				<tr>
+					<td>{{ livraison.idLivraison }}</td>
+					<td>{{ livraison.statusLivraison }}</td>
+					<td>{{ livraison.adresseLivraison }}</td>
+					<td>{{ livraison.dateLivraison ? livraison.dateLivraison|date('Y-m-d') : '' }}</td>
+					<td>
+						<a href="{{ path('app_livraison_show', {'idLivraison': livraison.idLivraison}) }} ">Détails</a>
+						<a href="{{ path('app_livraison_edit', {'idLivraison': livraison.idLivraison}) }}">Modifier</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5">Aucun enregistrement trouvé</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_livraison_new') }}">Ajouter</a>
+
+	<a href="{{ path('app_livraison_new') }}" class="btn btn-success custom-btn">Ajouter</a>
+
 {% endblock %}

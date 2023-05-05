@@ -1,6 +1,6 @@
 {% extends 'baseBack.html.twig' %}
 {% block title %}
-	Livraison 
+	Livraison
 {% endblock %}
 {% block body %}
 	<h1>Livraison</h1>
@@ -8,20 +8,20 @@
 	<table class="table">
 		<tbody>
 			<tr>
-				<th>IdLivraison</th>
+				<th>Id Livraison</th>
 				<td>{{ livraison.idLivraison }}</td>
 			</tr>
 			<tr>
-				<th>Status Livraison</th>
+				<th>Statut Livraison</th>
 				<td>{{ livraison.statusLivraison }}</td>
 			</tr>
 
 			<tr>
-				<th>Date Livraison</th>
+				<th>Date de livraison</th>
 				<td>{{ livraison.dateLivraison ? livraison.dateLivraison|date('Y-m-d') : '' }}</td>
 			</tr>
 			<tr>
-				<th>Nom de client</th>
+				<th>Nom du client</th>
 				<td>{{ livraison.idCmd.idPanier.idUser.nom ~ ' ' ~ livraison.idCmd.idPanier.idUser.prenom }}</td>
 			</tr>
 			<tr>
@@ -30,7 +30,7 @@
 			</tr>
 
 			<tr>
-				<th>numero telephone</th>
+				<th>Numero de téléphone</th>
 				<td>{{ livraison.idCmd.idPanier.idUser.numtel }}</td>
 			</tr>
 			<tr>

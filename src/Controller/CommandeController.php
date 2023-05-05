@@ -227,7 +227,7 @@ class CommandeController extends AbstractController
 
             // Save the PDF to a file on the server
             $filename = 'commande' . $commande->getIdCmd() . '.pdf';
-            $file = 'D:\DownloadsD\\' . $filename;
+            $file = 'C:\Users\selim\Desktop\web avant final\web_elbaldi\public\uploads\\' . $filename;
             file_put_contents($file, $pdfData);
 
 

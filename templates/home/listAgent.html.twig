@@ -8,7 +8,6 @@
 		<div class="card top-selling overflow-auto">
 
 
-<<<<<<< HEAD
 			<div class="card-body pb-0">
 				<h5 class="card-title">Liste des agents</h5>
 
@@ -44,43 +43,6 @@
 									</td>
 
 								</tr>
-=======
-            <div class="card-body pb-0">
-                <h5 class="card-title">Liste des agents</h5>
-
-                <table class="table table-borderless">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nom et prénom</th>
-                            <th scope="col">E-mail</th>
-                            <th scope="col">Ville</th>
-                            <th scope="col">Numéro</th>
-                            <th scope="col">Statut</th>
-
-                        </tr>
-                    </thead>
-                    {% for u in user %}
-                        {% if u.roles == ["agent"] %}
-                            <tbody>
-                                <tr>
-                                    <th scope="row">
-                                        <a href="#"><img style="max-width: 40px" src="{{ asset('/uploads/'~u.image) }}" alt=""></a>
-                                    </th>
-                                    <td>
-                                        <a href="#" class="text-primary fw-bold">{{u.nom}}-{{u.prenom}}</a>
-                                    </td>
-                                    <td>{{u.email}}</td>
-                                    <td class="fw-bold">{{u.ville}}</td>
-                                    <td>{{u.numtel}}</td>
-
-                                    <td>
-                                        <a href="{{path('adminAprove',{'idUser':u.idUser})}}" class="badge bg-success">Approuver</a>
-                                        <a href="{{path('delete',{'idUser':u.idUser})}}" class="badge bg-danger">Supprimer</a>
-                                    </td>
-
-                                </tr>
->>>>>>> e615e6e56141c23f55af626d0237aadcadee0e77
 
 							</tbody>
 						{% endif %}

@@ -38,12 +38,12 @@
 			href="{{asset('Back/css/style.css')}}" rel="stylesheet">
 
 		<!-- =======================================================
-																																																																																																																																																																																																																																																																																																																																																																																																				  * Template Name: NiceAdmin
-																																																																																																																																																																																																																																																																																																																																																																																																				  * Updated: Mar 09 2023 with Bootstrap v5.2.3
-																																																																																																																																																																																																																																																																																																																																																																																																				  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-																																																																																																																																																																																																																																																																																																																																																																																																				  * Author: BootstrapMade.com
-																																																																																																																																																																																																																																																																																																																																																																																																				  * License: https://bootstrapmade.com/license/
-																																																																																																																																																																																																																																																																																																																																																																																																				  ======================================================== -->
+																																																																																																																																																																																																																																																																																																																																																																																																										  * Template Name: NiceAdmin
+																																																																																																																																																																																																																																																																																																																																																																																																										  * Updated: Mar 09 2023 with Bootstrap v5.2.3
+																																																																																																																																																																																																																																																																																																																																																																																																										  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+																																																																																																																																																																																																																																																																																																																																																																																																										  * Author: BootstrapMade.com
+																																																																																																																																																																																																																																																																																																																																																																																																										  * License: https://bootstrapmade.com/license/
+																																																																																																																																																																																																																																																																																																																																																																																																										  ======================================================== -->
 		{% endblock %}
 	</head>
 
@@ -96,7 +96,7 @@
 
 						<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 							<li class="dropdown-header">
-								<h6 >Admin</h6>
+								<h6>Admin</h6>
 
 							</li>
 							<li>
@@ -179,7 +179,7 @@
 
 
 				<li class="nav-item">
-					<a style="background-color:  #9a000a;" class="nav-link collapsed " data-bs-toggle="acceuil-nav" href="quiz.html.twig" ">
+					<a style="background-color:  #9a000a;" class="nav-link collapsed " data-bs-toggle="acceuil-nav" href="{{path('app_commande_index')}}">
 						<i style="color: #000000;" class="bi bi-box"></i>
 						<span>Commandes</span>
 					</a>
@@ -188,7 +188,7 @@
 
 
 				<li class="nav-item">
-					<a style="background-color:  #9a000a;" class="nav-link collapsed " data-bs-toggle="acceuil-nav" href="quiz.html.twig" ">
+					<a style="background-color:  #9a000a;" class="nav-link collapsed " data-bs-toggle="acceuil-nav" href="{{path('app_livraison_index')}}">
 						<i style="color: #000000;" class="bi bi-truck"></i>
 						<span>Livraison</span>
 					</a>
@@ -197,7 +197,7 @@
 
 
 				<li class="nav-item">
-					<a style="background-color:  #9a000a;" class="nav-link collapsed" data-bs-target="#bonplan-nav" data-bs-toggle="collapse" href="#">
+					<a style="background-color:  #9a000a;" class="nav-link collapsed" data-bs-toggle="acceuil-nav" href="{{path('app_bonplan_index')}}">
 						<i style="color: #000000;" class="bi bi-geo-alt"></i>
 						<span>Bon plans</span>
 
@@ -206,7 +206,7 @@
 				</li>
 
 				<li class="nav-item">
-					<a style="background-color:  #9a000a;" class="nav-link collapsed" data-bs-target="#quiz-nav" data-bs-toggle="collapse" href="#quiz.html">
+					<a style="background-color:  #9a000a;" class="nav-link collapsed" data-bs-toggle="acceuil-nav" href="{{path('app_quiz_index')}}">
 						<i style="color: #000000;" class="bi bi-question-octagon"></i>
 						<span>Quiz</span>
 
@@ -215,21 +215,12 @@
 				</li>
 
 				<li class="nav-item">
-					<a style="background-color:  #9a000a;" class="nav-link collapsed" data-bs-target="#evenement-nav" data-bs-toggle="collapse" href="#">
+					<a style="background-color:  #9a000a;" class="nav-link collapsed" data-bs-toggle="acceuil-nav" href="{{path('app_event_index')}}">
 						<i style="color: #000000;" class="bi bi-calendar2-event"></i>
 						<span>Evènements</span>
 
 					</a>
 					<!-- End evenement Nav -->
-				</li>
-
-				<li class="nav-item">
-					<a style="background-color:  #9a000a;" class="nav-link collapsed" data-bs-target="#participation-nav" data-bs-toggle="collapse" href="#">
-						<i style="color: #000000;" class="bi bi-boombox-fill"></i>
-						<span>Participations</span>
-
-					</a>
-					<!-- End participations Nav -->
 				</li>
 
 
@@ -243,195 +234,190 @@ id="main" class="main">
 <!-- End Page Title -->
 
 
-<section class="section Acceuil">
+<section
+	class="section Acceuil">
 
-    <!-- Favicon -->
-    <link href="{{asset('back/img/favicon.ico')}}" rel="icon">
+	<!-- Favicon -->
+	<link
+	href="{{asset('back/img/favicon.ico')}}" rel="icon">
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="{{asset('https://fonts.googleapis.com')}}">
-    <link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" crossorigin>
-    <link href="{{asset('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap')}}" rel="stylesheet">
-    
- 
-    
-
+	<!-- Google Web Fonts -->
+	<link rel="preconnect" href="{{asset('https://fonts.googleapis.com')}}">
+	<link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" crossorigin>
+	<link href="{{asset('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap')}}" rel="stylesheet">
 
 
-   
+	{% block javascripts %}
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-  {% block javascripts %}
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-    <link href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css')}}" rel="stylesheet">
-    <link href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css')}}" rel="stylesheet">
-    <script src="{{asset('https://code.jquery.com/jquery-3.4.1.min.js')}}"></script>
-    <script src="{{asset('https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js')}}"></script>
-   
-     {% endblock %}
-  
-   <!-- Google Web Fonts -->
-    <link rel="preconnect" href="{{asset('https://fonts.googleapis.com')}}">
-    <link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" crossorigin>
-    <link href="{{asset('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap')}}" rel="stylesheet">
-    
-    <link rel="shortcut icon"   href="{{asset('assets/images/icon2.png')}}">  
-    <script src="https://kit.fontawesome.com/3c64a1ca0d.js" crossorigin="anonymous"></script> 
-  
-     <link href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css')}}" rel="stylesheet">
-    <link href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css')}}" rel="stylesheet">
-
-
-{% block body %}
-<body>
-
-    <h1 style="color:#000000;text-decoration: underline;">Statistiques :</h1>
-
-	<div class="col-xxl-4 col-md-6">
-  <div class="card info-card sales-card">
-    <div class="card-body">
-      <h5 class="card-title" style="color:#9a000a">Nombre total de produits</h5>
-      <p class="card-text text-center display-4" >{{ totalProducts }}</p>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-6">
-    <div id="div_chart"></div>
-    <script type="text/javascript">
-      {{ gc_draw(pieChart, 'div_chart') }}
-    </script>
-  </div>
-  <div class="col-md-6">
-    <div id="chart_div"></div>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Ref_produit', 'Quantité'],
-          {% for topProduct in topProducts %}
-            ['{{ topProduct.ref_produit }}', {{ topProduct.total }}],
-          {% endfor %}
-        ]);
-
-        var options = {
-          title: 'Top 5 des produits les plus demandés en {{ currentMonthName }}',
-          titleTextStyle: {
-            fontSize: 24,
-            bold: true,
-            color: '#9a000a'
-          },
-          legend: { position: 'none' },
-          width: 800,
-          height: 400,
-          colors: ['#e8cac6'],
-          hAxis: {
-            title: 'Ref_produit',
-            titleTextStyle: {
-              fontSize: 18,
-              bold: true,
-              color: '#495057'
-            },
-            textStyle: {
-              fontSize: 14,
-              color: '#495057'
-            },
-            slantedText: true,
-            slantedTextAngle: 45
-          },
-          vAxis: {
-            title: 'Quantité',
-            titleTextStyle: {
-              fontSize: 18,
-              bold: true,
-              color: '#495057'
-            },
-            textStyle: {
-              fontSize: 14,
-              color: '#495057'
-            },
-            minValue: 0,
-            format: '0'
-          }
-        };
-
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-  </div>
-</div>
-
-
-
-<h1 style="color:#9a000a;">Les produits les moins vendus en {{ currentMonthName }} </h1>
-
-<div id="chart_div"></div>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Image</th>
-      <th>Libellé</th>
-      <th>Description</th>
-      <th>Prix</th>
-      <th>Taux de promotion (%)</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for produit in produitsMin %}
-      <tr>
-        <td><img src="{{ asset('images/' ~ produit.image) }}" alt="{{ produit.libelle }}"  width="100" /></td>
-        <td>{{ produit.libelle }}</td>
-        <td>{{ produit.description }}</td>
-<td><span class="prix" id="prix-{{ produit.ref_produit }}" data-prix="{{ produit.prixVente }}">{{ produit.prixVente }} dt</span></td>
-        <td><input type="number" class="form-control" id="taux-{{ produit.ref_produit }}" value="0"></td>
-        <td><button class="btn btn-success custom-btn" onclick="appliquerPromotion('{{ produit.ref_produit }}')">Valider</button></td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<script>
-function appliquerPromotion(ref_produit) {
-
-	  // Récupère la valeur de l'input associé au produit pour lequel on veut appliquer une promotion
-  var taux = document.getElementById("taux-" + ref_produit).value;
-
-  // Envoie une requête AJAX pour mettre à jour le prix de vente
-    // Crée une nouvelle requête AJAX
-  var xhr = new XMLHttpRequest();
-    // Configure la requête en spécifiant la méthode (POST) et l'URL (/update_prix/ref_produit/taux)
-xhr.open('POST', '/update_prix/' + ref_produit + '/' + taux);
-
-  // Définit le type de contenu de la requête à envoyer (JSON)
-  xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-
-    // on a ajouter une fonction à exécuter lorsque la requête aura été envoyée et que la réponse sera arrivée
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-		
-	  // Parse le contenu de la réponse qui est un objet JSON contenant le nouveau prix de vente
-      var nouveauPrixVente = JSON.parse(xhr.responseText).nouveauPrixVente;
-
-	  // Affiche le nouveau prix de vente après avoir reçu la réponse
-document.getElementById("prix-" + ref_produit).innerHTML = nouveauPrixVente + " dt";
-    } else {
-      console.log('Erreur lors de la mise à jour du prix de vente.');
-    }
-  };
-  // Envoie la requête AJAX en incluant les données à envoyer (ici le taux de promotion)
-  xhr.send(JSON.stringify({taux: taux}));
-}
-
-</script>
-
-
+		<link href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css')}}" rel="stylesheet">
+		<link href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css')}}" rel="stylesheet">
+		<script src="{{asset('https://code.jquery.com/jquery-3.4.1.min.js')}}"></script>
+		<script src="{{asset('https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js')}}"></script>
 
 	{% endblock %}
+
+	<!-- Google Web Fonts -->
+	<link rel="preconnect" href="{{asset('https://fonts.googleapis.com')}}">
+	<link rel="preconnect" href="{{asset('https://fonts.gstatic.com')}}" crossorigin>
+	<link href="{{asset('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap')}}" rel="stylesheet">
+
+	<link rel="shortcut icon" href="{{asset('assets/images/icon2.png')}}">
+	<script src="https://kit.fontawesome.com/3c64a1ca0d.js" crossorigin="anonymous"></script>
+
+	<link href="{{asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css')}}" rel="stylesheet">
+	<link href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css')}}" rel="stylesheet">
+
+
+	{% block body %}
+		<body>
+
+			<h1 style="color:#000000;text-decoration: underline;">Statistiques :</h1>
+
+			<div class="col-xxl-4 col-md-6">
+				<div class="card info-card sales-card">
+					<div class="card-body">
+						<h5 class="card-title" style="color:#9a000a">Nombre total de produits</h5>
+						<p class="card-text text-center display-4">{{ totalProducts }}</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div id="div_chart"></div>
+					<script type="text/javascript">
+						{{ gc_draw(pieChart, 'div_chart') }}</script>
+				</div>
+				<div class="col-md-6">
+					<div id="chart_div"></div>
+					<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+					<script type="text/javascript">
+						google.charts.load('current', {'packages': ['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+var data = google.visualization.arrayToDataTable([[
+'Ref_produit', 'Quantité'
+],{% for topProduct in topProducts %}[
+'{{ topProduct.ref_produit }}', {{ topProduct.total }}
+],{% endfor %}]);
+
+var options = {
+title: 'Top 5 des produits les plus demandés en    {{ currentMonthName }}',
+titleTextStyle: {
+fontSize: 24,
+bold: true,
+color: '#9a000a'
+},
+legend: {
+position: 'none'
+},
+width: 800,
+height: 400,
+colors: ['#e8cac6'],
+hAxis: {
+title: 'Ref_produit',
+titleTextStyle: {
+fontSize: 18,
+bold: true,
+color: '#495057'
+},
+textStyle: {
+fontSize: 14,
+color: '#495057'
+},
+slantedText: true,
+slantedTextAngle: 45
+},
+vAxis: {
+title: 'Quantité',
+titleTextStyle: {
+fontSize: 18,
+bold: true,
+color: '#495057'
+},
+textStyle: {
+fontSize: 14,
+color: '#495057'
+},
+minValue: 0,
+format: '0'
+}
+};
+
+var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+chart.draw(data, options);
+}
+					</script>
+				</div>
+			</div>
+
+
+			<h1 style="color:#9a000a;">Les produits les moins vendus en
+				{{ currentMonthName }}
+			</h1>
+
+			<div id="chart_div"></div>
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Image</th>
+						<th>Libellé</th>
+						<th>Description</th>
+						<th>Prix</th>
+						<th>Taux de promotion (%)</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for produit in produitsMin %}
+						<tr>
+							<td><img src="{{ asset('images/' ~ produit.image) }}" alt="{{ produit.libelle }}" width="100"/></td>
+							<td>{{ produit.libelle }}</td>
+							<td>{{ produit.description }}</td>
+							<td>
+								<span class="prix" id="prix-{{ produit.ref_produit }}" data-prix="{{ produit.prixVente }}">{{ produit.prixVente }}
+									dt</span>
+							</td>
+							<td><input type="number" class="form-control" id="taux-{{ produit.ref_produit }}" value="0"></td>
+							<td>
+								<button class="btn btn-success custom-btn" onclick="appliquerPromotion('{{ produit.ref_produit }}')">Valider</button>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<script>
+				function appliquerPromotion(ref_produit) { // Récupère la valeur de l'input associé au produit pour lequel on veut appliquer une promotion
+var taux = document.getElementById("taux-" + ref_produit).value;
+
+// Envoie une requête AJAX pour mettre à jour le prix de vente
+// Crée une nouvelle requête AJAX
+var xhr = new XMLHttpRequest();
+// Configure la requête en spécifiant la méthode (POST) et l'URL (/update_prix/ref_produit/taux)
+xhr.open('POST', '/update_prix/' + ref_produit + '/' + taux);
+
+// Définit le type de contenu de la requête à envoyer (JSON)
+xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
+// on a ajouter une fonction à exécuter lorsque la requête aura été envoyée et que la réponse sera arrivée
+xhr.onload = function () {
+if (xhr.status === 200) { // Parse le contenu de la réponse qui est un objet JSON contenant le nouveau prix de vente
+var nouveauPrixVente = JSON.parse(xhr.responseText).nouveauPrixVente;
+
+// Affiche le nouveau prix de vente après avoir reçu la réponse
+document.getElementById("prix-" + ref_produit).innerHTML = nouveauPrixVente + " dt";
+} else {
+console.log('Erreur lors de la mise à jour du prix de vente.');
+}
+};
+// Envoie la requête AJAX en incluant les données à envoyer (ici le taux de promotion)
+xhr.send(JSON.stringify({taux: taux}));
+}
+			</script>
+		{% endblock %}
+	</body>
 </section></main><!-- End #main --><!-- ======= Footer ======= --><footer id="footer" class="footer">
 <div class="copyright">
 	&copy; Copyright
@@ -454,9 +440,4 @@ document.getElementById("prix-" + ref_produit).innerHTML = nouveauPrixVente + " 
 <script src="{{asset('Back/vendor/quill/quill.min.js')}}"></script>
 <script src="{{asset('Back/vendor/simple-datatables/simple-datatables.js')}}"></script>
 <script src="{{asset('Back/vendor/tinymce/tinymce.min.js')}}"></script>
-<script src="{{asset('Back/vendor/php-email-form/validate.js')}}"></script>
-  {% endblock %}
-
-
-
-</body></html>
+<script src="{{asset('Back/vendor/php-email-form/validate.js')}}"></script>{% endblock %}</body></html>

@@ -15,10 +15,17 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titleEvent')
-            ->add('imageEvent',FileType::class,['data_class'=>null,'label'=>'image','required'=>false])
-            ->add('descriptionEvent')
-            ->add('timeEvent',DateTimeType::class,[
+            ->add('titleEvent', null, [
+                'label' => "Titre de l'événement"
+            ])
+            ->add('imageEvent', FileType::class, ['data_class' => null, 'label' => 'Image', 'required' => false])
+
+            ->add('descriptionEvent', null, [
+                'label' => "Description de l'événement"
+            ])
+
+            ->add('timeEvent', DateTimeType::class, [
+                'label' => "Heure de l'événement",
                 'constraints' => [
                     new GreaterThanOrEqual([
                         'value' => 'today',
@@ -26,8 +33,7 @@ class EventType extends AbstractType
                     ])
                 ]
             ])
-            ->add('Organisation')
-        ;
+            ->add('Organisation');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

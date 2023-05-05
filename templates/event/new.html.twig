@@ -1,13 +1,16 @@
 {% extends 'baseBack.html.twig' %}
 
-{% block title %}New Event{% endblock %}
+{% block title %}New Event
+{% endblock %}
 
 {% block body %}
-<div class="container"> 
-    <h1 class="container">Create new Event</h1>
- 
-         {{ include('event/_form.html.twig') }}
+	<div class="container">
+		<h1 class="container">Créer un nouvel événement</h1>
 
-    <a href="{{ path('app_event_index') }}">back to list</a>
-    </div>
+		{{ include('event/_form.html.twig') }}
+		<br>
+
+		<a href="{{ path('app_event_index') }}" class="btn btn-success custom-btn">Retour</a>
+
+	</div>
 {% endblock %}
