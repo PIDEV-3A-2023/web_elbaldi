@@ -1,6 +1,18 @@
-{{form_start(form,{'attr':{'novalidate':'novalidate'}})}}
-    {{ form_widget(form) }}
-    <button class="btn btn-success mb-3">{{ button_label|default('Enregistrer') }}</button>
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
-     
+{{ form_row(form.titreBonplan, {'attr': {'class': 'form-control', 'placeholder': 'Titre du bon plan'}}) }}
+
+{{ form_row(form.descriptionBonplan, {'attr': {'class': 'form-control', 'rows': '5', 'placeholder': 'Description du bon plan'}}) }}
+
+{{ form_label(form.typeBonplan, 'Type de bon plan', {'label_attr': {'class': 'my-custom-label'}}) }}
+{{ form_widget(form.typeBonplan, {'attr': {'class': 'form-control my-custom-field'}}) }}
+{{ form_label(form.imageBonplan, 'choisir une image') }}
+    {{ form_widget(form.imageBonplan, {'attr': {'class': 'form-control-file'}}) }}
+     {{ form_errors(form.imageBonplan) }}
+<br>
+<br>
+
+<button class="btn btn-success custom-btn mb-3">{{ button_label|default('Enregistrer') }}</button>
+
 {{ form_end(form) }}
+

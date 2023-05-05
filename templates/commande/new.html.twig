@@ -2,12 +2,22 @@
 
 
 {% block title %}
-nouvelle Commande
+	nouvelle Commande
 {% endblock %}
 {% block body %}
 
-    <h1>Ajouter une Commande</h1>
+	<style>
+		h1 {
+			font-size: 32px;
+			font-weight: bold;
+			text-align: center;
+			margin-top: 20px;
+			margin-bottom: 0;
+		}
+	</style>
 
-{{ include('commande/_form.html.twig', {'orderCount': orderCount}) }}
-    
+	<h1>Ajouter une Commande</h1>
+
+	{{ include('commande/_form.html.twig', {'orderCount': orderCount}) }}
+
 {% endblock %}

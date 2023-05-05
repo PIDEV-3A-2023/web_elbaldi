@@ -11,10 +11,7 @@
      <a href="{{ path('app_bonplan_indexFront') }}" class="btn btn-success mb-3">Retour</a>
     <table class="table">
         <tbody>
-            <tr>
-                <th>IdBonplan</th>
-                <td>{{ bonplan.idBonplan }}</td>
-            </tr>
+            
             <tr>
                 <th>TitreBonplan</th>
                 <td>{{ bonplan.titreBonplan }}</td>
@@ -29,7 +26,7 @@
             </tr>
             <tr>
                 <th>ImageBonplan</th>
-                <td><img class="user_pic rounded img-raised" src="{{ asset('uploads/'~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}" height="180" ></td>
+                <td><img class="user_pic rounded img-raised" src="{{ asset('images/'~ bonplan.imageBonplan) }}" alt="{{ bonplan.titreBonplan }}" height="180" ></td>
             </tr>
         </tbody>
     </table>

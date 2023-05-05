@@ -1,44 +1,131 @@
-{% extends 'baseFront.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}Log in!
-{% endblock %}
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>
+            {% block title %}
+                Elbadli
+            {% endblock %}
+        </title>
+        <meta content="" name="description">
+        <meta content="" name="keywords">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-{% block body %}
-	<div class="col-lg-4" style="margin-top: 200px; margin-left:570px;margin-bottom: 100px ">
+        <!-- Favicons -->
+        <link href="{{asset('Front/img/elbaldi.jpg')}}" rel="icon">
+        <link
+        href="{{asset('Front/img/elbaldi.jpg')}}" rel="apple-touch-icon">
 
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+        {% block css%}
+            <!-- Vendor CSS Files -->
+            <link href="{{asset('Front/vendor/animate.css/animate.min.css ')}}" rel="stylesheet">
+            <link href="{{asset('Front/vendor/bootstrap/css/bootstrap.min.css ')}}" rel="stylesheet">
+            <link href="{{asset('Front/vendor/bootstrap-icons/bootstrap-icons.css ')}}" rel="stylesheet">
+            <link href="{{asset('Front/vendor/boxicons/css/boxicons.min.css ')}}" rel="stylesheet">
+            <link href="{{asset('Front/vendor/glightbox/css/glightbox.min.css ')}}" rel="stylesheet">
+            <link href="{{asset('Front/vendor/remixicon/remixicon.css ')}}" rel="stylesheet">
+            <link
+            href="{{asset('Front/vendor/swiper/swiper-bundle.min.css ')}}" rel="stylesheet">
 
-		<form method="post">
-			{% if error %}
-				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-			{% endif %}
+            <!-- Template Main CSS File -->
+            <link
+            href="{{asset('Front/css/style.css')}}" rel="stylesheet">
 
-			{% if app.user %}
-				<div class="mb-3">
-					You are logged in as
-					{{ app.user.userIdentifier }},
-					<a href="{{ path('app_logout') }}">Logout</a>
-				</div>
-			{% endif %}
+        <!-- =======================================================
+                                                                                                                                                                                                                                                                                                                                                                                          * Template Name: Sailor
+                                                                                                                                                                                                                                                                                                                                                                                          * Updated: Mar 10 2023 with Bootstrap v5.2.3
+                                                                                                                                                                                                                                                                                                                                                                                          * Template URL: https://bootstrapmade.com/sailor-free-bootstrap-theme/
+                                                                                                                                                                                                                                                                                                                                                                                          * Author: BootstrapMade.com
+                                                                                                                                                                                                                                                                                                                                                                                          * License: https://bootstrapmade.com/license/
+                                                                                                                                                                                                                                                                                                                                                                                          ======================================================== -->
+        {% endblock %}
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
 
-			<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-			<label for="inputEmail">Email</label>
-			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-			<label for="inputPassword">Password</label>
-			<input style="margin-bottom: 20px" type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            .logo {
+                display: flex;
+                align-items: center;
+            }
 
-			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            .logo img {
+                width: 50px;
+                margin-right: 20px;
+            }
 
-			<button class="btn btn-lg btn-primary" type="submit">
-				Sign in
-			</button>
-			<a href="{{ path('forgetPassword') }}">forget password?
-			</a>
-			already have an account
-			<a style="color: #0a53be" href="{{ path('app_register') }}">? SignUp
-			</a>
+            .logo a {
+                color: #9a000a; /* Changer la couleur du texte ici */
+                font-size: 36px;
+                font-weight: bold;
+                text-decoration: none;
+            }
 
+            .custom-logo {
+                max-width: 500%;
+            }
+            /* Centrer l'image horizontalement */
+            img {
+                display: block;
+                margin: 0 auto;
+                width: 80%;
+            }
+        </style>
 
-		</form>
-	</div>
+    </head>
 
-{% endblock %}
+    {% block body %}
+
+        <img src="{{asset('Front/img/elbaldi.jpg')}}" alt="Logo" style="display: block; margin: auto; margin-top: 50px; width: 200px;">
+        <br><br>
+        <div class="col-lg-4" style="margin-bottom: 100px">
+            <form method="post">
+
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as
+                        {{ app.user.userIdentifier }},
+                        <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+
+                <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
+                <label for="inputEmail">Email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                <label for="inputPassword">Mot de passe</label>
+                <input style="margin-bottom: 20px" type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <div class="text-center">
+                    <button class="btn btn-success custom-btn" type="submit">
+                        Se connecter
+                    </button>
+                    <br><br>
+                    Pas encore un membre ?
+                    <button type="button" class="btn btn-success custom-btn">
+                        <a style="color: #ffffff; text-decoration: none;" href="{{ path('app_register') }}">
+                            Créer un compte
+                        </a>
+                    </button>
+
+                    <br><br>
+                    <a href="{{ path('forgetPassword') }}">Mot de passe oublié!
+                    </a>
+                </div>
+
+            </form>
+        </div>
+
+    {% endblock %}
+</html>

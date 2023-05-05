@@ -90,7 +90,7 @@ class AvisController extends AbstractController
  */
 public function addAvis(Bonplan $bonplan, Request $request, EntityManagerInterface $entityManager,UtilisateurRepository $utilisateurRepository): Response
 { 
-    $user = $utilisateurRepository->find(2499);
+    $user = $utilisateurRepository->find(2528);
     $avis = new Avis();
     $avis->setIdBonplan($bonplan);
     $avis->setIdUser($user);

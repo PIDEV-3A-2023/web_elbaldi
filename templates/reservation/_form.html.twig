@@ -1,5 +1,27 @@
 {{form_start(form,{'attr':{'novalidate':'novalidate'}})}}
-    {{ form_widget(form) }}
-    <button class="btn btn-success mb-3">{{ button_label|default('Ajouter') }}</button>
-  
+
+<div class="form-reservation">
+
+	{{ form_label(form.nombrePersonnes, null, {'label_attr': {'class': 'form-label'}}) }}
+	{{ form_widget(form.nombrePersonnes, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+<div class="form-reservation">
+	{{ form_label(form.dateReservation) }}
+	{{form_errors(form.dateReservation)}}
+	{{ form_widget(form.dateReservation) }}
+</div>
+<div class="form-reservation">  
+	{{ form_label(form.statutReservation) }}
+	{{ form_widget(form.statutReservation) }}
+</div>
+<div class="form-reservation">
+	{{ form_label(form.idUser, null, {'label_attr': {'hidden': true}}) }}
+	{{ form_widget(form.idUser, {'attr': {'class': 'form-control', 'hidden': true }}) }}
+</div>
+<br>
+<div class="form-reservation">
+	<button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+</div>
 {{ form_end(form) }}
+
