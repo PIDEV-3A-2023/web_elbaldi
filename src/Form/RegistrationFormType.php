@@ -23,6 +23,7 @@ class RegistrationFormType extends AbstractType
             ->add('prenom')
             ->add('email')
             ->add('image', FileType::class, [
+                'label' => 'Image :',
                 'required' => false,
                 'data_class' => null,
                 // Register new key "empty_data" with an empty string
@@ -31,6 +32,7 @@ class RegistrationFormType extends AbstractType
             ->add('ville')
             ->add('numtel')
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'J\'ai accepté les termes et conditions',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
@@ -41,6 +43,7 @@ class RegistrationFormType extends AbstractType
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'label' => 'Mot de passe :',
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
@@ -54,8 +57,7 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ])
-        ;
+            ]);
         $builder
             // ... other fields in the form ...
             ->add('roles', ChoiceType::class, [
@@ -64,8 +66,7 @@ class RegistrationFormType extends AbstractType
                     'Client ' => 'client',
                 ],
                 'multiple' => true,
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

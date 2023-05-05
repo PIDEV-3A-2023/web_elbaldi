@@ -1,45 +1,57 @@
-{{form_start(form,{'attr':{'novalidate':'novalidate'}})}}
-
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}, 'error_row': '<div class="error-row">%errors%</div>', 'error_class': 'has-error'}) }}
+<style>
+	.error-row {
+		color: red;
+		font-size: 12px;
+		margin-top: 5px;
+	}
+</style>
 <div class="form-commande">
-	<br>
-	<br>
-	<br>
-	<br>
 
-	
-	{{ form_label(form.nom) }}
-	{{ form_widget(form.nom, {'attr': {'class': 'form-control', 'readonly': 'readonly'}, 'value': commande.idPanier.idUser.nom ~ ' ' ~ commande.idPanier.idUser.prenom}) }}
-</div>
-<div>
-	{{ form_label(form.adresse) }}
-	<br>
-	{{form_errors(form.adresse)}}
-	{{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
 
-</div>
-<div class="form-commande">
-	{{ form_label(form.numtel) }}
-	{{ form_widget(form.numtel, {'attr': {'class': 'form-control', 'readonly': 'readonly'}, 'value': commande.idPanier.idUser.numtel}) }}
+	{{ form_label(form.nom, null, {'label_attr': {'class': 'form-label', 'style': 'margin-left: 500px;'}})	 }}
+	{{ form_widget(form.nom, {'attr': {'class': 'form-control', 'readonly': 'readonly', 'style': 'width: 30%; margin-left: 500px;'}, 'value': commande.idPanier.idUser.nom ~ ' ' ~ commande.idPanier.idUser.prenom}) }}
 </div>
 
 <div class="form-commande">
-	{{ form_label(form.email) }}
-	{{ form_widget(form.email, {'attr': {'class': 'form-control', 'readonly': 'readonly'}, 'value': commande.idPanier.idUser.email}) }}
+	{{ form_label(form.adresse, null, {'label_attr': {'class': 'form-label', 'style': 'margin-left: 500px;'}}) }}
+	<br>
+
+	{{ form_errors(form.adresse, {'attr': {'style': 'margin-left: 500px;'}}) }}
+	{{ form_widget(form.adresse, {'attr': {'class': 'form-control', 'style': 'width: 30%; margin-left: 500px;'}}) }}
 </div>
+
+
+<div class="form-commande">
+	{{ form_label(form.numtel, null, {'label_attr': {'class': 'form-label', 'style': 'margin-left: 500px;'}}) }}
+	{{ form_widget(form.numtel, {'attr': {'class': 'form-control', 'readonly': 'readonly', 'style': 'width: 30%; margin-left: 500px;'}, 'value': commande.idPanier.idUser.numtel}) }}
+</div>
+
+<div class="form-commande">
+	{{ form_label(form.email, null, {'label_attr': {'class': 'form-label', 'style': 'margin-left: 500px;'}}) }}
+	{{ form_widget(form.email, {'attr': {'class': 'form-control', 'readonly': 'readonly', 'style': 'width: 30%; margin-left: 500px;'}, 'value': commande.idPanier.idUser.email}) }}
+</div>
+<br>
+
 {% if orderCount >= 5 %}
-    <div class="alert alert-success">Vous êtes un client fidèle et avez gagné une promotion de 10% !</div>
+	<div class="alert alert-success ml-3" style="width: 40% ; margin-left: 500px">
+		Vous êtes un client fidèle et avez gagné une promotion de 10% !
+	</div>
 {% endif %}
+
 <div class="form-commande">
-	{{ form_label(form.total) }}
-	{{ form_widget(form.total, {'attr': {'class': 'form-control', 'readonly': 'readonly'}, 'value': commande.total}) }}
+	{{ form_label(form.total, null, {'label_attr': {'class': 'form-label', 'style': 'margin-left: 500px;'}}) }}
+	{{ form_widget(form.total, {'attr': {'class': 'form-control', 'readonly': 'readonly', 'style': 'width: 30%; margin-left: 500px;'}, 'value': commande.total}) }}
 </div>
+
 <div class="form-commande">
-	{{ form_label(form.etat, null, {'label_attr': {'hidden': true}}) }}
-	{{ form_widget(form.etat, {'attr': {'class': 'form-control', 'hidden': true}, 'value': commande.etat}) }}
+	{{ form_label(form.etat, null, {'label_attr': {'hidden': true, 'style': 'margin-left: 500px;'}}) }}
+	{{ form_widget(form.etat, {'attr': {'class': 'form-control', 'hidden': true, 'style': 'width: 30%; margin-left: 500px;'}, 'value': commande.etat}) }}
+</div>
+
+<div class="form-commande">
+	<button class="btn btn-primary my-button-class" style="margin-left: 500px;">{{ button_label|default('Commander') }}</button>
 </div>
 
 
-<div class="form-commande">
-	<button class="btn btn-primary">{{ button_label|default('Commander') }}</button>
-</div>
 {{ form_end(form) }}

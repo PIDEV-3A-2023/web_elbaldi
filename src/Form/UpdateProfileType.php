@@ -16,14 +16,21 @@ class UpdateProfileType extends AbstractType
 
 
 
-            ->add('nom')
-            ->add('prenom')
-            ->add('numtel')
+            ->add('nom', null, [
+                'label' => 'Nom',
+            ])
+            ->add('prenom', null, [
+                'label' => 'Prénom',
+            ])
+            ->add('numtel', null, [
+                'label' => 'Numéro de téléphone',
+            ])
+
             ->add('ville')
             ->add('submit', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
-            ])
-        ;
+                'label' => 'Modifier le profil ',
+                'attr' => ['class' => 'btn btn-success custom-btn'],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

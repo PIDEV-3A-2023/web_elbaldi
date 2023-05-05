@@ -1,48 +1,58 @@
 {% extends 'baseBack.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Hello HomeController!
+{% endblock %}
 
 {% block body %}
-    <div class="col-12">
-        <div class="card top-selling overflow-auto">
+	<div class="col-12">
+		<div class="card top-selling overflow-auto">
 
 
-            <div class="card-body pb-0">
-                <h5 class="card-title">List Client </h5>
+			<div class="card-body pb-0">
+				<h5 class="card-title">Liste des clients
+				</h5>
 
-                <table class="table table-borderless">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Full name</th>
-                        <th scope="col">email</th>
-                        <th scope="col">ville</th>
-                        <th scope="col">numero</th>
-                        <th scope="col">Status</th>
+				<table class="table table-borderless">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Nom et prénom</th>
+							<th scope="col">E_mail</th>
+							<th scope="col">Ville</th>
+							<th scope="col">Numéro</th>
+							<th scope="col">Statut</th>
 
-                    </tr>
-                    </thead>
-                    {% for u in user %}
-                        {% if u.roles == ["client"] %}
-                            <tbody>
-                            <tr>
-                                <th scope="row"><a href="#"><img style="max-width: 40px" src="{{ asset('/uploads/'~u.image) }}" alt=""></a></th>
-                                <td><a href="#" class="text-primary fw-bold">{{u.nom}}-{{u.prenom}}</a></td>
-                                <td>{{u.email}}</td>
-                                <td class="fw-bold">{{u.ville}}</td>
-                                <td>{{u.numtel}}</td>
-                                <td><a href="{{path('adminBan',{'idUser':u.idUser})}}" class="badge bg-success">Ban</a>
-                                <td><a href="{{path('delete',{'idUser':u.idUser})}}" class="badge bg-danger">Delete</a></td>
+						</tr>
+					</thead>
+					{% for u in user %}
+						{% if u.roles == ["client"] %}
+							<tbody>
+								<tr>
+									<th scope="row">
+										<a href="#"><img style="max-width: 40px" src="{{ asset('/uploads/'~u.image) }}" alt=""></a>
+									</th>
+									<td>
+										<a href="#" class="text-primary fw-bold">{{u.nom}}-{{u.prenom}}</a>
+									</td>
+									<td>{{u.email}}</td>
+									<td class="fw-bold">{{u.ville}}</td>
+									<td>{{u.numtel}}</td>
+									<td>
+										<a href="{{path('adminBan',{'idUser':u.idUser})}}" class="badge bg-success">Bannir</a>
+									</td>
+									<td>
+										<a href="{{path('delete',{'idUser':u.idUser})}}" class="badge bg-danger">Supprimer</a>
+									</td>
 
-                            </tr>
+								</tr>
 
-                            </tbody>
-                        {% endif %}
-                    {% endfor %}
-                </table>
+							</tbody>
+						{% endif %}
+					{% endfor %}
+				</table>
 
-            </div>
+			</div>
 
-        </div>
-    </div>
+		</div>
+	</div>
 {% endblock %}
